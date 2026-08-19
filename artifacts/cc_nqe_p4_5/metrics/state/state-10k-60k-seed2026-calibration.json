@@ -1,0 +1,119 @@
+{
+  "best_validation_fidelity": 0.08243227892945404,
+  "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-10k-60k-seed2026-calibration.pt",
+  "config": {
+    "actual_parameters": 58256,
+    "dataset_scale": "10k",
+    "dtype": "float32",
+    "model_scale": "60k",
+    "recipe": {
+      "confirmatory_seeds": [
+        2026,
+        2027,
+        2028
+      ],
+      "dtype": "float32",
+      "effective_batch_size": 1024,
+      "learning_rate": 0.0003,
+      "maximum_updates": 10000,
+      "optimizer": "AdamW",
+      "scheduler": "cosine",
+      "screening_seed": 2026,
+      "stopping_rule": "fixed optimizer updates",
+      "validation_interval": 500
+    },
+    "run_kind": "calibration",
+    "scheduler_horizon": 750,
+    "schema_version": "cc-nqe-p4.5-v1",
+    "seed": 2026,
+    "task": "state",
+    "update_budget": 750,
+    "validation_interval": 100
+  },
+  "curve": [
+    {
+      "learning_rate": 0.0003,
+      "step": 0,
+      "train_fidelity": 0.06398267534393653,
+      "validation_fidelity": 0.06680134025367579
+    },
+    {
+      "composition_ood_fidelity": 0.06728391896973385,
+      "depth_ood_fidelity": 0.06703382487789877,
+      "learning_rate": 0.0002870318186463902,
+      "step": 100,
+      "train_fidelity": 0.08114118110143664,
+      "validation_fidelity": 0.0714848016341918
+    },
+    {
+      "composition_ood_fidelity": 0.06910260956053715,
+      "depth_ood_fidelity": 0.06812628009503463,
+      "learning_rate": 0.000250369590953829,
+      "step": 200,
+      "train_fidelity": 0.09587547454679424,
+      "validation_fidelity": 0.07237919239804835
+    },
+    {
+      "composition_ood_fidelity": 0.07773185642207459,
+      "depth_ood_fidelity": 0.0706208078968078,
+      "learning_rate": 0.00019635254915624235,
+      "step": 300,
+      "train_fidelity": 0.11128958652533782,
+      "validation_fidelity": 0.07397980682732452
+    },
+    {
+      "composition_ood_fidelity": 0.083208816068705,
+      "depth_ood_fidelity": 0.07221274120731636,
+      "learning_rate": 0.0001343207305098519,
+      "step": 400,
+      "train_fidelity": 0.1222753449745273,
+      "validation_fidelity": 0.07710040804548868
+    },
+    {
+      "composition_ood_fidelity": 0.08795378541411392,
+      "depth_ood_fidelity": 0.07270540947362392,
+      "learning_rate": 7.500000000000002e-05,
+      "step": 500,
+      "train_fidelity": 0.12950192973384844,
+      "validation_fidelity": 0.08060045110846126
+    },
+    {
+      "composition_ood_fidelity": 0.0902063414682246,
+      "depth_ood_fidelity": 0.072950326361783,
+      "learning_rate": 2.8647450843757884e-05,
+      "step": 600,
+      "train_fidelity": 0.13271681082689213,
+      "validation_fidelity": 0.08193460678961362
+    },
+    {
+      "composition_ood_fidelity": 0.090815347032148,
+      "depth_ood_fidelity": 0.07306863219284487,
+      "learning_rate": 3.2778598899291618e-06,
+      "step": 700,
+      "train_fidelity": 0.1335248291631146,
+      "validation_fidelity": 0.08242933757685122
+    },
+    {
+      "composition_ood_fidelity": 0.0908405585263452,
+      "depth_ood_fidelity": 0.0730774991811769,
+      "learning_rate": 0.0,
+      "step": 750,
+      "train_fidelity": 0.1335460153204977,
+      "validation_fidelity": 0.08243227892945404
+    }
+  ],
+  "experiment_id": "state-10k-60k-seed2026-calibration",
+  "final_validation_fidelity": 0.08243227892945404,
+  "finite_gradients": true,
+  "finite_loss": true,
+  "initial_train_fidelity": 0.06398267534393653,
+  "initial_validation_fidelity": 0.06680134025367579,
+  "no_nan_inf": true,
+  "parameter_updated": true,
+  "samples_seen": 750000,
+  "state": "COMPLETED",
+  "steps": 750,
+  "validation_pipeline": true,
+  "wall_seconds": 260.6722171220463,
+  "xpu_residency": true
+}

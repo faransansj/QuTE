@@ -1,0 +1,73 @@
+{
+  "best_validation_fidelity": 0.061963705848782524,
+  "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-10k-60k-seed2026-smoke.pt",
+  "config": {
+    "actual_parameters": 58256,
+    "dataset_scale": "10k",
+    "dtype": "float32",
+    "model_scale": "60k",
+    "recipe": {
+      "confirmatory_seeds": [
+        2026,
+        2027,
+        2028
+      ],
+      "dtype": "float32",
+      "effective_batch_size": 1024,
+      "learning_rate": 0.0003,
+      "maximum_updates": 10000,
+      "optimizer": "AdamW",
+      "scheduler": "cosine",
+      "screening_seed": 2026,
+      "stopping_rule": "fixed optimizer updates",
+      "validation_interval": 500
+    },
+    "run_kind": "smoke",
+    "scheduler_horizon": 10,
+    "schema_version": "cc-nqe-p4.5-v1",
+    "seed": 2026,
+    "task": "state",
+    "update_budget": 10,
+    "validation_interval": 10
+  },
+  "curve": [
+    {
+      "learning_rate": 0.0003,
+      "step": 0,
+      "train_fidelity": 0.06398267534393653,
+      "validation_fidelity": 0.06680134025367579
+    },
+    {
+      "composition_ood_fidelity": 0.06007474981005245,
+      "depth_ood_fidelity": 0.06307740792804228,
+      "learning_rate": 0.0,
+      "step": 10,
+      "train_fidelity": 0.06340597489378652,
+      "validation_fidelity": 0.061963705848782524
+    }
+  ],
+  "experiment_id": "state-10k-60k-seed2026-smoke",
+  "final_validation_fidelity": 0.061963705848782524,
+  "finite_gradients": true,
+  "finite_loss": true,
+  "gate_checks": {
+    "checkpoint_save_resume": true,
+    "finite_gradients": true,
+    "finite_loss": true,
+    "no_nan_inf": true,
+    "parameter_updated": true,
+    "validation_pipeline": true,
+    "xpu_residency": true
+  },
+  "gate_status": "PASS",
+  "initial_train_fidelity": 0.06398267534393653,
+  "initial_validation_fidelity": 0.06680134025367579,
+  "no_nan_inf": true,
+  "parameter_updated": true,
+  "samples_seen": 10000,
+  "state": "COMPLETED",
+  "steps": 10,
+  "validation_pipeline": true,
+  "wall_seconds": 6.343857095926069,
+  "xpu_residency": true
+}

@@ -83,40 +83,69 @@ def _evaluate(model, dataset, device, maximum=2048) -> float:
     model.train(); return float(np.mean(values))
 
 
-def train_one(dataset_scale: str, model_scale: str, seed: int, maximum_updates: int | None = None, resume_path: Path | None = None) -> dict[str, Any]:
+def train_one(dataset_scale: str, model_scale: str, seed: int, maximum_updates: int | None = None, resume_path: Path | None = None, run_kind: str = "screening", validation_interval: int | None = None) -> dict[str, Any]:
     require_preflight(); require_dataset()
     torch.manual_seed(seed); device=torch.device("xpu:0"); count={"10k":10_000,"100k":100_000,"1m":1_000_000}[dataset_scale]
     train=ShardedDataset(ROOT/"datasets","train",count); validation=ShardedDataset(ROOT/"datasets","validation")
     model=ScaledCCNQE(model_scale,"state").to(device); actual=parameter_count(model); optimizer=torch.optim.AdamW(model.parameters(),lr=RECIPE["learning_rate"])
-    total=maximum_updates or RECIPE["maximum_updates"]; scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,total); manifest_hash=sha256(ROOT/"datasets/master_manifest.json")
-    config={"schema_version":SCHEMA,"task":"state","dataset_scale":dataset_scale,"model_scale":model_scale,"actual_parameters":actual,"seed":seed,"dtype":"float32","recipe":RECIPE}
-    experiment_id=f"state-{dataset_scale}-{model_scale}-seed{seed}"; checkpoint=ROOT/f"checkpoints/{experiment_id}.pt"; atomic_json(ROOT/f"configs/{experiment_id}.json",config); step=samples=0; best=0.0
+    total=maximum_updates or RECIPE["maximum_updates"]; interval=validation_interval or min(RECIPE["validation_interval"], total); scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,total); manifest_hash=sha256(ROOT/"datasets/master_manifest.json")
+    config={"schema_version":SCHEMA,"task":"state","dataset_scale":dataset_scale,"model_scale":model_scale,"actual_parameters":actual,"seed":seed,"dtype":"float32","recipe":RECIPE,"run_kind":run_kind,"update_budget":total,"scheduler_horizon":total,"validation_interval":interval}
+    suffix="" if run_kind=="screening" else f"-{run_kind}"; experiment_id=f"state-{dataset_scale}-{model_scale}-seed{seed}{suffix}"; checkpoint=ROOT/f"checkpoints/{experiment_id}.pt"; atomic_json(ROOT/f"configs/{experiment_id}.json",config); step=samples=0; best=0.0
     if resume_path:
         payload=load_checkpoint(resume_path,model,optimizer,scheduler,config,manifest_hash); step=payload["step"]; samples=payload["samples_seen"]; best=payload["best_metric"]
     loader=torch.utils.data.DataLoader(train,batch_size=min(RECIPE["effective_batch_size"],len(train)),shuffle=True,collate_fn=_collate,drop_last=False); iterator=iter(loader); progress=Progress(); started=time.monotonic(); recent=[]
-    initial_validation=_evaluate(model,validation,device,512); latest_validation=initial_validation; latest_comp=latest_depth=None; loss=torch.tensor(0.0); fidelity=torch.tensor([0.0]); rate=0.0
+    initial_validation=_evaluate(model,validation,device,512); initial_train=_evaluate(model,train,device,512); latest_validation=initial_validation; latest_comp=latest_depth=None; loss=torch.tensor(0.0); fidelity=torch.tensor([0.0]); rate=0.0
+    curve=[{"step":0,"learning_rate":RECIPE["learning_rate"],"train_fidelity":initial_train,"validation_fidelity":initial_validation}]
+    initial_parameter=next(model.parameters()).detach().clone(); finite_gradients=True; xpu_residency=True
     while step<total and not _INTERRUPTED:
         try: batch=next(iterator)
         except StopIteration: iterator=iter(loader); batch=next(iterator)
-        gates,qubits,params,mask,state,target=(x.to(device) for x in batch); optimizer.zero_grad(set_to_none=True); pred=model(gates,qubits,params,mask,state); fidelity=state_fidelity(pred,target); loss=(1-fidelity).mean(); loss.backward(); optimizer.step(); scheduler.step(); torch.xpu.synchronize(); step+=1; samples+=len(state)
-        if not torch.isfinite(loss): raise FloatingPointError("non-finite training loss")
+        gates,qubits,params,mask,state,target=(x.to(device) for x in batch); optimizer.zero_grad(set_to_none=True); pred=model(gates,qubits,params,mask,state); fidelity=state_fidelity(pred,target); loss=(1-fidelity).mean(); loss.backward()
+        finite_gradients &= all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters())
+        xpu_residency &= all(x.device.type=="xpu" for x in (gates,qubits,params,mask,state,target,pred,loss))
+        if not torch.isfinite(loss) or not finite_gradients: raise FloatingPointError("non-finite loss or gradients")
+        optimizer.step(); scheduler.step(); torch.xpu.synchronize(); step+=1; samples+=len(state)
         recent.append(time.monotonic()); recent=recent[-20:]; rate=(len(state)*(len(recent)-1)/(recent[-1]-recent[0])) if len(recent)>1 else 0.; eta=(total-step)*len(state)/rate if rate else None
-        if step%RECIPE["validation_interval"]==0 or step==total:
-            latest_validation=_evaluate(model,validation,device); latest_comp=_evaluate(model,ShardedDataset(ROOT/"datasets","composition_ood"),device); latest_depth=_evaluate(model,ShardedDataset(ROOT/"datasets","depth_ood"),device); best=max(best,latest_validation)
+        if step%interval==0 or step==total:
+            latest_train=_evaluate(model,train,device); latest_validation=_evaluate(model,validation,device); latest_comp=_evaluate(model,ShardedDataset(ROOT/"datasets","composition_ood"),device); latest_depth=_evaluate(model,ShardedDataset(ROOT/"datasets","depth_ood"),device); best=max(best,latest_validation)
+            curve.append({"step":step,"learning_rate":optimizer.param_groups[0]["lr"],"train_fidelity":latest_train,"validation_fidelity":latest_validation,"composition_ood_fidelity":latest_comp,"depth_ood_fidelity":latest_depth})
             save_checkpoint(checkpoint,model,optimizer,scheduler,config,manifest_hash,step,samples,best)
-        progress.update(experiment_id=experiment_id,phase="G3" if total<RECIPE["maximum_updates"] else "G4",task="state",dataset_scale=dataset_scale,model_scale=model_scale,actual_parameters=actual,seed=seed,device="xpu:0",dtype="float32",step=step,maximum_steps=total,samples_seen=samples,training_loss=float(loss),training_fidelity=float(fidelity.mean()),validation_fidelity=latest_validation,composition_ood_fidelity=latest_comp,depth_ood_fidelity=latest_depth,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=rate,elapsed_seconds=time.monotonic()-started,eta_seconds=eta,best_metric=best,checkpoint=str(checkpoint),state="RUNNING")
+        progress.update(experiment_id=experiment_id,phase="G3" if total<RECIPE["maximum_updates"] else "G4",task="state",dataset_scale=dataset_scale,model_scale=model_scale,actual_parameters=actual,seed=seed,device="xpu:0",dtype="float32",step=step,maximum_steps=total,samples_seen=samples,training_loss=float(loss.detach()),training_fidelity=float(fidelity.mean().detach()),validation_fidelity=latest_validation,composition_ood_fidelity=latest_comp,depth_ood_fidelity=latest_depth,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=rate,elapsed_seconds=time.monotonic()-started,eta_seconds=eta,best_metric=best,checkpoint=str(checkpoint),state="RUNNING")
     save_checkpoint(checkpoint,model,optimizer,scheduler,config,manifest_hash,step,samples,best)
     state="INTERRUPTED" if _INTERRUPTED else "COMPLETED"; progress.update(experiment_id=experiment_id,phase="G4",task="state",dataset_scale=dataset_scale,model_scale=model_scale,actual_parameters=actual,seed=seed,device="xpu:0",dtype="float32",step=step,maximum_steps=total,samples_seen=samples,training_loss=float(loss),training_fidelity=float(fidelity.mean()),validation_fidelity=latest_validation,composition_ood_fidelity=latest_comp,depth_ood_fidelity=latest_depth,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=rate,elapsed_seconds=time.monotonic()-started,eta_seconds=0,best_metric=best,checkpoint=str(checkpoint),state=state)
-    result={"experiment_id":experiment_id,"state":state,"initial_validation_fidelity":initial_validation,"final_validation_fidelity":latest_validation,"best_validation_fidelity":best,"steps":step,"samples_seen":samples,"wall_seconds":time.monotonic()-started,"checkpoint":str(checkpoint),"config":config}
+    result={"experiment_id":experiment_id,"state":state,"initial_train_fidelity":initial_train,"initial_validation_fidelity":initial_validation,"final_validation_fidelity":latest_validation,"best_validation_fidelity":best,"steps":step,"samples_seen":samples,"wall_seconds":time.monotonic()-started,"checkpoint":str(checkpoint),"config":config,"curve":curve,"finite_loss":bool(torch.isfinite(loss)),"finite_gradients":finite_gradients,"parameter_updated":not torch.equal(initial_parameter,next(model.parameters()).detach()),"xpu_residency":xpu_residency,"no_nan_inf":bool(torch.isfinite(loss) and torch.isfinite(fidelity).all()),"validation_pipeline":bool(np.isfinite(initial_validation) and np.isfinite(latest_validation))}
     atomic_json(ROOT/f"metrics/state/{experiment_id}.json",result); return result
 
 
-def smoke() -> None:
-    result=train_one("10k","60k",RECIPE["screening_seed"],maximum_updates=10)
-    if result["final_validation_fidelity"] <= result["initial_validation_fidelity"]: raise SystemExit("TRAINING-BLOCKED: smoke fidelity did not rise")
+def _checkpoint_roundtrip(result: dict[str, Any]) -> bool:
+    config=result["config"]; model=ScaledCCNQE(config["model_scale"],"state"); optimizer=torch.optim.AdamW(model.parameters(),lr=RECIPE["learning_rate"]); scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,config["scheduler_horizon"])
+    payload=load_checkpoint(Path(result["checkpoint"]),model,optimizer,scheduler,config,sha256(ROOT/"datasets/master_manifest.json"))
+    return payload["step"]==result["steps"] and payload["samples_seen"]==result["samples_seen"]
+
+
+def _smoke_gate_checks(result: dict[str, Any], checkpoint_ok: bool) -> dict[str, bool]:
+    checks={key:result[key] for key in ("finite_loss","finite_gradients","parameter_updated","xpu_residency","no_nan_inf","validation_pipeline")}; checks["checkpoint_save_resume"]=checkpoint_ok
+    return checks
+
+
+def smoke() -> dict[str, Any]:
+    result=train_one("10k","60k",RECIPE["screening_seed"],maximum_updates=10,run_kind="smoke",validation_interval=10)
+    checks=_smoke_gate_checks(result,_checkpoint_roundtrip(result))
+    result["gate_checks"]=checks; result["gate_status"]="PASS" if all(checks.values()) else "TRAINING-BLOCKED"; atomic_json(ROOT/"metrics/state/smoke_summary.json",result)
+    if result["gate_status"]!="PASS": raise SystemExit("TRAINING-BLOCKED: smoke correctness requirement failed")
+    return result
+
+
+def calibrate(updates: int = 750) -> dict[str, Any]:
+    result=train_one("10k","60k",RECIPE["screening_seed"],maximum_updates=updates,run_kind="calibration",validation_interval=100)
+    best_train=max(point["train_fidelity"] for point in result["curve"]); signal=best_train > result["initial_train_fidelity"] + 0.005
+    summary={"experiment_id":result["experiment_id"],"random_state_reference":1/16,"scheduler_horizon":updates,"update_budget":updates,"initial_train_fidelity":result["initial_train_fidelity"],"best_train_fidelity":best_train,"initial_validation_fidelity":result["initial_validation_fidelity"],"best_validation_fidelity":result["best_validation_fidelity"],"learnability_signal":signal,"screening_ready":signal and all(result[k] for k in ("finite_loss","finite_gradients","parameter_updated","xpu_residency","no_nan_inf","validation_pipeline")),"curve":result["curve"],"checkpoint":result["checkpoint"]}
+    atomic_json(ROOT/"metrics/state/calibration_summary.json",summary); return summary
 
 
 def screen() -> None:
+    calibration_path=ROOT/"metrics/state/calibration_summary.json"
+    if not calibration_path.exists() or not json.loads(calibration_path.read_text()).get("screening_ready"): raise SystemExit("TRAINING-BLOCKED: successful learnability calibration required")
     for data,model in GRID: train_one(data,model,RECIPE["screening_seed"])
 
 
@@ -190,7 +219,7 @@ def resume(experiment_id: str) -> None:
     config_path=ROOT/f"configs/{experiment_id}.json"
     if not config_path.exists(): raise SystemExit(f"missing frozen config: {config_path}")
     config=json.loads(config_path.read_text()); checkpoint=ROOT/f"checkpoints/{experiment_id}.pt"
-    if config["task"]=="state": train_one(config["dataset_scale"],config["model_scale"],config["seed"],resume_path=checkpoint)
+    if config["task"]=="state": train_one(config["dataset_scale"],config["model_scale"],config["seed"],maximum_updates=config.get("update_budget"),resume_path=checkpoint,run_kind=config.get("run_kind","screening"),validation_interval=config.get("validation_interval"))
     elif config["task"]=="operator": train_operator(config["unique_circuits"],config["model_scale"],config["seed"],resume_path=checkpoint)
     else: raise SystemExit(f"unsupported checkpoint task: {config['task']}")
 
@@ -244,7 +273,7 @@ def run_all(args) -> None:
 
 def main() -> None:
     signal.signal(signal.SIGINT,_signal); signal.signal(signal.SIGTERM,_signal)
-    parser=argparse.ArgumentParser(description="CC-NQE P4.5 gated scaling study"); parser.add_argument("command",choices=("preflight","generate","audit","smoke","screen","confirm","operator","status","resume","report","run-all")); parser.add_argument("--experiment-id"); parser.add_argument("--master-samples",type=int,default=1_000_000); parser.add_argument("--eval-per-split",type=int,default=10_000); args=parser.parse_args(); ROOT.mkdir(parents=True,exist_ok=True)
+    parser=argparse.ArgumentParser(description="CC-NQE P4.5 gated scaling study"); parser.add_argument("command",choices=("preflight","generate","audit","smoke","calibrate","screen","confirm","operator","status","resume","report","run-all")); parser.add_argument("--experiment-id"); parser.add_argument("--master-samples",type=int,default=1_000_000); parser.add_argument("--eval-per-split",type=int,default=10_000); args=parser.parse_args(); ROOT.mkdir(parents=True,exist_ok=True)
     if args.command != "status": require_baseline()
     if args.command=="preflight":
         print(json.dumps(xpu_preflight(),indent=2))
@@ -252,7 +281,8 @@ def main() -> None:
         require_preflight(); print(json.dumps(generate_dataset(master_samples=args.master_samples,eval_per_split=args.eval_per_split),indent=2))
     elif args.command=="audit":
         require_preflight(); print(json.dumps(audit_dataset(),indent=2))
-    elif args.command=="smoke": smoke()
+    elif args.command=="smoke": print(json.dumps(smoke(),indent=2))
+    elif args.command=="calibrate": print(json.dumps(calibrate(),indent=2))
     elif args.command=="screen": screen()
     elif args.command=="confirm": confirm()
     elif args.command=="operator": operator()

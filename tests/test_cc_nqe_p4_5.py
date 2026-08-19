@@ -8,6 +8,7 @@ import pytest
 import torch
 
 from cc_nqe import Gate, circuit_unitary, generate_circuit, generate_state
+from run_p4_5 import _smoke_gate_checks
 from cc_nqe_p4_5 import (CircuitDataset, DIM, Progress, ScaledCCNQE, ShardedDataset,
                          apply_operator, atomic_json, audit_dataset, composition_fidelity,
                          config_hash, generate_dataset, load_checkpoint, operator_fidelity,
@@ -92,6 +93,12 @@ def test_structural_duplicate_classifier_distinguishes_actual_and_boundary_defec
     assert _classify_structural_duplicates([base, base | {"circuit_id": "c"}])["classification_counts"]["C"] == 1
     train = base | {"split": "train"}
     assert _classify_structural_duplicates([train, variant])["classification_counts"]["D"] == 1
+
+
+def test_smoke_gate_is_correctness_only_not_fidelity_improvement():
+    result = {key: True for key in ("finite_loss", "finite_gradients", "parameter_updated", "xpu_residency", "no_nan_inf", "validation_pipeline")}
+    result.update(initial_validation_fidelity=0.08, final_validation_fidelity=0.01)
+    assert all(_smoke_gate_checks(result, checkpoint_ok=True).values())
 
 
 def test_state_and_operator_metrics_phase_invariant_and_application():

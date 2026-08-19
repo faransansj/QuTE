@@ -34,10 +34,10 @@
     ]
   },
   "eval_per_split": 10000,
-  "generation_seconds": 195.6873309800867,
+  "generation_seconds": 194.02158973307814,
   "master_samples": 1000000,
   "n_qubits": 4,
-  "samples_per_second": 5467.906331737725,
+  "samples_per_second": 5514.850164619619,
   "schema_version": "cc-nqe-p4.5-v1",
   "seed": 20260812,
   "shard_size": 50000,
