@@ -1,0 +1,7 @@
+{
+  "checks": {},
+  "gate": "G2",
+  "reason": "XPU-BLOCKED at G1",
+  "schema_version": "cc-nqe-p4.5-v1",
+  "status": "NOT_RUN"
+}

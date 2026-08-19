@@ -1,0 +1,14 @@
+{
+  "flat_mlp": {
+    "class": "FlatMLP",
+    "parameter_count": 42272
+  },
+  "state_only": {
+    "class": "StateOnly",
+    "parameter_count": 24864
+  },
+  "transformer": {
+    "class": "CircuitTransformer",
+    "parameter_count": 59728
+  }
+}

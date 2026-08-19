@@ -1,0 +1,31 @@
+{
+  "baseline_root": "artifacts/cc_nqe_p1_p4",
+  "entries": 30,
+  "failures": [],
+  "gate": "G0",
+  "hash_manifest": "artifacts/cc_nqe_p1_p4/artifact_hashes.json",
+  "hash_manifest_sha256": "a55e2e7460a1b918c7b3dbb755ffa5dc5ac21430164ad4f3e37f3a4195a0e4cf",
+  "report": "artifacts/cc_nqe_p1_p4/REPORT.md",
+  "report_headings": [
+    "1. Starting repository state",
+    "2. P1 dataset implementation",
+    "3. Split contract",
+    "4. Leakage and integrity audit",
+    "5. P2 architectures",
+    "6. Training results",
+    "7. P3 fidelity results",
+    "8. Observable results",
+    "9. Linearity diagnostic",
+    "10. Context-utility verdict",
+    "11. P4 exact-simulator benchmark",
+    "12. Repeated-context/cache benchmark",
+    "13. Accuracy\u2013compute tradeoff",
+    "14. Final gate",
+    "15. Scientific interpretation",
+    "16. Repository changes"
+  ],
+  "report_parsed": true,
+  "schema_version": "cc-nqe-p4.5-v1",
+  "status": "PASS",
+  "verified": 30
+}

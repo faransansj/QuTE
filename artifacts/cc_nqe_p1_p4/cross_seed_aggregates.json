@@ -1,0 +1,170 @@
+{
+  "flat_mlp": {
+    "composition_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.06867658144453861,
+        "23": 0.05938530852213192,
+        "37": 0.07255459017325114
+      },
+      "seed_mean_fidelity_mean": 0.06687216004664055,
+      "seed_mean_fidelity_std": 0.005525664197633959
+    },
+    "depth_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.04929137022090503,
+        "23": 0.06857195406948657,
+        "37": 0.057073319248775845
+      },
+      "seed_mean_fidelity_mean": 0.058312214513055814,
+      "seed_mean_fidelity_std": 0.007919864245151233
+    },
+    "iid": {
+      "per_seed_mean_fidelity": {
+        "11": 0.10252440549833089,
+        "23": 0.06275252088983854,
+        "37": 0.09692643717836649
+      },
+      "seed_mean_fidelity_mean": 0.08740112118884531,
+      "seed_mean_fidelity_std": 0.017578385114546756
+    },
+    "parameter_extrapolation": {
+      "per_seed_mean_fidelity": {
+        "11": 0.071271479550532,
+        "23": 0.07013498091914878,
+        "37": 0.09064316167313072
+      },
+      "seed_mean_fidelity_mean": 0.07734987404760384,
+      "seed_mean_fidelity_std": 0.009411217746428058
+    },
+    "parameter_interpolation": {
+      "per_seed_mean_fidelity": {
+        "11": 0.06605891610831655,
+        "23": 0.06766291293063527,
+        "37": 0.07266983904823343
+      },
+      "seed_mean_fidelity_mean": 0.06879722269572841,
+      "seed_mean_fidelity_std": 0.0028155602771939943
+    },
+    "state_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.10702862846935635,
+        "23": 0.09835920593840299,
+        "37": 0.10526589423381245
+      },
+      "seed_mean_fidelity_mean": 0.10355124288052392,
+      "seed_mean_fidelity_std": 0.0037411890892737184
+    }
+  },
+  "state_only": {
+    "composition_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.07192015919078144,
+        "23": 0.07381978379381807,
+        "37": 0.05553050945281442
+      },
+      "seed_mean_fidelity_mean": 0.06709015081247131,
+      "seed_mean_fidelity_std": 0.008210607962915341
+    },
+    "depth_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.06277836224112168,
+        "23": 0.0570006374915168,
+        "37": 0.068403035248872
+      },
+      "seed_mean_fidelity_mean": 0.06272734499383682,
+      "seed_mean_fidelity_std": 0.004655149172251811
+    },
+    "iid": {
+      "per_seed_mean_fidelity": {
+        "11": 0.1724872210340741,
+        "23": 0.1764954318847745,
+        "37": 0.17472853771306596
+      },
+      "seed_mean_fidelity_mean": 0.17457039687730483,
+      "seed_mean_fidelity_std": 0.001640161567014978
+    },
+    "parameter_extrapolation": {
+      "per_seed_mean_fidelity": {
+        "11": 0.10495582858525788,
+        "23": 0.10001995148477925,
+        "37": 0.11805031737908075
+      },
+      "seed_mean_fidelity_mean": 0.10767536581637265,
+      "seed_mean_fidelity_std": 0.007607909727564777
+    },
+    "parameter_interpolation": {
+      "per_seed_mean_fidelity": {
+        "11": 0.07450045766616813,
+        "23": 0.07393767942810034,
+        "37": 0.05967562697861104
+      },
+      "seed_mean_fidelity_mean": 0.06937125469095982,
+      "seed_mean_fidelity_std": 0.006859692771966789
+    },
+    "state_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.10877194003581445,
+        "23": 0.08749191015089147,
+        "37": 0.07367037464264356
+      },
+      "seed_mean_fidelity_mean": 0.08997807494311649,
+      "seed_mean_fidelity_std": 0.014437583703499637
+    }
+  },
+  "transformer": {
+    "composition_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.05718789926327669,
+        "23": 0.06810938916402066,
+        "37": 0.0636088551138777
+      },
+      "seed_mean_fidelity_mean": 0.06296871451372503,
+      "seed_mean_fidelity_std": 0.004481597215575866
+    },
+    "depth_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.07509153887691578,
+        "23": 0.07031007691352248,
+        "37": 0.05607436062565922
+      },
+      "seed_mean_fidelity_mean": 0.06715865880536583,
+      "seed_mean_fidelity_std": 0.008077204311283682
+    },
+    "iid": {
+      "per_seed_mean_fidelity": {
+        "11": 0.10291318969245564,
+        "23": 0.0855234934139627,
+        "37": 0.08974730815048104
+      },
+      "seed_mean_fidelity_mean": 0.09272799708563313,
+      "seed_mean_fidelity_std": 0.007405572859257696
+    },
+    "parameter_extrapolation": {
+      "per_seed_mean_fidelity": {
+        "11": 0.06980542617958815,
+        "23": 0.06918549127971864,
+        "37": 0.07640023628659459
+      },
+      "seed_mean_fidelity_mean": 0.0717970512486338,
+      "seed_mean_fidelity_std": 0.003264767902960195
+    },
+    "parameter_interpolation": {
+      "per_seed_mean_fidelity": {
+        "11": 0.06874364878818262,
+        "23": 0.06580295697204125,
+        "37": 0.05106667431379767
+      },
+      "seed_mean_fidelity_mean": 0.061871093358007175,
+      "seed_mean_fidelity_std": 0.007733628740832171
+    },
+    "state_ood": {
+      "per_seed_mean_fidelity": {
+        "11": 0.08264285630138375,
+        "23": 0.09828203490039927,
+        "37": 0.12078363779148635
+      },
+      "seed_mean_fidelity_mean": 0.10056950966442313,
+      "seed_mean_fidelity_std": 0.01565469490314802
+    }
+  }
+}

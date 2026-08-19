@@ -1,0 +1,50 @@
+{
+  "composition_ood": {
+    "policy": "all test circuits contain directed CNOT 0->1; train circuits exclude it",
+    "withheld_motif": [
+      "CNOT",
+      0,
+      1
+    ]
+  },
+  "depth_ood": {
+    "test_depths": [
+      8
+    ],
+    "train_depths": [
+      2,
+      4,
+      6
+    ]
+  },
+  "iid": "unseen circuits from training distribution, state IDs reused from train",
+  "parameter_ood_extrapolation": {
+    "test": [
+      [
+        5.235987755982989,
+        6.283185307179586
+      ]
+    ],
+    "train_excludes": [
+      [
+        5.235987755982989,
+        6.283185307179586
+      ]
+    ]
+  },
+  "parameter_ood_interpolation": {
+    "test": [
+      [
+        2.0943951023931953,
+        3.141592653589793
+      ]
+    ],
+    "train_excludes": [
+      [
+        2.0943951023931953,
+        3.141592653589793
+      ]
+    ]
+  },
+  "state_ood": "test state_id values are disjoint from train; same train circuit contexts are reused"
+}

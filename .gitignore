@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# P4.5 generated data and model weights; keep manifests and reports tracked.
+artifacts/cc_nqe_p4_5/checkpoints/
+artifacts/cc_nqe_p4_5/datasets/**/*.npy
+artifacts/cc_nqe_p4_5/datasets/**/*.npz
+artifacts/cc_nqe_p4_5/datasets/**/*.bin

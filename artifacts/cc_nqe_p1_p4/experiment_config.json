@@ -1,0 +1,37 @@
+{
+  "dataset_seed": 20260811,
+  "experiment_id": "cc-nqe-p1-p4-controlled-v1",
+  "model_seeds": [
+    11,
+    23,
+    37
+  ],
+  "models": [
+    "state_only",
+    "flat_mlp",
+    "transformer"
+  ],
+  "n_qubits": 4,
+  "provenance": {
+    "git_sha": "2a2c97d0a1e64d4642f6e3abf97a5d87c0b2a289",
+    "git_worktree_status_at_run": " M README.md\n?? .gitignore\n?? artifacts/\n?? cc_nqe.py\n?? pyproject.toml\n?? run_experiment.py\n?? tests/\n?? uv.lock",
+    "source_sha256": {
+      "README.md": "51668fe6f78c9f2aabdd36b7bd23c1a79126ec57ac75ddad9ea4f9548055623d",
+      "cc_nqe.py": "7a6b5fb7880272a79a0d19e92457ee451eec194f647f04fbe4a84a5577a0699e",
+      "pyproject.toml": "035899bca9d2de235a007fcc4687c1616f9409f4153e251b35653659a569980c",
+      "run_experiment.py": "bc0d17301a656b2a747fab6b49061a6a00a4c81fa4aeab97944a4dc1b5beba09",
+      "tests/test_cc_nqe.py": "9797848b928810aed052921cd7cb6888eadf818a8c48e3c6561adafb886641f7",
+      "uv.lock": "24494f780a0ef663561a149662571fc84703e7e3925b624ea9b46fc3821c3bcc"
+    }
+  },
+  "resource_limit": "CPU-only feasibility run; compact 1,200-sample controlled dataset and 30 epochs",
+  "training": {
+    "batch_size": 64,
+    "epochs": 30,
+    "learning_rate": 0.001,
+    "objective": "1 - pure-state fidelity",
+    "optimizer": "Adam",
+    "schedule": "constant",
+    "stopping_rule": "fixed 30 epochs"
+  }
+}

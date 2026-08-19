@@ -1,0 +1,21 @@
+{
+  "checks": {
+    "all_ood_no_state_leakage": true,
+    "composition_contract": true,
+    "depth_contract": true,
+    "deterministic_regeneration": true,
+    "heldout_circuit_ids_disjoint": true,
+    "heldout_structures_disjoint": true,
+    "no_duplicate_circuit_serializations": true,
+    "parameter_extrapolation_contract": true,
+    "parameter_interpolation_contract": true,
+    "state_normalization": true,
+    "state_ood_no_state_leakage": true,
+    "target_normalization": true,
+    "training_excludes_parameter_holdouts": true
+  },
+  "duplicate_sample_count": 0,
+  "max_input_norm_error": 2.220446049250313e-16,
+  "max_target_norm_error": 4.440892098500626e-16,
+  "status": "PASS"
+}

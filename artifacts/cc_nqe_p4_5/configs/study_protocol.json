@@ -1,0 +1,100 @@
+{
+  "baseline_manifest_sha256": "a55e2e7460a1b918c7b3dbb755ffa5dc5ac21430164ad4f3e37f3a4195a0e4cf",
+  "confirmatory": [
+    [
+      "10k",
+      "250k"
+    ],
+    [
+      "100k",
+      "250k"
+    ],
+    [
+      "100k",
+      "1m"
+    ],
+    [
+      "1m",
+      "5m"
+    ]
+  ],
+  "git_sha": "2a2c97d0a1e64d4642f6e3abf97a5d87c0b2a289",
+  "grid": [
+    [
+      "10k",
+      "60k"
+    ],
+    [
+      "10k",
+      "250k"
+    ],
+    [
+      "10k",
+      "1m"
+    ],
+    [
+      "100k",
+      "250k"
+    ],
+    [
+      "100k",
+      "1m"
+    ],
+    [
+      "1m",
+      "1m"
+    ],
+    [
+      "1m",
+      "5m"
+    ]
+  ],
+  "model_scales": {
+    "1m": {
+      "ff": 320,
+      "heads": 8,
+      "layers": 4,
+      "width": 160
+    },
+    "250k": {
+      "ff": 176,
+      "heads": 4,
+      "layers": 3,
+      "width": 88
+    },
+    "5m": {
+      "ff": 672,
+      "heads": 8,
+      "layers": 5,
+      "width": 336
+    },
+    "60k": {
+      "ff": 96,
+      "heads": 4,
+      "layers": 2,
+      "width": 48
+    }
+  },
+  "schema_version": "cc-nqe-p4.5-v1",
+  "source_sha256": {
+    "cc_nqe_p4_5.py": "a2a5c3f2cffad61dca5f0fcdd6d5358d2d46c053c1e9fd7535ea48c978052437",
+    "run_p4_5.py": "be52695fea0cd4242ef7eb8d47300fdfb07e37087bde86257c417c887820dd97",
+    "tests/test_cc_nqe_p4_5.py": "ced37b04de5c22aabb249cd6f7a0f89c69855db56f4b6a984417f73625e76ed5"
+  },
+  "training_recipe": {
+    "confirmatory_seeds": [
+      2026,
+      2027,
+      2028
+    ],
+    "dtype": "float32",
+    "effective_batch_size": 1024,
+    "learning_rate": 0.0003,
+    "maximum_updates": 10000,
+    "optimizer": "AdamW",
+    "scheduler": "cosine",
+    "screening_seed": 2026,
+    "stopping_rule": "fixed optimizer updates",
+    "validation_interval": 500
+  }
+}
