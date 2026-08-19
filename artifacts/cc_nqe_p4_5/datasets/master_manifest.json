@@ -1,5 +1,275 @@
 {
-  "reason": "XPU-BLOCKED",
+  "circuit_offsets": {
+    "composition_ood": [
+      64375,
+      65000
+    ],
+    "depth_ood": [
+      65000,
+      65625
+    ],
+    "iid": [
+      62500,
+      63125
+    ],
+    "parameter_extrapolation": [
+      63750,
+      64375
+    ],
+    "parameter_interpolation": [
+      63125,
+      63750
+    ],
+    "state_ood": [
+      0,
+      625
+    ],
+    "train": [
+      0,
+      62500
+    ],
+    "validation": [
+      62500,
+      63125
+    ]
+  },
+  "eval_per_split": 10000,
+  "generation_seconds": 195.6873309800867,
+  "master_samples": 1000000,
+  "n_qubits": 4,
+  "samples_per_second": 5467.906331737725,
   "schema_version": "cc-nqe-p4.5-v1",
-  "status": "NOT_GENERATED"
+  "seed": 20260812,
+  "shard_size": 50000,
+  "shards": [
+    {
+      "count": 50000,
+      "offset": 0,
+      "pair_path": "pairs/train_00000.npy",
+      "split": "train",
+      "target_path": "targets/train_00000.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 50000,
+      "pair_path": "pairs/train_00001.npy",
+      "split": "train",
+      "target_path": "targets/train_00001.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 100000,
+      "pair_path": "pairs/train_00002.npy",
+      "split": "train",
+      "target_path": "targets/train_00002.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 150000,
+      "pair_path": "pairs/train_00003.npy",
+      "split": "train",
+      "target_path": "targets/train_00003.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 200000,
+      "pair_path": "pairs/train_00004.npy",
+      "split": "train",
+      "target_path": "targets/train_00004.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 250000,
+      "pair_path": "pairs/train_00005.npy",
+      "split": "train",
+      "target_path": "targets/train_00005.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 300000,
+      "pair_path": "pairs/train_00006.npy",
+      "split": "train",
+      "target_path": "targets/train_00006.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 350000,
+      "pair_path": "pairs/train_00007.npy",
+      "split": "train",
+      "target_path": "targets/train_00007.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 400000,
+      "pair_path": "pairs/train_00008.npy",
+      "split": "train",
+      "target_path": "targets/train_00008.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 450000,
+      "pair_path": "pairs/train_00009.npy",
+      "split": "train",
+      "target_path": "targets/train_00009.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 500000,
+      "pair_path": "pairs/train_00010.npy",
+      "split": "train",
+      "target_path": "targets/train_00010.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 550000,
+      "pair_path": "pairs/train_00011.npy",
+      "split": "train",
+      "target_path": "targets/train_00011.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 600000,
+      "pair_path": "pairs/train_00012.npy",
+      "split": "train",
+      "target_path": "targets/train_00012.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 650000,
+      "pair_path": "pairs/train_00013.npy",
+      "split": "train",
+      "target_path": "targets/train_00013.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 700000,
+      "pair_path": "pairs/train_00014.npy",
+      "split": "train",
+      "target_path": "targets/train_00014.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 750000,
+      "pair_path": "pairs/train_00015.npy",
+      "split": "train",
+      "target_path": "targets/train_00015.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 800000,
+      "pair_path": "pairs/train_00016.npy",
+      "split": "train",
+      "target_path": "targets/train_00016.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 850000,
+      "pair_path": "pairs/train_00017.npy",
+      "split": "train",
+      "target_path": "targets/train_00017.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 900000,
+      "pair_path": "pairs/train_00018.npy",
+      "split": "train",
+      "target_path": "targets/train_00018.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 950000,
+      "pair_path": "pairs/train_00019.npy",
+      "split": "train",
+      "target_path": "targets/train_00019.npy"
+    },
+    {
+      "count": 10000,
+      "offset": 0,
+      "pair_path": "pairs/validation_00000.npy",
+      "split": "validation",
+      "target_path": "targets/validation_00000.npy"
+    },
+    {
+      "count": 10000,
+      "offset": 0,
+      "pair_path": "pairs/iid_00000.npy",
+      "split": "iid",
+      "target_path": "targets/iid_00000.npy"
+    },
+    {
+      "count": 10000,
+      "offset": 0,
+      "pair_path": "pairs/state_ood_00000.npy",
+      "split": "state_ood",
+      "target_path": "targets/state_ood_00000.npy"
+    },
+    {
+      "count": 10000,
+      "offset": 0,
+      "pair_path": "pairs/parameter_interpolation_00000.npy",
+      "split": "parameter_interpolation",
+      "target_path": "targets/parameter_interpolation_00000.npy"
+    },
+    {
+      "count": 10000,
+      "offset": 0,
+      "pair_path": "pairs/parameter_extrapolation_00000.npy",
+      "split": "parameter_extrapolation",
+      "target_path": "targets/parameter_extrapolation_00000.npy"
+    },
+    {
+      "count": 10000,
+      "offset": 0,
+      "pair_path": "pairs/composition_ood_00000.npy",
+      "split": "composition_ood",
+      "target_path": "targets/composition_ood_00000.npy"
+    },
+    {
+      "count": 10000,
+      "offset": 0,
+      "pair_path": "pairs/depth_ood_00000.npy",
+      "split": "depth_ood",
+      "target_path": "targets/depth_ood_00000.npy"
+    }
+  ],
+  "split_specs": {
+    "composition_ood": [
+      10000,
+      1050000
+    ],
+    "depth_ood": [
+      10000,
+      1060000
+    ],
+    "iid": [
+      10000,
+      1010000
+    ],
+    "parameter_extrapolation": [
+      10000,
+      1040000
+    ],
+    "parameter_interpolation": [
+      10000,
+      1030000
+    ],
+    "state_ood": [
+      10000,
+      1020000
+    ],
+    "train": [
+      1000000,
+      0
+    ],
+    "validation": [
+      10000,
+      1000000
+    ]
+  },
+  "states_per_circuit": 16,
+  "teacher": "cc_nqe.numpy_exact_statevector_v1",
+  "teacher_dtype": "complex128",
+  "train_unique_circuits": 62500,
+  "unique_circuits": 65625,
+  "unique_states": 1070000
 }

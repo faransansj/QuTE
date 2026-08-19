@@ -1,5 +1,15 @@
 {
-  "reason": "XPU-BLOCKED",
+  "frozen": true,
+  "master_manifest_sha256": "6f3d9bccf9592c05d0da8eaa8c89ba1be44e44e291b07a867e3c4c60ec5665dc",
   "schema_version": "cc-nqe-p4.5-v1",
-  "status": "NOT_GENERATED"
+  "seed": 20260812,
+  "split_counts": {
+    "composition_ood": 10000,
+    "depth_ood": 10000,
+    "iid": 10000,
+    "parameter_extrapolation": 10000,
+    "parameter_interpolation": 10000,
+    "state_ood": 10000,
+    "validation": 10000
+  }
 }

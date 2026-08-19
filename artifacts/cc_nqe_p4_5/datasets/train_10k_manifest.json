@@ -1,5 +1,10 @@
 {
-  "reason": "XPU-BLOCKED",
-  "schema_version": "cc-nqe-p4.5-v1",
-  "status": "NOT_GENERATED"
+  "master_manifest_sha256": "6f3d9bccf9592c05d0da8eaa8c89ba1be44e44e291b07a867e3c4c60ec5665dc",
+  "pair_index_range": [
+    0,
+    10000
+  ],
+  "sample_count": 10000,
+  "scale": "10k",
+  "schema_version": "cc-nqe-p4.5-v1"
 }
