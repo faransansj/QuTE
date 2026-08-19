@@ -1,0 +1,1236 @@
+{
+  "classification_counts": {
+    "A": 23,
+    "B": 0,
+    "C": 0,
+    "D": 0
+  },
+  "definition": "ordered gate type and ordered target/control qubits; parameters excluded; depth implicit in sequence length",
+  "duplicate_excess_count": 23,
+  "group_count": 23,
+  "groups": [
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_198c6e6e9505fbea",
+          "continuous_parameters": [
+            3.419366257078414,
+            null,
+            5.16776074648121,
+            0.03625761985471965
+          ],
+          "depth": 4,
+          "exact_circuit_signature": "[{\"name\":\"RY\",\"qubits\":[0],\"theta\":3.419366257078414},{\"name\":\"CNOT\",\"qubits\":[0,3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[2],\"theta\":5.16776074648121},{\"name\":\"RX\",\"qubits\":[1],\"theta\":0.03625761985471965}]",
+          "gate_sequence": [
+            "RY",
+            "CNOT",
+            "RZ",
+            "RX"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "validation"
+        },
+        {
+          "circuit_id": "c_cedaf3b420e09e3b",
+          "continuous_parameters": [
+            5.551518951023003,
+            null,
+            5.253824642685534,
+            5.940949053014787
+          ],
+          "depth": 4,
+          "exact_circuit_signature": "[{\"name\":\"RY\",\"qubits\":[0],\"theta\":5.551518951023003},{\"name\":\"CNOT\",\"qubits\":[0,3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[2],\"theta\":5.253824642685534},{\"name\":\"RX\",\"qubits\":[1],\"theta\":5.940949053014787}]",
+          "gate_sequence": [
+            "RY",
+            "CNOT",
+            "RZ",
+            "RX"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "RY:0|CNOT:0,3|RZ:2|RX:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_82a2629e95390c66",
+          "continuous_parameters": [
+            null,
+            2.8919160892751075
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[0],\"theta\":null},{\"name\":\"RX\",\"qubits\":[1],\"theta\":2.8919160892751075}]",
+          "gate_sequence": [
+            "H",
+            "RX"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_22318180dc2dc402",
+          "continuous_parameters": [
+            null,
+            6.25628681915917
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[0],\"theta\":null},{\"name\":\"RX\",\"qubits\":[1],\"theta\":6.25628681915917}]",
+          "gate_sequence": [
+            "H",
+            "RX"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:0|RX:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_005ddc21baac32d6",
+          "continuous_parameters": [
+            null,
+            2.1059971203497976
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[0],\"theta\":null},{\"name\":\"RX\",\"qubits\":[1],\"theta\":2.1059971203497976}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_eb025237b66a7072",
+          "continuous_parameters": [
+            null,
+            5.471558917608333
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[0],\"theta\":null},{\"name\":\"RX\",\"qubits\":[1],\"theta\":5.471558917608333}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:0|RX:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_9446696a63640ac1",
+          "continuous_parameters": [
+            null,
+            2.257401769304479
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":2.257401769304479}]",
+          "gate_sequence": [
+            "X",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_569308c5ff14863b",
+          "continuous_parameters": [
+            null,
+            5.9644888189714
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":5.9644888189714}]",
+          "gate_sequence": [
+            "X",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:3|RZ:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_c8869fa1b69c2dca",
+          "continuous_parameters": [
+            null,
+            2.4574195099642933
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[3],\"theta\":2.4574195099642933}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_f14b765f467785ce",
+          "continuous_parameters": [
+            null,
+            6.113285742742592
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[3],\"theta\":6.113285742742592}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:2|RY:3"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_a10889be217dd846",
+          "continuous_parameters": [
+            null,
+            2.0973166836248027
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[3],\"theta\":2.0973166836248027}]",
+          "gate_sequence": [
+            "H",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_ff1416bb49603aad",
+          "continuous_parameters": [
+            null,
+            5.886179133485486
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[3],\"theta\":5.886179133485486}]",
+          "gate_sequence": [
+            "H",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:3|RZ:3"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_d27053c787470c8a",
+          "continuous_parameters": [
+            null,
+            2.90712381464617
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"CNOT\",\"qubits\":[1,2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[0],\"theta\":2.90712381464617}]",
+          "gate_sequence": [
+            "CNOT",
+            "RY"
+          ],
+          "qubits": [
+            [
+              1,
+              2
+            ],
+            [
+              0
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_34a72e9fa27bfb12",
+          "continuous_parameters": [
+            null,
+            6.113114781294867
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"CNOT\",\"qubits\":[1,2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[0],\"theta\":6.113114781294867}]",
+          "gate_sequence": [
+            "CNOT",
+            "RY"
+          ],
+          "qubits": [
+            [
+              1,
+              2
+            ],
+            [
+              0
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "CNOT:1,2|RY:0"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_75a91abc31b7a825",
+          "continuous_parameters": [
+            null,
+            2.671766270499589
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[1],\"theta\":null},{\"name\":\"RX\",\"qubits\":[2],\"theta\":2.671766270499589}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_6f57c9c8ddbb152e",
+          "continuous_parameters": [
+            null,
+            5.554060470211352
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[1],\"theta\":null},{\"name\":\"RX\",\"qubits\":[2],\"theta\":5.554060470211352}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:1|RX:2"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_118378076c1df963",
+          "continuous_parameters": [
+            null,
+            2.851630817779099
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RX\",\"qubits\":[1],\"theta\":2.851630817779099}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_1dde277eea073a56",
+          "continuous_parameters": [
+            null,
+            5.295827118313525
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RX\",\"qubits\":[1],\"theta\":5.295827118313525}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:2|RX:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_2a60311f7f1ee5ce",
+          "continuous_parameters": [
+            null,
+            2.5728322453446575
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RX\",\"qubits\":[3],\"theta\":2.5728322453446575}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_62c6e24393fb7db3",
+          "continuous_parameters": [
+            null,
+            5.350834416537132
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RX\",\"qubits\":[3],\"theta\":5.350834416537132}]",
+          "gate_sequence": [
+            "X",
+            "RX"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:2|RX:3"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_4c568cec684d1e8e",
+          "continuous_parameters": [
+            null,
+            2.6548950732884244
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":2.6548950732884244}]",
+          "gate_sequence": [
+            "X",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_54d102bd6818da37",
+          "continuous_parameters": [
+            null,
+            6.1470540449375
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":6.1470540449375}]",
+          "gate_sequence": [
+            "X",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:2|RZ:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_37e70dc03de708b1",
+          "continuous_parameters": [
+            null,
+            2.521873579194075
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[1],\"theta\":2.521873579194075}]",
+          "gate_sequence": [
+            "X",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_053f6143921b67a3",
+          "continuous_parameters": [
+            null,
+            5.342187259338963
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[1],\"theta\":5.342187259338963}]",
+          "gate_sequence": [
+            "X",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:2|RY:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_9e5dede622a1cbfd",
+          "continuous_parameters": [
+            null,
+            2.661929615847429
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"CNOT\",\"qubits\":[1,2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":2.661929615847429}]",
+          "gate_sequence": [
+            "CNOT",
+            "RY"
+          ],
+          "qubits": [
+            [
+              1,
+              2
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_c5bce18ad612be08",
+          "continuous_parameters": [
+            null,
+            5.321066353758552
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"CNOT\",\"qubits\":[1,2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":5.321066353758552}]",
+          "gate_sequence": [
+            "CNOT",
+            "RY"
+          ],
+          "qubits": [
+            [
+              1,
+              2
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "CNOT:1,2|RY:2"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_9838f15898e37687",
+          "continuous_parameters": [
+            null,
+            2.9941566484375985
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[0],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[2],\"theta\":2.9941566484375985}]",
+          "gate_sequence": [
+            "H",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_96dce2aea489d349",
+          "continuous_parameters": [
+            null,
+            6.032681197354275
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[0],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[2],\"theta\":6.032681197354275}]",
+          "gate_sequence": [
+            "H",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              0
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:0|RZ:2"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_12640947821e4bbb",
+          "continuous_parameters": [
+            null,
+            2.770705142766978
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":2.770705142766978}]",
+          "gate_sequence": [
+            "X",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_07bc7e4c73db0fef",
+          "continuous_parameters": [
+            null,
+            6.266026416960912
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":6.266026416960912}]",
+          "gate_sequence": [
+            "X",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:2|RY:2"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_7f533cc15208e74f",
+          "continuous_parameters": [
+            null,
+            3.0908297143520893
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[1],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":3.0908297143520893}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_7dad6a89a4e4b24b",
+          "continuous_parameters": [
+            null,
+            5.741340814703025
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[1],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":5.741340814703025}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:1|RY:2"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_2efff8fd1ea63585",
+          "continuous_parameters": [
+            null,
+            2.958089416824249
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[3],\"theta\":null},{\"name\":\"RY\",\"qubits\":[0],\"theta\":2.958089416824249}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              0
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_c27389ae2bf33a7d",
+          "continuous_parameters": [
+            null,
+            5.676213161621078
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[3],\"theta\":null},{\"name\":\"RY\",\"qubits\":[0],\"theta\":5.676213161621078}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              0
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:3|RY:0"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_c2f8727dc74b7a59",
+          "continuous_parameters": [
+            2.831054070143119,
+            null,
+            2.7939650068243393,
+            2.130614336485655
+          ],
+          "depth": 4,
+          "exact_circuit_signature": "[{\"name\":\"RZ\",\"qubits\":[2],\"theta\":2.831054070143119},{\"name\":\"CNOT\",\"qubits\":[3,0],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":2.7939650068243393},{\"name\":\"RX\",\"qubits\":[3],\"theta\":2.130614336485655}]",
+          "gate_sequence": [
+            "RZ",
+            "CNOT",
+            "RZ",
+            "RX"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              1
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_a378a8470f87fdc6",
+          "continuous_parameters": [
+            5.811714117836827,
+            null,
+            5.326709258048145,
+            6.168142674146575
+          ],
+          "depth": 4,
+          "exact_circuit_signature": "[{\"name\":\"RZ\",\"qubits\":[2],\"theta\":5.811714117836827},{\"name\":\"CNOT\",\"qubits\":[3,0],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":5.326709258048145},{\"name\":\"RX\",\"qubits\":[3],\"theta\":6.168142674146575}]",
+          "gate_sequence": [
+            "RZ",
+            "CNOT",
+            "RZ",
+            "RX"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              1
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "RZ:2|CNOT:3,0|RZ:1|RX:3"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_07519728f751182e",
+          "continuous_parameters": [
+            null,
+            2.262128882674683
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[1],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":2.262128882674683}]",
+          "gate_sequence": [
+            "H",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              1
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_3a3c60e4bd9e3be5",
+          "continuous_parameters": [
+            null,
+            5.729908835073051
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[1],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[1],\"theta\":5.729908835073051}]",
+          "gate_sequence": [
+            "H",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              1
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:1|RZ:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_9d7d680804f68ac0",
+          "continuous_parameters": [
+            null,
+            3.1122689279527744
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"CNOT\",\"qubits\":[2,0],\"theta\":null},{\"name\":\"RY\",\"qubits\":[3],\"theta\":3.1122689279527744}]",
+          "gate_sequence": [
+            "CNOT",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2,
+              0
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_4c1e1ff6cfe18d6f",
+          "continuous_parameters": [
+            null,
+            5.484900602618779
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"CNOT\",\"qubits\":[2,0],\"theta\":null},{\"name\":\"RY\",\"qubits\":[3],\"theta\":5.484900602618779}]",
+          "gate_sequence": [
+            "CNOT",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2,
+              0
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "CNOT:2,0|RY:3"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_4d2807f955bab11b",
+          "continuous_parameters": [
+            null,
+            2.328293994124992
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[1],\"theta\":2.328293994124992}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_1264fbb50a9efdda",
+          "continuous_parameters": [
+            null,
+            5.8169755795257005
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[2],\"theta\":null},{\"name\":\"RY\",\"qubits\":[1],\"theta\":5.8169755795257005}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              2
+            ],
+            [
+              1
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:2|RY:1"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_443cf00051c8fe71",
+          "continuous_parameters": [
+            null,
+            2.540165579259674
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[3],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":2.540165579259674}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_0e2cbfd64d74ae16",
+          "continuous_parameters": [
+            null,
+            5.3719650969965596
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"H\",\"qubits\":[3],\"theta\":null},{\"name\":\"RY\",\"qubits\":[2],\"theta\":5.3719650969965596}]",
+          "gate_sequence": [
+            "H",
+            "RY"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              2
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "H:3|RY:2"
+    },
+    {
+      "category": "A",
+      "members": [
+        {
+          "circuit_id": "c_aa5b18703aa83aa7",
+          "continuous_parameters": [
+            null,
+            2.874512225831891
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[3],\"theta\":2.874512225831891}]",
+          "gate_sequence": [
+            "X",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_interpolation"
+        },
+        {
+          "circuit_id": "c_b1646c6a015fdd5c",
+          "continuous_parameters": [
+            null,
+            6.037779637546859
+          ],
+          "depth": 2,
+          "exact_circuit_signature": "[{\"name\":\"X\",\"qubits\":[3],\"theta\":null},{\"name\":\"RZ\",\"qubits\":[3],\"theta\":6.037779637546859}]",
+          "gate_sequence": [
+            "X",
+            "RZ"
+          ],
+          "qubits": [
+            [
+              3
+            ],
+            [
+              3
+            ]
+          ],
+          "split": "parameter_extrapolation"
+        }
+      ],
+      "reason": "same ordered gate/qubit topology with different continuous parameters",
+      "structural_signature": "X:3|RZ:3"
+    }
+  ]
+}

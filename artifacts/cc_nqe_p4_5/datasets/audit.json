@@ -1,7 +1,111 @@
 {
-  "checks": {},
+  "checks": {
+    "circuit_id_leakage": true,
+    "composition_holdout": true,
+    "depth_holdout": true,
+    "deterministic_regeneration": true,
+    "exact_circuit_duplicates": true,
+    "exact_duplicates": true,
+    "fixed_evaluation": true,
+    "nested_subsets": true,
+    "parameter_extrapolation": true,
+    "parameter_interpolation": true,
+    "sample_count": true,
+    "state_id_leakage": true,
+    "state_normalization": true,
+    "structural_leakage": true,
+    "target_normalization": true,
+    "training_excludes_parameter_holdouts": true,
+    "unitarity": true
+  },
+  "circuits_per_state_family": {
+    "Haar-random": 65625,
+    "entangled": 65625,
+    "product": 65625,
+    "random-local": 65625
+  },
+  "depth_distribution": {
+    "2": 543,
+    "4": 30940,
+    "6": 33517,
+    "8": 625
+  },
+  "deterministic_regeneration": true,
+  "exact_circuit_duplicate_count": 0,
+  "exact_duplicate_count": 0,
   "gate": "G2",
-  "reason": "XPU-BLOCKED at G1",
+  "gate_distribution": {
+    "CNOT": 44039,
+    "H": 45166,
+    "RX": 65660,
+    "RY": 65778,
+    "RZ": 65882,
+    "X": 44423
+  },
+  "max_input_norm_error": 4.440892098500626e-16,
+  "max_target_norm_error": 7.771561172376096e-16,
+  "max_unitarity_error": 1.2383427813196442e-15,
+  "parameter_distribution": {
+    "composition_ood": {
+      "count": 1173,
+      "maximum": 5.234494373168534,
+      "minimum": 0.0065062941645706186
+    },
+    "depth_ood": {
+      "count": 2849,
+      "maximum": 5.235877296382563,
+      "minimum": 0.0032388860183919393
+    },
+    "iid": {
+      "count": 0,
+      "maximum": null,
+      "minimum": null
+    },
+    "parameter_extrapolation": {
+      "count": 1711,
+      "maximum": 6.283025600379803,
+      "minimum": 5.23730486290331
+    },
+    "parameter_interpolation": {
+      "count": 1759,
+      "maximum": 3.1401376749508723,
+      "minimum": 2.096181177681191
+    },
+    "state_ood": {
+      "count": 0,
+      "maximum": null,
+      "minimum": null
+    },
+    "validation": {
+      "count": 1899,
+      "maximum": 5.23542665948772,
+      "minimum": 0.0009988358451338828
+    }
+  },
+  "sample_count": 1070000,
   "schema_version": "cc-nqe-p4.5-v1",
-  "status": "NOT_RUN"
+  "state_family_distribution": {
+    "Haar-random": 267500,
+    "entangled": 267500,
+    "product": 267500,
+    "random-local": 267500
+  },
+  "states_per_circuit": {
+    "P95": 16.0,
+    "max": 32.0,
+    "mean": 16.304761904761904,
+    "median": 16.0,
+    "min": 16.0
+  },
+  "status": "PASS",
+  "structural_duplicate_classification": {
+    "A": 23,
+    "B": 0,
+    "C": 0,
+    "D": 0
+  },
+  "structural_duplicate_count": 23,
+  "structural_duplicates_informational": true,
+  "unique_circuit_count": 65625,
+  "unique_state_count": 1070000
 }

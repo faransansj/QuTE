@@ -445,6 +445,35 @@ class ShardedDataset(torch.utils.data.Dataset):
         raise IndexError(index)
 
 
+def _classify_structural_duplicates(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        groups.setdefault(row["structural_signature"], []).append(row)
+    findings, counts = [], Counter()
+    for signature, members in groups.items():
+        if len(members) < 2:
+            continue
+        serialized = [row["serialized"] for row in members]
+        parsed = [json.loads(value) for value in serialized]
+        crosses_prohibited_boundary = any(row["split"] == "train" for row in members) and any(row["split"] not in ("train", "state_ood") for row in members)
+        if crosses_prohibited_boundary:
+            category = "D"
+        elif len(set(serialized)) < len(serialized):
+            category = "C"
+        else:
+            # The signature already proves identical ordered gate/qubit topology;
+            # differing serialization can therefore only be continuous parameters.
+            category = "A"
+        counts[category] += len(members) - 1
+        findings.append({
+            "category": category,
+            "reason": {"A": "same ordered gate/qubit topology with different continuous parameters", "C": "identical serialized circuit", "D": "topology crosses a prohibited train/OOD boundary"}[category],
+            "structural_signature": signature,
+            "members": [{"circuit_id": row["circuit_id"], "split": row["split"], "depth": row["depth"], "gate_sequence": [g["name"] for g in gates], "qubits": [g["qubits"] for g in gates], "continuous_parameters": [g.get("theta") for g in gates], "exact_circuit_signature": row["serialized"]} for row, gates in zip(members, parsed)],
+        })
+    return {"definition": "ordered gate type and ordered target/control qubits; parameters excluded; depth implicit in sequence length", "group_count": len(findings), "duplicate_excess_count": sum(counts.values()), "classification_counts": {key: counts.get(key, 0) for key in "ABCD"}, "groups": findings}
+
+
 def audit_dataset(root: Path = ROOT/"datasets") -> dict[str,Any]:
     manifest=json.loads((root/"master_manifest.json").read_text()); rows=[json.loads(x) for x in (root/"circuits.jsonl").read_text().splitlines()]; state_rows=[json.loads(x) for x in (root/"states.jsonl").read_text().splitlines()]; states=np.load(root/"states.npy",mmap_mode="r"); unitaries=np.load(root/"unitaries.npy",mmap_mode="r")
     train=[x for x in rows if x["split"]=="train"]; train_ids={x["circuit_id"] for x in train}; train_sig={x["structural_signature"] for x in train}
@@ -455,25 +484,29 @@ def audit_dataset(root: Path = ROOT/"datasets") -> dict[str,Any]:
         split_states.setdefault(shard["split"],set()).update(map(int,pairs[:,1])); split_circuits.setdefault(shard["split"],set()).update(map(int,pairs[:,0]))
         for ci,si in pairs: circuits_by_family[state_rows[int(si)]["family"]].add(int(ci))
         max_target_norm=max(max_target_norm,float(np.max(abs(np.linalg.norm(targets,axis=1)-1))))
+    structural_audit = _classify_structural_duplicates(rows)
+    exact_circuit_signatures = [x["serialized"] for x in rows]
     checks={
       "sample_count":sample_count==manifest["master_samples"]+len(SPLITS)*manifest["eval_per_split"],
       "nested_subsets":all(json.loads((root/f"train_{s}_manifest.json").read_text())["sample_count"]==min(n,manifest["master_samples"]) for s,n in TRAIN_COUNTS.items()),
       "state_normalization":float(np.max(abs(np.linalg.norm(states,axis=1)-1)))<1e-12,"target_normalization":max_target_norm<1e-12,
       "unitarity":float(np.max(np.linalg.norm(unitaries.conj().transpose(0,2,1)@unitaries-np.eye(DIM),axis=(1,2))))<1e-10,
       "exact_duplicates":len(pair_hashes)==len(set(pair_hashes)),
+      "exact_circuit_duplicates":len(exact_circuit_signatures)==len(set(exact_circuit_signatures)),
       "state_id_leakage":all(not split_states.get("train",set()) & split_states.get(s,set()) for s in SPLITS),
       "circuit_id_leakage":all(not split_circuits.get("train",set()) & split_circuits.get(s,set()) for s in SPLITS if s != "state_ood"),
       "structural_leakage":all(not train_sig & {x["structural_signature"] for x in bysplit[s]} for s in SPLITS if s not in ("state_ood",)),
       "composition_holdout":all(has_composition_motif([Gate.from_dict(g) for g in json.loads(x["serialized"])]) for x in bysplit["composition_ood"]) and all(not has_composition_motif([Gate.from_dict(g) for g in json.loads(x["serialized"])]) for x in train),
       "depth_holdout":all(x["depth"]==8 for x in bysplit["depth_ood"]) and all(x["depth"]<=6 for x in train),
       "parameter_interpolation":_parameter_contract(bysplit["parameter_interpolation"],"interpolation"),"parameter_extrapolation":_parameter_contract(bysplit["parameter_extrapolation"],"extrapolation"),
+      "training_excludes_parameter_holdouts":all(not any(low < g["theta"] < high for regions in (PARAM_REGIONS["interpolation"], PARAM_REGIONS["extrapolation"]) for low, high in regions) for row in train for g in json.loads(row["serialized"]) if g.get("theta") is not None),
       "fixed_evaluation":json.loads((root/"evaluation_manifest.json").read_text())["frozen"] is True,
-      "structural_duplicates":len({x["structural_signature"] for x in rows})==len(rows),
       "deterministic_regeneration":serialize_circuit(_circuits(1,manifest["seed"])[0])==rows[0]["serialized"] and np.array_equal(generate_state(state_rows[0]["generator_seed"],state_rows[0]["family"]),states[0]),
     }
     all_gates=[g for row in rows for g in json.loads(row["serialized"])]; parameters={s:[g["theta"] for row in bysplit[s] for g in json.loads(row["serialized"]) if g["theta"] is not None] for s in SPLITS}
-    multiplicity=_stats(counts.values()); result={"schema_version":SCHEMA,"gate":"G2","status":"PASS" if all(checks.values()) else "DATASET-BLOCKED","checks":checks,"sample_count":sample_count,"unique_circuit_count":len(rows),"unique_state_count":len(states),"states_per_circuit":multiplicity,"circuits_per_state_family":{k:len(v) for k,v in circuits_by_family.items()},"max_input_norm_error":float(np.max(abs(np.linalg.norm(states,axis=1)-1))),"max_target_norm_error":max_target_norm,"max_unitarity_error":float(np.max(unitarity_error(unitaries))),"exact_duplicate_count":len(pair_hashes)-len(set(pair_hashes)),"structural_duplicate_count":len(rows)-len({x["structural_signature"] for x in rows}),"state_family_distribution":dict(Counter(x["family"] for x in state_rows)),"depth_distribution":dict(Counter(str(x["depth"]) for x in rows)),"gate_distribution":dict(Counter(g["name"] for g in all_gates)),"parameter_distribution":{s:{"count":len(v),"minimum":min(v) if v else None,"maximum":max(v) if v else None} for s,v in parameters.items()},"deterministic_regeneration":checks["deterministic_regeneration"]}
+    multiplicity=_stats(counts.values()); result={"schema_version":SCHEMA,"gate":"G2","status":"PASS" if all(checks.values()) else "DATASET-BLOCKED","checks":checks,"sample_count":sample_count,"unique_circuit_count":len(rows),"unique_state_count":len(states),"states_per_circuit":multiplicity,"circuits_per_state_family":{k:len(v) for k,v in circuits_by_family.items()},"max_input_norm_error":float(np.max(abs(np.linalg.norm(states,axis=1)-1))),"max_target_norm_error":max_target_norm,"max_unitarity_error":float(np.max(unitarity_error(unitaries))),"exact_duplicate_count":len(pair_hashes)-len(set(pair_hashes)),"exact_circuit_duplicate_count":len(exact_circuit_signatures)-len(set(exact_circuit_signatures)),"structural_duplicate_count":structural_audit["duplicate_excess_count"],"structural_duplicates_informational":True,"structural_duplicate_classification":structural_audit["classification_counts"],"state_family_distribution":dict(Counter(x["family"] for x in state_rows)),"depth_distribution":dict(Counter(str(x["depth"]) for x in rows)),"gate_distribution":dict(Counter(g["name"] for g in all_gates)),"parameter_distribution":{s:{"count":len(v),"minimum":min(v) if v else None,"maximum":max(v) if v else None} for s,v in parameters.items()},"deterministic_regeneration":checks["deterministic_regeneration"]}
     atomic_json(root/"audit.json",result)
+    atomic_json(root/"structural_duplicate_audit.json", structural_audit)
     hashes={str(p.relative_to(root)):sha256(p) for p in sorted(root.rglob("*")) if p.is_file() and p.name!="hashes.sha256"}
     (root/"hashes.sha256").write_text("".join(f"{value}  {name}\n" for name,value in hashes.items()))
     return result

@@ -1,5 +1,6 @@
 import io
 import json
+import shutil
 from pathlib import Path
 
 import numpy as np
@@ -11,7 +12,7 @@ from cc_nqe_p4_5 import (CircuitDataset, DIM, Progress, ScaledCCNQE, ShardedData
                          apply_operator, atomic_json, audit_dataset, composition_fidelity,
                          config_hash, generate_dataset, load_checkpoint, operator_fidelity,
                          phase_aligned_matrix_error, save_checkpoint, state_fidelity,
-                         unitarity_error, xpu_preflight)
+                         unitarity_error, xpu_preflight, _classify_structural_duplicates)
 
 
 @pytest.fixture(scope="module")
@@ -34,6 +35,63 @@ def test_nested_fixed_sharded_deterministic_and_no_leakage(mini):
     state_row=json.loads((mini/"states.jsonl").read_text().splitlines()[0]); states=np.load(mini/"states.npy")
     assert np.array_equal(generate_state(state_row["generator_seed"],state_row["family"]),states[0])
     assert len(CircuitDataset(mini,"train"))==16
+
+
+def _audit_copy(mini, tmp_path):
+    root = tmp_path / "dataset"
+    shutil.copytree(mini, root)
+    return root
+
+
+def _append_parameter_variant(root, source_split, target_split):
+    path = root / "circuits.jsonl"
+    rows = [json.loads(line) for line in path.read_text().splitlines()]
+    row = next(r for r in rows if r["split"] == source_split and any(g.get("theta") is not None for g in json.loads(r["serialized"])))
+    gates = json.loads(row["serialized"])
+    next(g for g in gates if g.get("theta") is not None)["theta"] += 0.123
+    row = row | {"circuit_id": row["circuit_id"] + "_variant", "split": target_split, "serialized": json.dumps(gates, separators=(",", ":"))}
+    path.write_text("".join(json.dumps(r, separators=(",", ":"), sort_keys=True) + "\n" for r in rows + [row]))
+
+
+def test_legitimate_parameterized_structural_reuse_is_informational(mini, tmp_path):
+    root = _audit_copy(mini, tmp_path)
+    _append_parameter_variant(root, "validation", "validation")
+    result = audit_dataset(root)
+    assert result["status"] == "PASS"
+    assert result["structural_duplicate_count"] == 1
+    assert result["structural_duplicate_classification"]["A"] == 1
+
+
+def test_exact_duplicate_blocks(mini, tmp_path):
+    root = _audit_copy(mini, tmp_path)
+    manifest = json.loads((root / "master_manifest.json").read_text())
+    pair_path = root / manifest["shards"][0]["pair_path"]
+    pairs = np.load(pair_path); pairs[1] = pairs[0]; np.save(pair_path, pairs)
+    result = audit_dataset(root)
+    assert result["status"] == "DATASET-BLOCKED" and not result["checks"]["exact_duplicates"]
+
+
+def test_prohibited_structural_composition_depth_and_parameter_leakage_block(mini, tmp_path):
+    # Each contract is independently capable of blocking G2.
+    for name, mutate, failed_check in (
+        ("structure", lambda r: _append_parameter_variant(r, "train", "validation"), "structural_leakage"),
+        ("composition", lambda r: _append_parameter_variant(r, "validation", "composition_ood"), "composition_holdout"),
+        ("depth", lambda r: _append_parameter_variant(r, "validation", "depth_ood"), "depth_holdout"),
+        ("parameter", lambda r: _append_parameter_variant(r, "train", "parameter_interpolation"), "parameter_interpolation"),
+    ):
+        root = _audit_copy(mini, tmp_path / name)
+        mutate(root)
+        result = audit_dataset(root)
+        assert result["status"] == "DATASET-BLOCKED" and not result["checks"][failed_check]
+
+
+def test_structural_duplicate_classifier_distinguishes_actual_and_boundary_defects():
+    base = {"depth": 1, "structural_signature": "RX:0", "split": "validation", "circuit_id": "a", "serialized": '[{"name":"RX","qubits":[0],"theta":1.0}]'}
+    variant = base | {"circuit_id": "b", "serialized": '[{"name":"RX","qubits":[0],"theta":2.0}]'}
+    assert _classify_structural_duplicates([base, variant])["classification_counts"]["A"] == 1
+    assert _classify_structural_duplicates([base, base | {"circuit_id": "c"}])["classification_counts"]["C"] == 1
+    train = base | {"split": "train"}
+    assert _classify_structural_duplicates([train, variant])["classification_counts"]["D"] == 1
 
 
 def test_state_and_operator_metrics_phase_invariant_and_application():
