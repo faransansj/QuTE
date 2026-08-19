@@ -1,0 +1,29 @@
+{
+  "actual_parameters": 247136,
+  "dataset_scale": "10k",
+  "dtype": "float32",
+  "model_scale": "250k",
+  "recipe": {
+    "confirmatory_seeds": [
+      2026,
+      2027,
+      2028
+    ],
+    "dtype": "float32",
+    "effective_batch_size": 1024,
+    "learning_rate": 0.0003,
+    "maximum_updates": 10000,
+    "optimizer": "AdamW",
+    "scheduler": "cosine",
+    "screening_seed": 2026,
+    "stopping_rule": "fixed optimizer updates",
+    "validation_interval": 500
+  },
+  "run_kind": "screening",
+  "scheduler_horizon": 10000,
+  "schema_version": "cc-nqe-p4.5-v1",
+  "seed": 2026,
+  "task": "state",
+  "update_budget": 10000,
+  "validation_interval": 500
+}

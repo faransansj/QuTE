@@ -1,0 +1,234 @@
+{
+  "configuration_count": 7,
+  "empirical_comparisons": {
+    "1m_data_1m_versus_5m": {
+      "configurations": [
+        {
+          "best_composition_ood_fidelity": 0.24246115514861089,
+          "best_depth_ood_fidelity": 0.1694050197431236,
+          "dataset_scale": "1m",
+          "final_train_fidelity": 0.388111525183362,
+          "final_validation_fidelity": 0.316030337643209,
+          "model_scale": "1m"
+        },
+        {
+          "best_composition_ood_fidelity": 0.23574608021340993,
+          "best_depth_ood_fidelity": 0.18064113594944953,
+          "dataset_scale": "1m",
+          "final_train_fidelity": 0.3660076619823238,
+          "final_validation_fidelity": 0.31609250740091266,
+          "model_scale": "5m"
+        }
+      ],
+      "five_m_minus_one_m": {
+        "delta_best_composition_ood_fidelity": -0.00671507493520096,
+        "delta_best_depth_ood_fidelity": 0.011236116206325919,
+        "delta_final_train_fidelity": -0.022103863201038187,
+        "delta_final_validation_fidelity": 6.216975770367839e-05
+      }
+    },
+    "data_scaling_at_approximately_1m_parameters": {
+      "configurations": [
+        {
+          "best_composition_ood_fidelity": 0.10521699145728114,
+          "best_depth_ood_fidelity": 0.07210442668031547,
+          "dataset_scale": "10k",
+          "final_train_fidelity": 0.7649436320194809,
+          "final_validation_fidelity": 0.06881589133746857,
+          "model_scale": "1m"
+        },
+        {
+          "best_composition_ood_fidelity": 0.2066609460595905,
+          "best_depth_ood_fidelity": 0.12424003818564078,
+          "dataset_scale": "100k",
+          "final_train_fidelity": 0.44911830264919383,
+          "final_validation_fidelity": 0.2023886653040634,
+          "model_scale": "1m"
+        },
+        {
+          "best_composition_ood_fidelity": 0.24246115514861089,
+          "best_depth_ood_fidelity": 0.1694050197431236,
+          "dataset_scale": "1m",
+          "final_train_fidelity": 0.388111525183362,
+          "final_validation_fidelity": 0.316030337643209,
+          "model_scale": "1m"
+        }
+      ]
+    },
+    "model_scaling_at_10k_data": {
+      "configurations": [
+        {
+          "best_composition_ood_fidelity": 0.11859446477381752,
+          "best_depth_ood_fidelity": 0.07908727252335881,
+          "dataset_scale": "10k",
+          "final_train_fidelity": 0.27613582296122985,
+          "final_validation_fidelity": 0.08562114292409007,
+          "model_scale": "60k"
+        },
+        {
+          "best_composition_ood_fidelity": 0.10581414743339224,
+          "best_depth_ood_fidelity": 0.0744815107393535,
+          "dataset_scale": "10k",
+          "final_train_fidelity": 0.4267452736059454,
+          "final_validation_fidelity": 0.07512403922164168,
+          "model_scale": "250k"
+        },
+        {
+          "best_composition_ood_fidelity": 0.10521699145728114,
+          "best_depth_ood_fidelity": 0.07210442668031547,
+          "dataset_scale": "10k",
+          "final_train_fidelity": 0.7649436320194809,
+          "final_validation_fidelity": 0.06881589133746857,
+          "model_scale": "1m"
+        }
+      ]
+    }
+  },
+  "interpretation_boundary": "Restricted four-qubit P4.5 screening observations; not universal scaling laws.",
+  "maximum_updates": 10000,
+  "results": [
+    {
+      "actual_parameters": 58256,
+      "best_composition_ood_fidelity": 0.11859446477381752,
+      "best_depth_ood_fidelity": 0.07908727252335881,
+      "best_validation_fidelity": 0.10316362540319979,
+      "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-10k-60k-seed2026.pt",
+      "dataset_scale": "10k",
+      "final_composition_ood_fidelity": 0.09774304203292594,
+      "final_depth_ood_fidelity": 0.07356254977322285,
+      "final_train_fidelity": 0.27613582296122985,
+      "final_validation_fidelity": 0.08562114292409007,
+      "initial_validation_fidelity": 0.06680134025367579,
+      "model_scale": "60k",
+      "samples_seen": 10000000,
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-10k-60k-seed2026.json",
+      "source_metric_sha256": "b0493a0070c3ce57e892c695ab234f094ff9279ab7d8335da66ed4a03e0921d6",
+      "steps": 10000,
+      "wall_seconds": 3385.0844836770557
+    },
+    {
+      "actual_parameters": 247136,
+      "best_composition_ood_fidelity": 0.10581414743339224,
+      "best_depth_ood_fidelity": 0.0744815107393535,
+      "best_validation_fidelity": 0.09090853039885438,
+      "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-10k-250k-seed2026.pt",
+      "dataset_scale": "10k",
+      "final_composition_ood_fidelity": 0.07986474460174264,
+      "final_depth_ood_fidelity": 0.06587690444451333,
+      "final_train_fidelity": 0.4267452736059454,
+      "final_validation_fidelity": 0.07512403922164168,
+      "initial_validation_fidelity": 0.05690533022600874,
+      "model_scale": "250k",
+      "samples_seen": 10000000,
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-10k-250k-seed2026.json",
+      "source_metric_sha256": "c52ca10d17e17f0267f9fa4d0b7ea0e0fbce77b2a2308bceae460a340ebcdde3",
+      "steps": 10000,
+      "wall_seconds": 3598.4696175520075
+    },
+    {
+      "actual_parameters": 1001472,
+      "best_composition_ood_fidelity": 0.10521699145728114,
+      "best_depth_ood_fidelity": 0.07210442668031547,
+      "best_validation_fidelity": 0.09200013806209029,
+      "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-10k-1m-seed2026.pt",
+      "dataset_scale": "10k",
+      "final_composition_ood_fidelity": 0.07475400101987129,
+      "final_depth_ood_fidelity": 0.06354958633764163,
+      "final_train_fidelity": 0.7649436320194809,
+      "final_validation_fidelity": 0.06881589133746857,
+      "initial_validation_fidelity": 0.058617639090869034,
+      "model_scale": "1m",
+      "samples_seen": 10000000,
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-10k-1m-seed2026.json",
+      "source_metric_sha256": "1220036f87c06df50747832a73ce198da17eb23a0d21ddf1fbdecdd9ede63b06",
+      "steps": 10000,
+      "wall_seconds": 3685.989149407018
+    },
+    {
+      "actual_parameters": 247136,
+      "best_composition_ood_fidelity": 0.19892596738953472,
+      "best_depth_ood_fidelity": 0.12051955007679993,
+      "best_validation_fidelity": 0.20363635409997727,
+      "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-100k-250k-seed2026.pt",
+      "dataset_scale": "100k",
+      "final_composition_ood_fidelity": 0.19656295816799485,
+      "final_depth_ood_fidelity": 0.12039369585401438,
+      "final_train_fidelity": 0.3279332918197255,
+      "final_validation_fidelity": 0.20262735283050626,
+      "initial_validation_fidelity": 0.05690533022600874,
+      "model_scale": "250k",
+      "samples_seen": 10204096,
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-100k-250k-seed2026.json",
+      "source_metric_sha256": "8a27b8f0e015b74820cb2e886d9973203f75af943f3ca8a5cf5e7b349cabb922",
+      "steps": 10000,
+      "wall_seconds": 3291.634681805037
+    },
+    {
+      "actual_parameters": 1001472,
+      "best_composition_ood_fidelity": 0.2066609460595905,
+      "best_depth_ood_fidelity": 0.12424003818564078,
+      "best_validation_fidelity": 0.21703567327535955,
+      "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-100k-1m-seed2026.pt",
+      "dataset_scale": "100k",
+      "final_composition_ood_fidelity": 0.17382936569400265,
+      "final_depth_ood_fidelity": 0.11485558233703819,
+      "final_train_fidelity": 0.44911830264919383,
+      "final_validation_fidelity": 0.2023886653040634,
+      "initial_validation_fidelity": 0.058617639090869034,
+      "model_scale": "1m",
+      "samples_seen": 10204096,
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-100k-1m-seed2026.json",
+      "source_metric_sha256": "2c9646858d247aea4c08e4f16193e4b9208572b3cf8d3e8369c736ffa6f61ad3",
+      "steps": 10000,
+      "wall_seconds": 3794.0026495789643
+    },
+    {
+      "actual_parameters": 1001472,
+      "best_composition_ood_fidelity": 0.24246115514861089,
+      "best_depth_ood_fidelity": 0.1694050197431236,
+      "best_validation_fidelity": 0.316030337643209,
+      "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-1m-1m-seed2026.pt",
+      "dataset_scale": "1m",
+      "final_composition_ood_fidelity": 0.24165535732350207,
+      "final_depth_ood_fidelity": 0.16806733260454365,
+      "final_train_fidelity": 0.388111525183362,
+      "final_validation_fidelity": 0.316030337643209,
+      "initial_validation_fidelity": 0.058617639090869034,
+      "model_scale": "1m",
+      "samples_seen": 10235520,
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-1m-1m-seed2026.json",
+      "source_metric_sha256": "cf57b63f5942b15b3cba03bb362025554722e8d33744baa7bc28e96746f43f24",
+      "steps": 10000,
+      "wall_seconds": 3930.526034052018
+    },
+    {
+      "actual_parameters": 5257088,
+      "best_composition_ood_fidelity": 0.23574608021340993,
+      "best_depth_ood_fidelity": 0.18064113594944953,
+      "best_validation_fidelity": 0.31609250740091266,
+      "checkpoint": "artifacts/cc_nqe_p4_5/checkpoints/state-1m-5m-seed2026.pt",
+      "dataset_scale": "1m",
+      "final_composition_ood_fidelity": 0.2025525974370863,
+      "final_depth_ood_fidelity": 0.18052026148788736,
+      "final_train_fidelity": 0.3660076619823238,
+      "final_validation_fidelity": 0.31609250740091266,
+      "initial_validation_fidelity": 0.06232111107857463,
+      "model_scale": "5m",
+      "samples_seen": 10235520,
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-1m-5m-seed2026.json",
+      "source_metric_sha256": "5440c208619b4d4119bc3edeee375e100966728b1afd88738bf44fc5fde67999",
+      "steps": 10000,
+      "wall_seconds": 4612.109260478988
+    }
+  ],
+  "schema_version": "cc-nqe-p4.5-screening-results-v1",
+  "screening_seed": 2026,
+  "source_of_truth": "seven per-run screening metric JSON files"
+}
