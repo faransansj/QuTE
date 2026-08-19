@@ -1,0 +1,19 @@
+{
+  "artifacts/cc_nqe_p4_5/REPORT.md": "90eba58cfd09daa122fd2ecd44357d553774d530e521710fd129879e3207b34e",
+  "artifacts/cc_nqe_p4_5/baseline_integrity.json": "1cb0cbcd40cf19368ad6bb465c9a7433488a6f57d97043b995179572c4225170",
+  "artifacts/cc_nqe_p4_5/configs/study_protocol.json": "e7bf89d0c76be3dce090e4fcb2ee834554ffa047b0bb83b073c8dad567095af5",
+  "artifacts/cc_nqe_p4_5/datasets/audit.json": "526d5dce447370690917398164bbce2e9dd9ee184137d3e59d221b55dd837310",
+  "artifacts/cc_nqe_p4_5/datasets/evaluation_manifest.json": "12358b8b857dc9ac00ca8c6413e346674b586db3355d97960d031e2a5e4a5dc6",
+  "artifacts/cc_nqe_p4_5/datasets/hashes.sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "artifacts/cc_nqe_p4_5/datasets/master_manifest.json": "12358b8b857dc9ac00ca8c6413e346674b586db3355d97960d031e2a5e4a5dc6",
+  "artifacts/cc_nqe_p4_5/datasets/train_100k_manifest.json": "12358b8b857dc9ac00ca8c6413e346674b586db3355d97960d031e2a5e4a5dc6",
+  "artifacts/cc_nqe_p4_5/datasets/train_10k_manifest.json": "12358b8b857dc9ac00ca8c6413e346674b586db3355d97960d031e2a5e4a5dc6",
+  "artifacts/cc_nqe_p4_5/datasets/train_1m_manifest.json": "12358b8b857dc9ac00ca8c6413e346674b586db3355d97960d031e2a5e4a5dc6",
+  "artifacts/cc_nqe_p4_5/environment.json": "41da0a9e4198048641f82dfd7923b7bb22e4a63afee5b2bda597821d41ebb6af",
+  "artifacts/cc_nqe_p4_5/final_gate.json": "942f1aa9663d0cdbb7c640cc95520e6aa610396e7258409070adb30ce0738795",
+  "artifacts/cc_nqe_p4_5/progress.jsonl": "6e150818ab5323bcf40f4cf4f28725dbe0bf89cf169aaa3992f51e86664158f6",
+  "artifacts/cc_nqe_p4_5/scaling_summary.csv": "99afa2b0d8cf79757fa3290ced7a832e99d240d1f25fe537e51bbca15bdc778d",
+  "artifacts/cc_nqe_p4_5/scaling_summary.json": "a23dbae89019bca4f01e6220e95ce6deebe469515857016dcace98683225a094",
+  "artifacts/cc_nqe_p4_5/status.json": "d0bda2b4b9def5d87399252b08224d6682b8a7fa4384ec426e3262738eda67c2",
+  "artifacts/cc_nqe_p4_5/xpu_preflight.json": "107d12cc96568f09dcd6a989ce9b97ac7e55fed341125d1b069c5dbcf8c22c57"
+}

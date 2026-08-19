@@ -1,0 +1,27 @@
+{
+  "batch_device": "xpu:0",
+  "checks": {
+    "backward": true,
+    "cpu_xpu_parity": true,
+    "device_residency": true,
+    "forward": true,
+    "fp32_matmul": true,
+    "optimizer_step": true
+  },
+  "cpu_xpu_max_difference": 1.0803341865539551e-07,
+  "device": "Intel(R) Arc(TM) B580 Graphics",
+  "gate": "G1",
+  "loss_device": "xpu:0",
+  "model_device": "xpu:0",
+  "nan_inf": false,
+  "output_device": "xpu:0",
+  "schema_version": "cc-nqe-p4.5-v1",
+  "status": "PASS",
+  "tolerance": {
+    "atol": 0.0002,
+    "rtol": 0.0002
+  },
+  "torch": "2.10.0+xpu",
+  "xpu_available": true,
+  "xpu_device_count": 1
+}

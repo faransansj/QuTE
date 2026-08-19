@@ -1,0 +1,30 @@
+{
+  "cpu": "AMD Ryzen 5 5600X 6-Core Processor",
+  "os": "Linux-7.1.8-1-cachyos-x86_64-with-glibc2.44",
+  "pci_graphics_devices": [
+    "0a:00.0 VGA compatible controller: Intel Corporation Battlemage G21 [Arc B580]"
+  ],
+  "python": "3.12.13",
+  "ram_bytes": 16665006080,
+  "schema_version": "cc-nqe-p4.5-v1",
+  "supported_training_dtypes": [
+    "float32",
+    "bfloat16",
+    "float16"
+  ],
+  "teacher_dtype": "complex128",
+  "thread_environment": {
+    "MKL_NUM_THREADS": null,
+    "OMP_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null
+  },
+  "torch": "2.10.0+xpu",
+  "torch_threads": 6,
+  "training_reference_dtype": "float32",
+  "xpu_available": true,
+  "xpu_build": "20250301",
+  "xpu_device_count": 1,
+  "xpu_device_names": [
+    "Intel(R) Arc(TM) B580 Graphics"
+  ]
+}
