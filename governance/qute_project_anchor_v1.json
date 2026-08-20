@@ -1,0 +1,70 @@
+{
+  "anchor_id": "qute-project-anchor",
+  "version": "1.0.0",
+  "status": "ACTIVE",
+  "effective_date": "2026-08-20",
+  "canonical_statement_ko": "QuTE는 양자컴퓨터를 물리적으로 복제하는 프로젝트가 아니다.\nQuTE는 제한되고 검증된 양자 workload를 물리 제약이 반영된\n신경 연산자로 컴파일하여, 고전 AI 하드웨어에서 양자 백엔드처럼\n실행하고, 불확실하거나 범위 밖인 요청은 시뮬레이터 또는 QPU로\n전달하는 AI-native quantum runtime을 만드는 프로젝트다.",
+  "canonical_statement_en": "QuTE compiles restricted and verified quantum workloads into\nphysics-constrained neural execution backends running on classical\nAI hardware, while routing uncertain or out-of-domain requests to\nclassical simulators or physical QPUs.",
+  "slogan": "Compile quantum workloads into verified neural execution backends.",
+  "immutable_principles": {
+    "P1": {"name": "Quantum-compatible execution contract", "requires": ["quantum workload context input", "measurement/expectation/state/channel/gradient results", "uncertainty and domain confidence", "fallback decision", "model/data provenance"]},
+    "P2": {"name": "Restricted and verified domain", "requires": ["supported workload family", "parameter and state domains", "depth/complexity range", "output types", "measured error bounds", "known failure modes", "fallback policy"]},
+    "P3": {"name": "Operator/channel-first representation", "decomposition": ["quantum context encoder", "reusable operator/channel representation", "query/state action"], "scale_rule": "Small-qubit diagnostics may use full states/unitaries; larger systems must use compressed or query-based representations."},
+    "P4": {"name": "Physical structure by construction", "structures": ["unitarity", "norm preservation", "linear state action", "Hermiticity", "trace preservation", "complete positivity", "locality", "causal/light-cone structure", "task-valid symmetry"], "rule": "Freeze physical structure, not Cayley, recurrence, Transformer, or another implementation."},
+    "P5": {"name": "No exponential output requirement at scale", "outputs": ["local observables", "bitstring samples", "selected amplitudes", "correlation functions", "reduced density matrices", "Pauli Transfer Matrices", "MPO/tensor-network operators", "local channel blocks", "latent propagators", "query-conditioned outputs"]},
+    "P6": {"name": "OOD detection and fallback are product requirements", "runtime": ["neural fast path", "OOD/uncertainty detector", "simulator/tensor-network/QPU fallback"]},
+    "P7": {"name": "Workload-level value", "metrics": ["task-level error", "latency", "throughput", "peak memory", "simulator/QPU call reduction", "training/data-generation cost", "break-even query count", "domain coverage", "OOD detection", "fallback rate", "physical-validity checks"]},
+    "P8": {"name": "Honest scientific evaluation", "requires": ["validation/test separation", "untouched final tests", "predeclared candidate selection", "provenance hashes", "multi-seed checks where justified", "negative-result preservation", "no post-test architecture selection", "opened sealed sets never become development sets"]},
+    "P9": {"name": "Implementation flexibility", "rule": "Implementation hypotheses may change without changing the North Star."},
+    "P10": {"name": "Project boundaries", "rule": "Core, Runtime, Hardware Twin, Feynman, augmentation research, and Benchmark remain separately classified."}
+  },
+  "mutable_implementation_choices": ["encoder family", "recurrent/attention/graph architecture", "loss functions", "operator representation", "model size", "data-generation strategy", "training objective", "hardware backend", "compression method", "API implementation"],
+  "non_goals": [
+    "claiming efficient exact simulation of arbitrary quantum circuits",
+    "claiming a classical neural network is a physical quantum computer",
+    "scaling full state/full unitary outputs indefinitely",
+    "using model size alone as the primary research strategy",
+    "optimizing against an already opened final test",
+    "shipping a neural backend without OOD/fallback protection",
+    "treating language explanation as the primary execution core",
+    "claiming quantum advantage from four-qubit surrogate fitting",
+    "hiding teacher-data, training, or fallback cost",
+    "calling one restricted workload result universal"
+  ],
+  "scientific_evidence": {
+    "P4.5": ["data scaling materially improved generalization", "model scaling without sufficient data caused overfitting", "raw parameter scaling was not the dominant solution"],
+    "P4.6": ["circuit/probe allocation showed a mixed data effect", "explicit operator factorization was stronger than direct state regression", "exact-unitary structure was stronger than soft-unitarity regularization in the frozen experiment", "exact operator supervision alone did not explain all gains"],
+    "P4.7": ["recurrent encoding was supported by three-seed validation evidence", "composition self-consistency produced a composition-specific validation gain with balanced-score trade-off", "privileged prefix-action supervision was not supported"],
+    "P4.8": ["recurrent evidence became qualified on untouched sealed evaluation", "the current composition-consistency hypothesis was not supported on sealed Composition-OOD", "overall sealed verdict was partially supported", "candidate roles were not changed after test access", "no formal significance claim"]
+  },
+  "scientific_interpretation": ["explicit operator representation and hard physical structure remain the strongest surviving architecture direction", "recurrent encoding remains a useful but unconfirmed-by-strongest-criterion development backbone", "the current soft composition loss must not be treated as a verified solution", "failure of a particular architecture/loss is not failure of the QuTE North Star"],
+  "p4_8_verdict": {"overall": "P4.8-SEALED-PARTIALLY-SUPPORTED", "recurrent": "SEALED-RECURRENT-QUALIFIED", "composition": "SEALED-COMPOSITION-NOT-SUPPORTED", "candidate_roles_unchanged": true, "formal_significance_claimed": false},
+  "short_term_goals": {
+    "ST-1": "Publish and archive P4.5–P4.8 as mechanism decomposition and OOD methodology, preserving positive and negative findings.",
+    "ST-2": "Build one restricted Workload Emulator MVP for observable/sample/gradient/uncertainty outputs without requiring full state.",
+    "ST-3": "Create Benchmark v2 with new IID, State-, Parameter-, Composition-, Depth-, equivalence-, and cross-decomposition-OOD families and family-level macro reporting.",
+    "ST-4": "Prototype 6–12 qubit compressed/query output; qubit count alone is not the KPI.",
+    "ST-5": "Implement a quantum-compatible runtime with parsing, neural inference, OOD, fallback, provenance, and backend-like results.",
+    "ST-6": "Predeclare workload error, repeated-query speed (initially at least 10x teacher latency where feasible), memory, fallback recall, provenance, and break-even targets before results."
+  },
+  "medium_term_goals": {"MT-1": "QuTE Base plus Workload, Hardware, and Query adapters", "MT-2": "Compressed operator runtime comparing PTM, MPO, local channels, causal/light-cone representations, and latent propagators", "MT-3": "QPU digital twin for preview, optimization, compiler search, drift monitoring, and QPU-call reduction", "MT-4": "Confidence/error/output/cost/latency-aware hybrid execution router"},
+  "long_term_goals": {"LT-1": "Commercial AI-native quantum runtime with SDK/API, compatible backend, compiler, registry, certification, routing, QPU connectors, and accounting", "LT-2": "Quantum workload compiler from declared family/domain/queries/accuracy/hardware through teacher generation, training, certification, and deployment", "LT-3": "Verified simulator/QPU-call reduction at a fixed task-level error, with coverage, fallback, latency, cost, memory, and provenance", "LT-4": "Expanded circuit, state, Hamiltonian, protocol, noise, device, and observable context only after the core representation stabilizes"},
+  "immediate_programs": {
+    "R1": {"name": "Operator-Semantic Benchmark", "question": "Can QuTE generalize across syntactically different but physically equivalent circuit representations?", "includes": ["circuit rewrite equivalence", "commuting-gate reorderings", "inverse cancellation", "equivalent rotation composition", "cross-decomposition OOD", "new untouched development/test families"], "purpose": "semantic correctness"},
+    "M1": {"name": "Workload Emulator MVP", "question": "Can one restricted repeated quantum workload run with lower latency and memory at a predeclared task error?", "contract": "(parameterized circuit, state descriptor, observable) -> expectation / gradient / uncertainty / fallback", "purpose": "practical utility"}
+  },
+  "project_boundaries": {"QuTE Core": "quantum workload execution model", "QuTE Runtime": "API, OOD, routing, fallback, certification", "QuTE Hardware Twin": "QPU noise/calibration/drift model", "Feynman": "natural-language interpretation/explanation; may consume QuTE representations but is not Core", "QuDDPM/QCNN": "quantum data augmentation research", "QuTE Benchmark": "OOD and workload certification"},
+  "proposal_gate": {
+    "questions": ["Which QuTE product/runtime capability does this enable?", "Which restricted workload is targeted?", "What quantum-compatible input/output contract is improved?", "How does it reduce simulator/QPU calls, latency, or memory?", "Does it avoid full state/full unitary output at scale?", "Which physical structure is represented by construction?", "What OOD/failure detector and fallback path exist?", "Which task-level and systems metrics will be measured?", "Which new untouched validation/test sets will be used?", "Which project boundary owns this work and why?"],
+    "classifications": ["ALIGNED_CORE", "ALIGNED_RUNTIME", "ALIGNED_HARDWARE_TWIN", "ALIGNED_BENCHMARK", "ADJACENT_SEPARATE_PROJECT", "REJECTED_DIRECTION_DRIFT"],
+    "rejection_rule": "REJECTED_DIRECTION_DRIFT work must not start under QuTE."
+  },
+  "drift_warnings": ["larger model without a workload/generalization hypothesis", "arbitrary full-state/full-unitary scale-out", "test-set-driven architecture changes", "neural-only deployment without fallback", "fidelity-only study with no systems metric", "LLM/language feature presented as QuTE execution core", "QPU replacement claims without domain/coverage limits", "new simulator implementation with no learned-runtime purpose", "new project whose primary output is unrelated to quantum execution"],
+  "north_star_change_conditions": {
+    "policy": "Architecture or experiment failures do not change the North Star. Change requires a versioned ADR/proposal and substantial evidence that the fundamental product hypothesis fails.",
+    "evidence": ["at least three materially different real workloads fail teacher/QPU-call reduction or break-even", "compressed/query outputs fail beyond small qubits", "OOD detection plus fallback cannot control task-level error", "training/data cost cannot be amortized in realistic repeated-query workloads"],
+    "requirements": ["explicit proposal", "evidence table", "impact analysis", "replacement canonical statement", "semantic version bump", "changelog entry", "new hashes", "no silent editing of v1.0"]
+  },
+  "source_commits": {"P4.5": "e0dcd05", "P4.6": "f979907", "P4.7": "cd77fde", "P4.8": "163a4f7"},
+  "source_artifacts": {"P4.5": ["artifacts/cc_nqe_p4_5/screening_results.json", "artifacts/cc_nqe_p4_5/REPORT.md"], "P4.6": ["artifacts/cc_nqe_p4_6/P4_6_FINAL_REPORT.md", "artifacts/cc_nqe_p4_6/scientific_verdict.json"], "P4.7": ["artifacts/cc_nqe_p4_7/P4_7_FINAL_REPORT.md", "artifacts/cc_nqe_p4_7/scientific_verdict.json"], "P4.8": ["artifacts/cc_nqe_p4_8/P4_8_FINAL_REPORT.md", "artifacts/cc_nqe_p4_8/scientific_verdict.json", "artifacts/cc_nqe_p4_8/sealed_access_log.json", "artifacts/cc_nqe_p4_8/artifact_hashes.json"]}
+}

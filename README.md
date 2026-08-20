@@ -2,6 +2,14 @@
 
 QuTE (Quantum Transformation Emulator) explores reusable neural representations of quantum transformations.
 
+## Project direction
+
+QuTE compiles restricted, verified quantum workloads into physics-constrained neural execution backends on classical AI hardware, with uncertainty/OOD detection and simulator or QPU fallback. It is not an arbitrary quantum simulator or a physical quantum computer.
+
+**Compile quantum workloads into verified neural execution backends.**
+
+Start with the [Project Anchor](PROJECT_ANCHOR.md) and [full North Star](docs/QU_TE_NORTH_STAR.md). Current sealed status is **P4.8 partially supported**: recurrent evidence is qualified, composition consistency is not supported, candidate roles remained frozen, and no formal significance is claimed. Immediate coordinated programs are **R1 Operator-Semantic Benchmark** and **M1 Workload Emulator MVP**. Every new phase must pass the [Research Proposal Gate](docs/templates/RESEARCH_PROPOSAL_GATE.md).
+
 ## CC-NQE P1–P4 controlled feasibility experiment
 
 This repository currently contains a CPU-scale, 4-qubit experiment only. It does **not** claim arbitrary quantum simulation or asymptotic advantage.
@@ -28,12 +36,18 @@ New artifacts are isolated under `artifacts/cc_nqe_p4_5/`. After an infrastructu
 
 ## CC-NQE P4.6 compositional OOD study
 
-P4.6 screened why generalization degrades on unseen circuit compositions and greater depths. Track A found a mixed data-allocation effect, selecting 62,500 circuits × 16 probes/circuit at seed 2026. Track B found explicit exact-unitary operator learning (B3) to be the strongest supervision-matched candidate. These are screening-only, one-seed results; sealed tests remain untouched. The recommended next phase is P4.7 Compositional Architecture, not yet started.
+P4.6 screened why generalization degrades on unseen circuit compositions and greater depths. Track A found a mixed data-allocation effect, selecting 62,500 circuits × 16 probes/circuit at seed 2026. Track B found explicit exact-unitary operator learning (B3) to be the strongest supervision-matched candidate. These are screening-only, one-seed results; P4.6 did not access sealed tests.
 
 See the [P4.6 final report](artifacts/cc_nqe_p4_6/P4_6_FINAL_REPORT.md).
 
 ## CC-NQE P4.7 compositional architecture study
 
-P4.7 tested recurrent circuit encoding, composition consistency, and privileged prefix supervision. Three-seed confirmation is complete: C1 is the general-purpose candidate; C2 shows a composition-specific gain with a balanced-score trade-off; privileged C3 is archived as a negative result. Sealed tests remain untouched, and P4.8 has not been executed.
+P4.7 tested recurrent circuit encoding, composition consistency, and privileged prefix supervision. Three-seed validation confirmation selected C1 as general-purpose; C2 showed a composition-specific gain with a balanced-score trade-off; privileged C3 was archived as negative.
 
 See the [P4.7 final report](artifacts/cc_nqe_p4_7/P4_7_FINAL_REPORT.md).
+
+## CC-NQE P4.8 sealed evaluation
+
+The one-time sealed transaction is complete (`access_count = 1`). Overall: **P4.8-SEALED-PARTIALLY-SUPPORTED**; recurrent: **SEALED-RECURRENT-QUALIFIED**; composition: **SEALED-COMPOSITION-NOT-SUPPORTED**. Candidate roles were unchanged and no formal significance is claimed.
+
+See the [P4.8 final report](artifacts/cc_nqe_p4_8/P4_8_FINAL_REPORT.md).

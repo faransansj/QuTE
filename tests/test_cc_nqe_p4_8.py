@@ -86,11 +86,11 @@ def test_unlock_token_derivation_wrong_token_and_staleness():
         p48.validate_unlock_token(token, manifest, {**current, "implementation_commit": "changed"})
 
 
-def test_access_count_and_status_schema_are_not_run():
+def test_access_count_and_status_schema_are_completed_once():
     access = json.loads((p48.ROOT / "sealed_access_log.json").read_text())
     status = p48.status()
-    assert access["state"] == "PREPARED" and access["access_count"] == 0 and access["sealed_test_evaluated"] is False
-    assert status["status"] == "NOT_RUN" and status["sealed_scientific_evaluation"] == "NONE"
+    assert access["state"] == "COMPLETED" and access["access_count"] == 1 and access["sealed_test_evaluated"] is True
+    assert status["status"] == "COMPLETED" and status["access_count"] == 1 and status["sealed_test_evaluated"] is True
 
 
 def test_atomic_write_replaces_complete_file(tmp_path):

@@ -1,0 +1,23 @@
+{
+  "anchor_version": "1.0.0",
+  "generation_commit": "163a4f7",
+  "base_commit": "163a4f7",
+  "source_scientific_commits": {
+    "P4.5": "e0dcd05",
+    "P4.6": "f979907",
+    "P4.7": "cd77fde",
+    "P4.8": "163a4f7"
+  },
+  "timestamp": "2026-08-20T20:39:44.334345+00:00",
+  "verification_command": "uv run python scripts/verify_qute_anchor.py",
+  "files": {
+    "PROJECT_ANCHOR.md": "c6a07a52c2429a174d282b58edc62e4788caf3670659073138b51dbd3f020faf",
+    "docs/QU_TE_NORTH_STAR.md": "39e65c7eb5078ff9a9898ef5543f1726508384cdd3e43bf1f36f846fee1d79c6",
+    "docs/QU_TE_ROADMAP.md": "bf919c6cae4843e1ca75c237a56311321c6d866841d086c0c131e2b1abd693ee",
+    "docs/QU_TE_RESEARCH_GOVERNANCE.md": "53bf1f818ac8fb6a25ca21da9cd6ecaed4240da4cd91655a7f10771748976807",
+    "docs/ADR/0001-qute-north-star.md": "b3f5591e42047441e999004268226251ad5fa74d8c58ac4936af0bb8300e7fc3",
+    "docs/templates/RESEARCH_PROPOSAL_GATE.md": "5ed33aee9a9176a8fdabb285b3bab9a6c2a6d00b7c2b08c7d71dc5d9388893c3",
+    "governance/qute_project_anchor_v1.json": "055842bfddecb43b352468ade52b7733f64626fad5cfa90970005888fdde0aec",
+    "governance/NORTH_STAR_CHANGELOG.md": "1a060fc5854496d07f9e72c7ab7e493d1118e2cffd42127600ca95118b276e3b"
+  }
+}
