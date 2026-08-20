@@ -1,0 +1,27 @@
+{
+  "C0_required_anchor": true,
+  "composition_specialist_comparator": "C2",
+  "frozen_checkpoints": {
+    "C0": {
+      "2026": "artifacts/cc_nqe_p4_6/operator/checkpoints/B3-best-balanced.pt",
+      "2027": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C0-seed2027-best-balanced.pt",
+      "2028": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C0-seed2028-best-balanced.pt"
+    },
+    "C1": {
+      "2026": "artifacts/cc_nqe_p4_7/checkpoints/C1-best-balanced.pt",
+      "2027": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C1-seed2027-best-balanced.pt",
+      "2028": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C1-seed2028-best-balanced.pt"
+    },
+    "C2": {
+      "2026": "artifacts/cc_nqe_p4_7/checkpoints/C2-best-balanced.pt",
+      "2027": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C2-seed2027-best-balanced.pt",
+      "2028": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C2-seed2028-best-balanced.pt"
+    }
+  },
+  "no_further_tuning": true,
+  "phase": "P4.8 \u2014 Final Candidate Freeze and Sealed OOD Evaluation",
+  "primary_general_purpose_candidate": "C1",
+  "reporting": "Report every frozen checkpoint without post-test model selection.",
+  "sealed_opening": "Open predeclared Composition-OOD and Depth-OOD test splits once, only after checkpoint/hash freeze.",
+  "status": "PROPOSAL_ONLY_NOT_EXECUTED"
+}

@@ -1,0 +1,31 @@
+{
+  "algorithm": "SHA-256",
+  "artifacts": {
+    "artifacts/cc_nqe_p4_6/operator/metrics/B3.json": "b77e5695205ec2fed3f7bfec69174cde8ba5a9b43c9a87efc82147c603d10352",
+    "artifacts/cc_nqe_p4_7/P4_7_FINAL_REPORT.md": "e79e82c9bc75c2b1c1abdd45838605c6c2f1adaefc50c5e624a0e3f719feffd4",
+    "artifacts/cc_nqe_p4_7/candidate_selection.json": "c0bfb2c5c17dbfa49067e922ca995b61ba340363a22a15e16f0c9684992507f5",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C0-seed2027.json": "013e87f49935305bdc4bea56724ea01c3554c0ff28367d673b0affb81aec0d8f",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C0-seed2028.json": "861f7cc0f3282e25ac09c26b211c58c125d5b70e46178575f30c2db0e9e83f11",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C1-seed2027.json": "14b90e1f66846eb92db5349d58a2725cc20041267b05e11ccaa43148cf5b447a",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C1-seed2028.json": "d499f00569299d0e320435a21ee60aa087f0c99ed75ff12927261ad48f437de2",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C2-seed2027.json": "e27dae1f2cabbda24f063337f1d3a0ca10ed805b2e5047b8dba7723612b9662f",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C2-seed2028.json": "612011a6c2793cb33357111eae59b8d284da2c789cc65ab46e288754ba3d4f89",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C3-seed2027.json": "512f15dc2ce988f1dad755cd5ca99ca4791afcbc38190b673e0a414878678699",
+    "artifacts/cc_nqe_p4_7/confirmatory/metrics/C3-seed2028.json": "20873f7186cefcb49b125fe66040ed5c25cbfc8b95b727a2752c77f32e8cd70d",
+    "artifacts/cc_nqe_p4_7/confirmatory/paired_deltas.csv": "84282e6e2958b91fd7ad58712dd7b193dc115349839b6286167660fa078df739",
+    "artifacts/cc_nqe_p4_7/confirmatory/paired_deltas.json": "34a9385f78a1cd304577e6ea315b2573de8e96c6a0bf748429ae55c743e7cea2",
+    "artifacts/cc_nqe_p4_7/confirmatory/summary.json": "e0bf7e6927056b3e087a7800f296c092053f1fcad64b24a9df8265df7944131d",
+    "artifacts/cc_nqe_p4_7/confirmatory/variant_seed_metrics.csv": "a7859a4acb206c2b1af5e48f8ee7b272e433a3d2f65ad61534fc84c0e1fa3bbd",
+    "artifacts/cc_nqe_p4_7/confirmatory/variant_seed_metrics.json": "1e8798bc2633ccf27d817980a1bf6126203b5870fd4abea957ad286a55f3685f",
+    "artifacts/cc_nqe_p4_7/future_work.json": "0336a7bf646c47a693df77824f4db30b1a57711448a30eab2616c66326bee4d1",
+    "artifacts/cc_nqe_p4_7/metrics/C1.json": "669de45ebeeecc3e6d5116249f5dcf2ff6ee91d6c8e846ab9d76a4f15c00662c",
+    "artifacts/cc_nqe_p4_7/metrics/C2.json": "76b660f8979e4811c5ef10a12a8bdb862579abb5108f94f0a4e402bc783df775",
+    "artifacts/cc_nqe_p4_7/metrics/C3.json": "f7f12eff573b9c3045256f9a216023cb4e0c377e069daf02a154e5f17765a9c0",
+    "artifacts/cc_nqe_p4_7/scientific_verdict.json": "c33080c26e3ed2e6405f6a1bc77696a5eeb5545886b74cc1fc966e593fb1308f"
+  },
+  "excluded": [
+    "checkpoints",
+    "progress/status runtime files",
+    "artifact_hashes.json"
+  ]
+}

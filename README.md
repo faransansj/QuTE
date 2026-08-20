@@ -31,3 +31,9 @@ New artifacts are isolated under `artifacts/cc_nqe_p4_5/`. After an infrastructu
 P4.6 screened why generalization degrades on unseen circuit compositions and greater depths. Track A found a mixed data-allocation effect, selecting 62,500 circuits × 16 probes/circuit at seed 2026. Track B found explicit exact-unitary operator learning (B3) to be the strongest supervision-matched candidate. These are screening-only, one-seed results; sealed tests remain untouched. The recommended next phase is P4.7 Compositional Architecture, not yet started.
 
 See the [P4.6 final report](artifacts/cc_nqe_p4_6/P4_6_FINAL_REPORT.md).
+
+## CC-NQE P4.7 compositional architecture study
+
+P4.7 tested recurrent circuit encoding, composition consistency, and privileged prefix supervision. Three-seed confirmation is complete: C1 is the general-purpose candidate; C2 shows a composition-specific gain with a balanced-score trade-off; privileged C3 is archived as a negative result. Sealed tests remain untouched, and P4.8 has not been executed.
+
+See the [P4.7 final report](artifacts/cc_nqe_p4_7/P4_7_FINAL_REPORT.md).

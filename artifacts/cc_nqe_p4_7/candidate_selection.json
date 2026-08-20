@@ -1,0 +1,20 @@
+{
+  "C3_decision": "archive_negative_result",
+  "composition_specialist": {
+    "qualification": "Composition-OOD gain all-positive; balanced trade-off all-negative",
+    "variant": "C2"
+  },
+  "general_purpose": {
+    "margin_over_next": 0.012732022338443283,
+    "mean_S_balanced": 0.6183983683586121,
+    "paired_advantage_sign_consistent": true,
+    "per_seed_rank": {
+      "2026": 1,
+      "2027": 1,
+      "2028": 1
+    },
+    "status": "selected",
+    "variant": "C1"
+  },
+  "prefix_candidate": null
+}

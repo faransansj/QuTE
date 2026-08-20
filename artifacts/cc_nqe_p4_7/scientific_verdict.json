@@ -1,0 +1,20 @@
+{
+  "claim_boundary": "Descriptive three-seed, 4-qubit validation evidence only; no formal significance, arbitrary-circuit, or scaling claim.",
+  "composition_specialist_candidate": "C2",
+  "composition_verdict": "COMPOSITION-SPECIFIC-GAIN-WITH-TRADEOFF",
+  "excluded_candidate_decisions": {
+    "C3": "Archived as a negative privileged-supervision result; not supervision-matched."
+  },
+  "multi_seed_confirmed": true,
+  "overall_verdict": "P4.7-RECURSIVE-AND-COMPOSITION-SPECIFIC-BIAS-SUPPORTED",
+  "prefix_verdict": "PREFIX-SUPERVISION-NOT-SUPPORTED",
+  "primary_candidate": "C1",
+  "recurrent_verdict": "RECURRENT-ENCODING-SUPPORTED",
+  "sealed_test_access_count": 0,
+  "sealed_test_evaluated": false,
+  "seeds": [
+    2026,
+    2027,
+    2028
+  ]
+}
