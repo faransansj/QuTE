@@ -7,7 +7,9 @@ import json
 import math
 import os
 import signal
+import statistics
 import time
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
@@ -17,15 +19,20 @@ from torch import nn
 
 from cc_nqe import DIM, GATES, N_QUBITS, Gate, apply_gate, circuit_unitary
 from cc_nqe_p4_5 import atomic_json, parameter_count, state_fidelity
-from cc_nqe_p4_6 import SEED, digest, process_fidelity, raw_unitarity_error
+from cc_nqe_p4_6 import OperatorModel, SEED, digest, process_fidelity, raw_unitarity_error
 from cc_nqe_p4_6_track_a import ArmData, DATA_ROOT, VALIDATION_SPLITS, _decode, load_validation
 from cc_nqe_p4_6_track_b import (
-    ALLOCATION, RECIPE, _circuit_tensors, _sha, action_metrics,
-    operator_action, phase_aligned_normalized_frobenius_error,
+    ALLOCATION, RECIPE, _circuit_tensors, _loss as b3_loss, _sha, action_metrics,
+    evaluate_variant as evaluate_b3, operator_action,
+    phase_aligned_normalized_frobenius_error, variant_config as b3_variant_config,
 )
 
 ROOT = Path("artifacts/cc_nqe_p4_7")
+CONFIRM_ROOT = ROOT / "confirmatory"
 SCHEMA = "cc-nqe-p4.7-v1"
+CONFIRM_SCHEMA = "cc-nqe-p4.7-confirmatory-v1"
+CONFIRM_SEEDS = (2027, 2028)
+CONFIRM_VARIANTS = ("C0", "C1", "C2", "C3")
 ANCHOR_COMMIT = "f97990728194e5bedcebccc0294c89dd1bfb5b98"
 ANCHOR_FILES = {
     "config": (Path("artifacts/cc_nqe_p4_6/operator/configs/B3.json"), "1880d510b97bbb027bae30418de7882b23b905fb6e2f196434b75d541d42f49e"),
@@ -108,11 +115,11 @@ def deterministic_split(sample_id: str | int | bytes, depth: int, seed: int = SE
     return 1 + value % (depth - 1)
 
 
-def split_circuits(circuits: list[list[Gate]], sample_ids: list[str | int | bytes]) -> tuple[list[list[Gate]], list[list[Gate]], list[list[Gate]]]:
+def split_circuits(circuits: list[list[Gate]], sample_ids: list[str | int | bytes], seed: int = SEED) -> tuple[list[list[Gate]], list[list[Gate]], list[list[Gate]]]:
     eligible = [(c, sid) for c, sid in zip(circuits, sample_ids) if len(c) >= 2]
     first, second, combined = [], [], []
     for circuit, sample_id in eligible:
-        point = deterministic_split(sample_id, len(circuit))
+        point = deterministic_split(sample_id, len(circuit), seed)
         first.append(circuit[:point]); second.append(circuit[point:]); combined.append(circuit)
     return first, second, combined
 
@@ -224,7 +231,7 @@ def _sample_circuits(data: ArmData, indices: np.ndarray) -> list[list[Gate]]:
     return [_decode(data.gates[int(i)], data.qubits[int(i)], data.parameters[int(i)], data.masks[int(i)]) for i in ci]
 
 
-def loss_for_batch(variant: str, model: RecursiveOperatorModel, batch: list[torch.Tensor], circuits: list[list[Gate]] | None = None, sample_ids: list[Any] | None = None):
+def loss_for_batch(variant: str, model: RecursiveOperatorModel, batch: list[torch.Tensor], circuits: list[list[Gate]] | None = None, sample_ids: list[Any] | None = None, seed: int = SEED):
     gates, qubits, parameters, mask, state, target = batch
     if variant == "C3":
         operator, prefixes = model(gates, qubits, parameters, mask, return_prefixes=True)
@@ -237,7 +244,7 @@ def loss_for_batch(variant: str, model: RecursiveOperatorModel, batch: list[torc
     if variant == "C2":
         if circuits is None or sample_ids is None:
             raise ValueError("C2 requires training circuits and sample IDs")
-        first, second, combined = split_circuits(circuits, sample_ids)
+        first, second, combined = split_circuits(circuits, sample_ids, seed)
         if first:
             direct = model(*_circuit_tensors(combined, operator.device))
             pred_first = model(*_circuit_tensors(first, operator.device))
@@ -481,11 +488,319 @@ def screen() -> dict[str, Any]:
     return results
 
 
+def confirmatory_config(variant: str, seed: int) -> dict[str, Any]:
+    if variant not in CONFIRM_VARIANTS or seed not in CONFIRM_SEEDS:
+        raise ValueError(f"unsupported confirmatory run: {variant} seed {seed}")
+    if variant == "C0":
+        config = json.loads(ANCHOR_FILES["config"][0].read_text())
+        config.update(schema_version=CONFIRM_SCHEMA, variant="C0", source_variant="P4.6-B3")
+    else:
+        config = deepcopy(variant_config(variant))
+        config.update(schema_version=CONFIRM_SCHEMA)
+    config["recipe"] = deepcopy(config["recipe"])
+    config["recipe"]["seed"] = seed
+    config.update(seed=seed, run_kind="confirmatory", scientific_state="NOT_RUN")
+    return config
+
+
+def verify_c0_confirmatory_config(config: dict[str, Any]) -> None:
+    frozen = json.loads(ANCHOR_FILES["config"][0].read_text())
+    checks = {
+        "actual_parameters": config.get("actual_parameters") == frozen.get("actual_parameters") == parameter_count(OperatorModel("cayley")),
+        "allocation": config.get("allocation") == frozen.get("allocation"),
+        "model": config.get("model") == frozen.get("model"),
+        "parameterization": config.get("parameterization") == "basic_cayley",
+        "cayley_scale": config.get("cayley_scale") == 1.0,
+        "supervision": config.get("supervision") == ["C", "psi_in", "psi_out"],
+        "recipe": {k: v for k, v in config.get("recipe", {}).items() if k != "seed"} == {k: v for k, v in frozen.get("recipe", {}).items() if k != "seed"},
+        "dataset": config.get("dataset_manifest_hash") == ANCHOR_FILES["dataset_manifest"][1],
+    }
+    if not all(checks.values()):
+        raise RuntimeError(f"C0-CONFIRMATORY-MISMATCH: {checks}")
+
+
+def confirmatory_model(variant: str, device: torch.device | str = "cpu") -> nn.Module:
+    if variant not in CONFIRM_VARIANTS:
+        raise ValueError(variant)
+    return (OperatorModel("cayley") if variant == "C0" else RecursiveOperatorModel()).to(device)
+
+
+def initialization_digest(variant: str, seed: int) -> str:
+    torch.manual_seed(seed)
+    model = confirmatory_model(variant)
+    h = hashlib.sha256()
+    for value in model.state_dict().values():
+        h.update(value.detach().cpu().numpy().tobytes())
+    return h.hexdigest()
+
+
+def prepare_confirmatory_artifacts() -> dict[str, Any]:
+    for directory in ("configs", "metrics", "checkpoints"):
+        (CONFIRM_ROOT / directory).mkdir(parents=True, exist_ok=True)
+    configs = {}
+    for seed in CONFIRM_SEEDS:
+        for variant in CONFIRM_VARIANTS:
+            config = confirmatory_config(variant, seed)
+            if variant == "C0":
+                verify_c0_confirmatory_config(config)
+            atomic_json(CONFIRM_ROOT / f"configs/{variant}-seed{seed}.json", config)
+            configs[f"{variant}-seed{seed}"] = digest(config)
+    run_states = {}
+    for name in configs:
+        path = CONFIRM_ROOT / f"metrics/{name}.json"
+        run_states[name] = json.loads(path.read_text()).get("state", "UNKNOWN") if path.exists() else "NOT_RUN"
+    summary = {
+        "schema_version": CONFIRM_SCHEMA, "run_kind": "confirmatory", "state": "IMPLEMENTED_NOT_RUN",
+        "variants": list(CONFIRM_VARIANTS), "screening_seed": 2026, "confirmatory_seeds": list(CONFIRM_SEEDS),
+        "config_hashes": configs, "screening_hashes": _screening_hashes(), "sealed_test_access_count": 0,
+        "scientific_runs": run_states,
+        "interpretation_note": "Three seeds are descriptive confirmatory evidence, not large-sample statistical proof.",
+    }
+    atomic_json(CONFIRM_ROOT / "summary.json", summary)
+    return summary
+
+
+def _screening_hashes() -> dict[str, str]:
+    paths = {"C0": ANCHOR_FILES["metric"][0], **{v: ROOT / f"metrics/{v}.json" for v in VARIANTS}}
+    missing = [str(path) for path in paths.values() if not path.exists()]
+    if missing:
+        raise RuntimeError(f"frozen screening metrics missing: {missing}")
+    return {variant: _sha(path) for variant, path in paths.items()}
+
+
+def confirmatory_preflight() -> dict[str, Any]:
+    require_preconditions()
+    verify_anchor()
+    configs_ok = True
+    for seed in CONFIRM_SEEDS:
+        verify_c0_confirmatory_config(confirmatory_config("C0", seed))
+        configs_ok &= all(confirmatory_config(v, seed)["recipe"] == confirmatory_config("C0", seed)["recipe"] for v in ("C1", "C2", "C3"))
+    configs_ok &= all((ROOT / f"configs/{v}.json").exists() and json.loads((ROOT / f"configs/{v}.json").read_text()) == variant_config(v) for v in VARIANTS)
+    current_screening_hashes = _screening_hashes()
+    summary_path = CONFIRM_ROOT / "summary.json"
+    expected_screening_hashes = json.loads(summary_path.read_text()).get("screening_hashes") if summary_path.exists() else None
+    same_seed = all(initialization_digest(v, 2027) == initialization_digest(v, 2027) for v in CONFIRM_VARIANTS)
+    different_seed = all(initialization_digest(v, 2027) != initialization_digest(v, 2028) for v in CONFIRM_VARIANTS)
+    resume_model = confirmatory_model("C1")
+    resume_optimizer = torch.optim.AdamW(resume_model.parameters(), RECIPE["learning_rate"])
+    resume_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(resume_optimizer, RECIPE["maximum_updates"])
+    resume_config = confirmatory_config("C1", 2027)
+    resume_payload = _confirm_checkpoint_payload(resume_model, resume_optimizer, resume_scheduler, resume_config, ANCHOR_FILES["dataset_manifest"][1], 0, 0, np.random.default_rng(2027), -math.inf, None)
+    validate_confirmatory_checkpoint(resume_payload, resume_config, ANCHOR_FILES["dataset_manifest"][1])
+    screening_preflight_path = ROOT / "preflight/preflight.json"
+    screening_preflight = json.loads(screening_preflight_path.read_text()) if screening_preflight_path.exists() else {}
+    checks = {
+        "frozen_screening_integrity": expected_screening_hashes == current_screening_hashes,
+        "screening_Cayley_XPU_preflight": screening_preflight.get("status") == "PASS" and screening_preflight.get("checks", {}).get("no_cpu_fallback") is True,
+        "C0_config_equivalence": True, "C1_C2_C3_config_integrity": configs_ok,
+        "same_seed_deterministic_initialization": same_seed, "seed_override_changes_initialization": different_seed,
+        "dataset_hash_unchanged": _sha(DATA_ROOT / "A4/manifest.json") == ANCHOR_FILES["dataset_manifest"][1],
+        "xpu_available": torch.xpu.is_available(), "sealed_access_zero": True, "resume_compatibility": True,
+    }
+    if torch.xpu.is_available():
+        torch.manual_seed(2027)
+        model = confirmatory_model("C0", "xpu:0")
+        operator = model(*_circuit_tensors([[Gate("H", (0,)), Gate("CNOT", (0, 1))]], "xpu:0"))
+        checks["Cayley_XPU_native"] = operator.device.type == "xpu" and float(raw_unitarity_error(operator).max().detach().cpu()) < 1e-4
+        checks["no_CPU_fallback"] = checks["Cayley_XPU_native"]
+    else:
+        checks["Cayley_XPU_native"] = checks["no_CPU_fallback"] = False
+    return {"schema_version": CONFIRM_SCHEMA, "status": "PASS" if all(checks.values()) else "P4.7-CONFIRMATORY-BLOCKED", "checks": checks, "screening_hashes": current_screening_hashes, "sealed_test_access_count": 0}
+
+
+def _confirm_checkpoint_payload(model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step):
+    payload = _checkpoint_payload(model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
+    payload.update(seed=config["seed"], run_kind="confirmatory")
+    return payload
+
+
+def validate_confirmatory_checkpoint(payload: dict[str, Any], config: dict[str, Any], dataset_hash: str) -> None:
+    validate_checkpoint(payload, config, dataset_hash)
+    if payload.get("seed") != config["seed"]:
+        raise ValueError("resume refused: seed differs")
+    if payload.get("run_kind") != "confirmatory":
+        raise ValueError("resume refused: run kind differs")
+
+
+def save_confirmatory_checkpoint(path: Path, *args) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_suffix(".tmp")
+    torch.save(_confirm_checkpoint_payload(*args), temp)
+    os.replace(temp, path)
+
+
+def _normalize_b3_validation(raw: dict[str, Any]) -> dict[str, Any]:
+    result = {}
+    for split, metrics in raw.items():
+        result[split] = {
+            "normalized_action_fidelity": metrics["predicted_operator_state_fidelity"],
+            "process_fidelity": metrics["process_fidelity"],
+            "phase_aligned_frobenius_error": metrics["phase_aligned_frobenius_error"],
+            "unitarity_error": metrics["raw_unitarity_error"],
+            "raw_action_norm": metrics["raw_action_norm"],
+        }
+    result["S_balanced"] = sum(result[s]["normalized_action_fidelity"] for s in ("iid_validation", "composition_ood_validation", "depth_ood_validation")) / 3
+    return result
+
+
+def _evaluate_confirmatory(variant: str, model: nn.Module, device: torch.device | str) -> dict[str, Any]:
+    return _normalize_b3_validation(evaluate_b3("B3", model, device)) if variant == "C0" else evaluate(model, device)
+
+
+def _confirm_status_row(**values) -> None:
+    row = {"schema_version": CONFIRM_SCHEMA, "timestamp": time.time(), "run_kind": "confirmatory", **values}
+    atomic_json(CONFIRM_ROOT / "status.json", row)
+    with (CONFIRM_ROOT / "progress.jsonl").open("a") as stream:
+        stream.write(json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n")
+    print(" ".join(f"{key}={value}" for key, value in values.items()), flush=True)
+
+
+def confirm_run(variant: str, seed: int) -> dict[str, Any]:
+    """Manual confirmatory scientific entry point; never called by tests or smoke."""
+    global _STOP
+    if seed not in CONFIRM_SEEDS or variant not in CONFIRM_VARIANTS:
+        raise ValueError("confirmatory runs are frozen to C0-C3 and seeds 2027/2028")
+    pre = confirmatory_preflight()
+    if pre["status"] != "PASS":
+        raise RuntimeError("P4.7-CONFIRMATORY-BLOCKED")
+    prepare_confirmatory_artifacts()
+    metric_path = CONFIRM_ROOT / f"metrics/{variant}-seed{seed}.json"
+    if metric_path.exists():
+        existing = json.loads(metric_path.read_text())
+        if existing.get("state") == "COMPLETED":
+            return existing
+    _STOP = False
+    config = confirmatory_config(variant, seed)
+    dataset_hash = _sha(DATA_ROOT / "A4/manifest.json")
+    device = torch.device("xpu:0")
+    torch.manual_seed(seed)
+    data = ArmData("A4")
+    model = confirmatory_model(variant, device)
+    optimizer = torch.optim.AdamW(model.parameters(), RECIPE["learning_rate"])
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, RECIPE["maximum_updates"])
+    rng = np.random.default_rng(seed)
+    latest_path = CONFIRM_ROOT / f"checkpoints/{variant}-seed{seed}-latest.pt"
+    best_path = CONFIRM_ROOT / f"checkpoints/{variant}-seed{seed}-best-balanced.pt"
+    step = samples = 0; best = -math.inf; best_step = None
+    if latest_path.exists():
+        payload = torch.load(latest_path, map_location="cpu", weights_only=False)
+        validate_confirmatory_checkpoint(payload, config, dataset_hash)
+        model.load_state_dict(payload["model"]); optimizer.load_state_dict(payload["optimizer"]); scheduler.load_state_dict(payload["scheduler"])
+        step, samples = payload["step"], payload["samples_seen"]
+        rng.bit_generator.state = payload["numpy_rng"]; torch.set_rng_state(payload["torch_rng"])
+        if payload.get("xpu_rng") is not None: torch.xpu.set_rng_state(payload["xpu_rng"])
+        best, best_step = payload["best_checkpoint_state"]["score"], payload["best_checkpoint_state"]["step"]
+    started = time.monotonic(); start_samples = samples; validation = {}; loss = fidelity = norm = operator = comp = prefix = None
+    while step < RECIPE["maximum_updates"] and not _STOP:
+        indices = rng.integers(data.length, size=RECIPE["effective_batch_size"])
+        batch = [torch.as_tensor(value).to(device) for value in data.batch(indices)]
+        if variant == "C0":
+            loss, fidelity, norm, operator = b3_loss("B3", model, batch)
+            comp = prefix = None
+        else:
+            circuits = _sample_circuits(data, indices)
+            loss, fidelity, norm, operator, comp, prefix = loss_for_batch(variant, model, batch, circuits, [int(i) for i in indices], seed)
+        optimizer.zero_grad(set_to_none=True); loss.backward()
+        if not bool(torch.isfinite(loss)) or not all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters()):
+            raise FloatingPointError(f"{variant}-seed{seed}: non-finite training")
+        optimizer.step(); scheduler.step(); step += 1; samples += len(indices)
+        checkpoint_name = str(latest_path)
+        if step % RECIPE["validation_interval"] == 0 or step == RECIPE["maximum_updates"]:
+            torch.xpu.synchronize(); validation = _evaluate_confirmatory(variant, model, device)
+            if validation["S_balanced"] > best:
+                best, best_step = validation["S_balanced"], step
+                save_confirmatory_checkpoint(best_path, model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
+                checkpoint_name = str(best_path)
+            save_confirmatory_checkpoint(latest_path, model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
+        if step % 50 == 0 or step % RECIPE["validation_interval"] == 0:
+            elapsed = time.monotonic() - started
+            metric = lambda split: validation.get(split, {}).get("normalized_action_fidelity")
+            _confirm_status_row(variant=variant, seed=seed, step=step, maximum_updates=RECIPE["maximum_updates"], loss=float(loss.detach().cpu()), action_fidelity=float(fidelity.mean().detach().cpu()), process_fidelity=validation.get("iid_validation", {}).get("process_fidelity"), unitarity_error=float(raw_unitarity_error(operator).mean().detach().cpu()), IID_val=metric("iid_validation"), State_OOD_val=metric("state_ood_validation"), Parameter_OOD_val=metric("parameter_ood_validation"), Composition_OOD_val=metric("composition_ood_validation"), Depth_OOD_val=metric("depth_ood_validation"), S_balanced=validation.get("S_balanced"), lr=optimizer.param_groups[0]["lr"], samples_per_second=(samples-start_samples)/max(elapsed, 1e-9), elapsed=elapsed, ETA=(RECIPE["maximum_updates"]-step)*elapsed/max(step, 1), checkpoint=checkpoint_name, device="xpu:0", state="RUNNING")
+    save_confirmatory_checkpoint(latest_path, model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
+    state = "INTERRUPTED" if _STOP else "COMPLETED"
+    if state == "COMPLETED":
+        payload = torch.load(best_path, map_location="cpu", weights_only=False); validate_confirmatory_checkpoint(payload, config, dataset_hash)
+        model.load_state_dict(payload["model"]); validation = _evaluate_confirmatory(variant, model, device)
+    runtime = time.monotonic() - started
+    result = {"schema_version": CONFIRM_SCHEMA, "variant": variant, "seed": seed, "run_kind": "confirmatory", "state": state, "step": step, "samples_seen": samples, "config_hash": digest(config), "dataset_manifest_hash": dataset_hash, "best_balanced_validation": best, "best_checkpoint_step": best_step, "validation_at_best_balanced_checkpoint": validation, "runtime": runtime, "samples_per_second": (samples-start_samples)/max(runtime, 1e-9), "scientific": True, "sealed_test_access_count": 0}
+    atomic_json(metric_path, result)
+    return result
+
+
+def confirm(seed: int) -> dict[str, Any]:
+    results = {}
+    for variant in CONFIRM_VARIANTS:
+        results[variant] = confirm_run(variant, seed)
+        if results[variant]["state"] != "COMPLETED":
+            break
+    return results
+
+
+def confirm_all() -> dict[str, Any]:
+    results = {}
+    for seed in CONFIRM_SEEDS:
+        results[str(seed)] = confirm(seed)
+        if any(result["state"] != "COMPLETED" for result in results[str(seed)].values()):
+            return results
+    results["aggregate"] = aggregate_confirmatory()
+    return results
+
+
+def _metric_values(metric: dict[str, Any], variant: str) -> dict[str, float]:
+    validation = metric.get("validation_at_best_balanced_checkpoint") or metric.get("latest_validation")
+    if not validation:
+        raise ValueError(f"{variant}: validation metrics missing")
+    key = "predicted_operator_state_fidelity" if variant == "C0" and metric.get("run_kind") != "confirmatory" else "normalized_action_fidelity"
+    values = {"S_balanced": float(metric["best_balanced_validation"])}
+    for label, split in (("IID", "iid_validation"), ("State_OOD", "state_ood_validation"), ("Parameter_OOD", "parameter_ood_validation"), ("Composition_OOD", "composition_ood_validation"), ("Depth_OOD", "depth_ood_validation")):
+        values[label] = float(validation[split][key])
+    return values
+
+
+def aggregate_confirmatory() -> dict[str, Any]:
+    per_variant: dict[str, dict[str, dict[str, float]]] = {}
+    for variant in CONFIRM_VARIANTS:
+        screening_path = ANCHOR_FILES["metric"][0] if variant == "C0" else ROOT / f"metrics/{variant}.json"
+        metrics = {"2026": json.loads(screening_path.read_text())}
+        for seed in CONFIRM_SEEDS:
+            path = CONFIRM_ROOT / f"metrics/{variant}-seed{seed}.json"
+            if not path.exists():
+                raise RuntimeError(f"confirmatory aggregation incomplete: {path}")
+            payload = json.loads(path.read_text())
+            if payload.get("variant") != variant or payload.get("seed") != seed or payload.get("run_kind") != "confirmatory" or payload.get("state") != "COMPLETED":
+                raise ValueError(f"invalid confirmatory metric identity: {path}")
+            metrics[str(seed)] = payload
+        per_variant[variant] = {seed: _metric_values(metric, variant) for seed, metric in metrics.items()}
+    aggregates = {}
+    for variant, by_seed in per_variant.items():
+        aggregates[variant] = {name: {"mean": statistics.mean(values), "std": statistics.stdev(values)} for name in next(iter(by_seed.values())) for values in [[row[name] for row in by_seed.values()]]}
+        aggregates[variant]["individual_seeds"] = by_seed
+    paired = {}
+    for name, left, right in (("C1_minus_C0", "C1", "C0"), ("C2_minus_C1", "C2", "C1"), ("C3_minus_C1", "C3", "C1")):
+        paired[name] = {}
+        for metric_name in ("S_balanced", "Composition_OOD", "Depth_OOD"):
+            deltas = {seed: per_variant[left][seed][metric_name] - per_variant[right][seed][metric_name] for seed in ("2026", "2027", "2028")}
+            signs = {0 if value == 0 else (1 if value > 0 else -1) for value in deltas.values()}
+            paired[name][metric_name] = {"per_seed": deltas, "mean_delta": statistics.mean(deltas.values()), "sign_consistency": "consistent" if len(signs) == 1 else "mixed"}
+    result = {"schema_version": CONFIRM_SCHEMA, "state": "COMPLETE", "seeds": [2026, 2027, 2028], "variants": aggregates, "paired_deltas": paired, "sealed_test_access_count": 0, "interpretation_note": "Three seeds are descriptive confirmatory evidence, not large-sample statistical proof."}
+    atomic_json(CONFIRM_ROOT / "summary.json", result)
+    return result
+
+
 def status() -> dict[str, Any]:
-    value = json.loads((ROOT / "status.json").read_text()) if (ROOT / "status.json").exists() else {"schema_version": SCHEMA, "state": "PENDING"}
-    value["scientific_runs"] = {variant: (json.loads((ROOT / f"metrics/{variant}.json").read_text())["state"] if (ROOT / f"metrics/{variant}.json").exists() else "NOT_RUN") for variant in VARIANTS}
-    value["sealed_test_access_count"] = 0
-    return value
+    live = json.loads((CONFIRM_ROOT / "status.json").read_text()) if (CONFIRM_ROOT / "status.json").exists() else {}
+    screening = {variant: (json.loads((ROOT / f"metrics/{variant}.json").read_text()).get("state", "UNKNOWN") if (ROOT / f"metrics/{variant}.json").exists() else "NOT_RUN") for variant in VARIANTS}
+    screening["C0"] = "COMPLETED"
+    confirmatory = {}
+    for seed in CONFIRM_SEEDS:
+        for variant in CONFIRM_VARIANTS:
+            path = CONFIRM_ROOT / f"metrics/{variant}-seed{seed}.json"
+            confirmatory[f"{variant}-seed{seed}"] = json.loads(path.read_text()).get("state", "UNKNOWN") if path.exists() else "NOT_RUN"
+    active_key = f"{live.get('variant')}-seed{live.get('seed')}"
+    if confirmatory.get(active_key) == "COMPLETED":
+        metric = json.loads((CONFIRM_ROOT / f"metrics/{active_key}.json").read_text())
+        live.update(state="COMPLETED", step=metric.get("step"), maximum_updates=RECIPE["maximum_updates"])
+    return {"schema_version": CONFIRM_SCHEMA, **live, "screening_runs": screening, "confirmatory_runs": confirmatory, "scientific_runs": {v: screening[v] for v in VARIANTS}, "sealed_test_access_count": 0}
 
 
 def install_signal_handlers() -> None:

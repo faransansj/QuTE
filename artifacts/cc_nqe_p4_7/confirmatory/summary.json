@@ -1,0 +1,44 @@
+{
+  "config_hashes": {
+    "C0-seed2027": "7b03d79b69586a15c4fafea1f40e22111cac54f0d497684eebdd5f066bf0d954",
+    "C0-seed2028": "045e780185d5a8d46b6a3ddc1aae90829bed6ec96d45b00a3743cc78a5f038fd",
+    "C1-seed2027": "6d4e88087e40d2092750d2279e2fa1c3d884df855d0cb3d90fc885f125214227",
+    "C1-seed2028": "97923245fc7693a52103acf131ad86f8e5def9d52ab626d99162cc70e6ebfeca",
+    "C2-seed2027": "3c7b5c005abc3af786a5aeb91823962caa65eea05417c6eb6ad7bb963597b39e",
+    "C2-seed2028": "b92ecb30bcd242d48c87b76e7677ed2b03f39d7c462a3f362ce64afebb22d5da",
+    "C3-seed2027": "3b64ab24f8564ea642b4eabe12cdb9d050201540359cd8212fb55f63884a4fa2",
+    "C3-seed2028": "557b37f3b76c9fbe701938db13d431d653c8e96fa566550bc9bfc21b095b8629"
+  },
+  "confirmatory_seeds": [
+    2027,
+    2028
+  ],
+  "interpretation_note": "Three seeds are descriptive confirmatory evidence, not large-sample statistical proof.",
+  "run_kind": "confirmatory",
+  "schema_version": "cc-nqe-p4.7-confirmatory-v1",
+  "scientific_runs": {
+    "C0-seed2027": "NOT_RUN",
+    "C0-seed2028": "NOT_RUN",
+    "C1-seed2027": "NOT_RUN",
+    "C1-seed2028": "NOT_RUN",
+    "C2-seed2027": "NOT_RUN",
+    "C2-seed2028": "NOT_RUN",
+    "C3-seed2027": "NOT_RUN",
+    "C3-seed2028": "NOT_RUN"
+  },
+  "screening_hashes": {
+    "C0": "b77e5695205ec2fed3f7bfec69174cde8ba5a9b43c9a87efc82147c603d10352",
+    "C1": "669de45ebeeecc3e6d5116249f5dcf2ff6ee91d6c8e846ab9d76a4f15c00662c",
+    "C2": "76b660f8979e4811c5ef10a12a8bdb862579abb5108f94f0a4e402bc783df775",
+    "C3": "f7f12eff573b9c3045256f9a216023cb4e0c377e069daf02a154e5f17765a9c0"
+  },
+  "screening_seed": 2026,
+  "sealed_test_access_count": 0,
+  "state": "IMPLEMENTED_NOT_RUN",
+  "variants": [
+    "C0",
+    "C1",
+    "C2",
+    "C3"
+  ]
+}

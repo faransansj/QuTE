@@ -26,3 +26,6 @@ artifacts/cc_nqe_p4_6/operator/data/
 artifacts/cc_nqe_p4_7/checkpoints/
 artifacts/cc_nqe_p4_7/progress.jsonl
 artifacts/cc_nqe_p4_7/status.json
+artifacts/cc_nqe_p4_7/confirmatory/checkpoints/
+artifacts/cc_nqe_p4_7/confirmatory/progress.jsonl
+artifacts/cc_nqe_p4_7/confirmatory/status.json

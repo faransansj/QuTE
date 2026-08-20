@@ -11,11 +11,16 @@ from cc_nqe import DIM, Gate, circuit_unitary, generate_state
 from cc_nqe_p4_5 import _tensorize_circuit, parameter_count
 from cc_nqe_p4_6 import CheckpointSelector, process_fidelity, raw_unitarity_error
 from cc_nqe_p4_7 import (
-    ANCHOR_COMMIT, ANCHOR_FILES, ROOT, SCHEMA, VARIANTS, RecursiveOperatorModel,
-    assert_validation_split, composition_loss, deterministic_split,
-    exact_prefix_actions, loss_for_batch, prefix_action_loss, prepare_artifacts,
-    split_circuits, status, validate_checkpoint, variant_config, verify_anchor,
+    ANCHOR_COMMIT, ANCHOR_FILES, CONFIRM_SCHEMA, ROOT, SCHEMA, VARIANTS,
+    RecursiveOperatorModel, aggregate_confirmatory, assert_validation_split,
+    composition_loss, confirm_all, confirmatory_config, confirmatory_model,
+    deterministic_split, exact_prefix_actions, initialization_digest,
+    loss_for_batch, prefix_action_loss, prepare_artifacts,
+    prepare_confirmatory_artifacts, split_circuits, status,
+    validate_checkpoint, validate_confirmatory_checkpoint, variant_config,
+    verify_anchor, verify_c0_confirmatory_config,
 )
+from run_p4_7 import build_parser
 
 
 def circuit_batch(circuits, max_depth=7):
@@ -186,6 +191,122 @@ def test_checkpoint_resume_refusal_status_and_completed_blocking(tmp_path, monke
     assert p47.run("C1") == completed
     value = status()
     assert value["scientific_runs"] == {"C1": "COMPLETED", "C2": "NOT_RUN", "C3": "NOT_RUN"} and value["sealed_test_access_count"] == 0
+
+
+def test_confirmatory_cli_parsing_and_seed_gate():
+    parser = build_parser()
+    args = parser.parse_args(["confirm", "--seed", "2027"])
+    assert (args.command, args.seed) == ("confirm", 2027)
+    assert parser.parse_args(["confirm-all"]).command == "confirm-all"
+    with pytest.raises(SystemExit):
+        parser.parse_args(["confirm", "--seed", "2026"])
+
+
+def test_c0_fresh_training_config_equivalence_and_seed_control():
+    first = confirmatory_config("C0", 2027)
+    second = confirmatory_config("C0", 2028)
+    verify_c0_confirmatory_config(first)
+    assert first["recipe"]["seed"] == 2027 and second["recipe"]["seed"] == 2028
+    assert parameter_count(confirmatory_model("C0")) == 1_073_312
+    assert initialization_digest("C0", 2027) == initialization_digest("C0", 2027)
+    assert initialization_digest("C0", 2027) != initialization_digest("C0", 2028)
+
+
+def test_confirmatory_checkpoint_identity_and_resume_rejection():
+    config = confirmatory_config("C1", 2027)
+    payload = {
+        "variant": "C1", "seed": 2027, "run_kind": "confirmatory",
+        "config_hash": __import__("cc_nqe_p4_6").digest(config), "dataset_manifest_hash": "data",
+        "model": {}, "optimizer": {}, "scheduler": {}, "step": 1, "samples_seen": 1024,
+        "numpy_rng": {}, "torch_rng": torch.get_rng_state(), "xpu_rng": None,
+        "best_checkpoint_state": {"score": .5, "step": 1},
+    }
+    validate_confirmatory_checkpoint(payload, config, "data")
+    with pytest.raises(ValueError, match="seed"):
+        validate_confirmatory_checkpoint({**payload, "seed": 2028}, config, "data")
+    with pytest.raises(ValueError, match="config"):
+        validate_confirmatory_checkpoint(payload, confirmatory_config("C2", 2027), "data")
+    with pytest.raises(ValueError, match="dataset"):
+        validate_confirmatory_checkpoint(payload, config, "other")
+
+
+def test_confirmatory_artifact_namespace_preserves_screening(tmp_path, monkeypatch):
+    import cc_nqe_p4_7 as p47
+    before = {variant: (ROOT / f"metrics/{variant}.json").read_bytes() for variant in VARIANTS}
+    monkeypatch.setattr(p47, "CONFIRM_ROOT", tmp_path / "confirmatory")
+    summary = prepare_confirmatory_artifacts()
+    assert summary["scientific_runs"] == {f"{variant}-seed{seed}": "NOT_RUN" for seed in (2027, 2028) for variant in ("C0", "C1", "C2", "C3")}
+    assert (tmp_path / "confirmatory/configs/C0-seed2027.json").exists()
+    assert before == {variant: (ROOT / f"metrics/{variant}.json").read_bytes() for variant in VARIANTS}
+
+
+def test_completed_confirmatory_run_is_not_reexecuted(tmp_path, monkeypatch):
+    import cc_nqe_p4_7 as p47
+    monkeypatch.setattr(p47, "CONFIRM_ROOT", tmp_path)
+    monkeypatch.setattr(p47, "confirmatory_preflight", lambda: {"status": "PASS"})
+    monkeypatch.setattr(p47, "prepare_confirmatory_artifacts", lambda: {})
+    (tmp_path / "metrics").mkdir()
+    completed = {"variant": "C2", "seed": 2027, "run_kind": "confirmatory", "state": "COMPLETED"}
+    (tmp_path / "metrics/C2-seed2027.json").write_text(json.dumps(completed))
+    monkeypatch.setattr(p47, "confirmatory_model", lambda *_: pytest.fail("completed run was reinitialized"))
+    assert p47.confirm_run("C2", 2027) == completed
+
+
+def test_confirm_all_orders_runs_and_skips_are_delegated(monkeypatch):
+    import cc_nqe_p4_7 as p47
+    calls = []
+    def fake_confirm(seed):
+        calls.append(seed)
+        return {variant: {"state": "COMPLETED"} for variant in ("C0", "C1", "C2", "C3")}
+    monkeypatch.setattr(p47, "confirm", fake_confirm)
+    monkeypatch.setattr(p47, "aggregate_confirmatory", lambda: {"state": "COMPLETE"})
+    result = confirm_all()
+    assert calls == [2027, 2028] and result["aggregate"]["state"] == "COMPLETE"
+
+
+def _metric(variant, seed, base):
+    validation = {split: {"normalized_action_fidelity": base + offset} for split, offset in (
+        ("iid_validation", .01), ("state_ood_validation", .02), ("parameter_ood_validation", .03),
+        ("composition_ood_validation", .04), ("depth_ood_validation", .05))}
+    return {"variant": variant, "seed": seed, "run_kind": "confirmatory", "state": "COMPLETED",
+            "best_balanced_validation": base, "validation_at_best_balanced_checkpoint": validation}
+
+
+def test_aggregation_three_seeds_and_paired_deltas(tmp_path, monkeypatch):
+    import cc_nqe_p4_7 as p47
+    root = tmp_path / "p47"; confirm_root = root / "confirmatory"
+    (root / "metrics").mkdir(parents=True); (confirm_root / "metrics").mkdir(parents=True)
+    c0_2026 = _metric("C0", 2026, .50)
+    c0_2026.pop("run_kind")
+    c0_2026["latest_validation"] = {k: {"predicted_operator_state_fidelity": v["normalized_action_fidelity"]} for k, v in c0_2026.pop("validation_at_best_balanced_checkpoint").items()}
+    anchor_path = tmp_path / "B3.json"; anchor_path.write_text(json.dumps(c0_2026))
+    monkeypatch.setitem(p47.ANCHOR_FILES, "metric", (anchor_path, "unused"))
+    monkeypatch.setattr(p47, "ROOT", root); monkeypatch.setattr(p47, "CONFIRM_ROOT", confirm_root)
+    for variant_index, variant in enumerate(("C1", "C2", "C3"), 1):
+        screening = _metric(variant, 2026, .50 + variant_index * .01)
+        (root / f"metrics/{variant}.json").write_text(json.dumps(screening))
+    for seed_index, seed in enumerate((2027, 2028), 1):
+        for variant_index, variant in enumerate(("C0", "C1", "C2", "C3")):
+            (confirm_root / f"metrics/{variant}-seed{seed}.json").write_text(json.dumps(_metric(variant, seed, .50 + variant_index * .01 + seed_index * .001)))
+    result = aggregate_confirmatory()
+    delta = result["paired_deltas"]["C1_minus_C0"]["S_balanced"]
+    assert result["state"] == "COMPLETE" and delta["mean_delta"] == pytest.approx(.01)
+    assert delta["sign_consistency"] == "consistent" and set(delta["per_seed"]) == {"2026", "2027", "2028"}
+
+
+def test_confirmatory_status_schema_and_sealed_zero(tmp_path, monkeypatch):
+    import cc_nqe_p4_7 as p47
+    root = tmp_path / "p47"; confirm_root = root / "confirmatory"
+    (root / "metrics").mkdir(parents=True); (confirm_root / "metrics").mkdir(parents=True)
+    (root / "metrics/C1.json").write_text(json.dumps({"state": "COMPLETED"}))
+    (confirm_root / "metrics/C0-seed2027.json").write_text(json.dumps({"state": "COMPLETED", "step": 10000}))
+    (confirm_root / "status.json").write_text(json.dumps({"variant": "C0", "seed": 2027, "state": "RUNNING", "step": 50, "maximum_updates": 10000}))
+    monkeypatch.setattr(p47, "ROOT", root); monkeypatch.setattr(p47, "CONFIRM_ROOT", confirm_root)
+    value = status()
+    assert value["screening_runs"]["C0"] == "COMPLETED"
+    assert value["confirmatory_runs"]["C0-seed2027"] == "COMPLETED"
+    assert value["confirmatory_runs"]["C1-seed2028"] == "NOT_RUN" and value["sealed_test_access_count"] == 0
+    assert value["state"] == "COMPLETED" and value["step"] == 10000
 
 
 @pytest.mark.skipif(not torch.xpu.is_available(), reason="native XPU unavailable")
