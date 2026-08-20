@@ -12,3 +12,8 @@ artifacts/cc_nqe_p4_5/datasets/**/*.bin
 # CC-NQE generated dataset payloads
 artifacts/cc_nqe_p4_5/datasets/circuits.jsonl
 artifacts/cc_nqe_p4_5/datasets/states.jsonl
+
+# CC-NQE P4.6 generated dataset payloads
+artifacts/cc_nqe_p4_6/datasets/**/*.npy
+artifacts/cc_nqe_p4_6/datasets/**/*.npz
+artifacts/cc_nqe_p4_6/checkpoints/

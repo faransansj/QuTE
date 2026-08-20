@@ -1,0 +1,101 @@
+{
+  "gate": "G0",
+  "p1_p4_verified": 30,
+  "p4_5_immutable": true,
+  "results": [
+    {
+      "actual_parameters": 58256,
+      "best_composition_ood_fidelity": 0.11859446477381752,
+      "best_depth_ood_fidelity": 0.07908727252335881,
+      "dataset_scale": "10k",
+      "final_train_fidelity": 0.27613582296122985,
+      "final_validation_fidelity": 0.08562114292409007,
+      "model_scale": "60k",
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-10k-60k-seed2026.json",
+      "source_metric_sha256": "b0493a0070c3ce57e892c695ab234f094ff9279ab7d8335da66ed4a03e0921d6",
+      "steps": 10000
+    },
+    {
+      "actual_parameters": 247136,
+      "best_composition_ood_fidelity": 0.10581414743339224,
+      "best_depth_ood_fidelity": 0.0744815107393535,
+      "dataset_scale": "10k",
+      "final_train_fidelity": 0.4267452736059454,
+      "final_validation_fidelity": 0.07512403922164168,
+      "model_scale": "250k",
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-10k-250k-seed2026.json",
+      "source_metric_sha256": "c52ca10d17e17f0267f9fa4d0b7ea0e0fbce77b2a2308bceae460a340ebcdde3",
+      "steps": 10000
+    },
+    {
+      "actual_parameters": 1001472,
+      "best_composition_ood_fidelity": 0.10521699145728114,
+      "best_depth_ood_fidelity": 0.07210442668031547,
+      "dataset_scale": "10k",
+      "final_train_fidelity": 0.7649436320194809,
+      "final_validation_fidelity": 0.06881589133746857,
+      "model_scale": "1m",
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-10k-1m-seed2026.json",
+      "source_metric_sha256": "1220036f87c06df50747832a73ce198da17eb23a0d21ddf1fbdecdd9ede63b06",
+      "steps": 10000
+    },
+    {
+      "actual_parameters": 247136,
+      "best_composition_ood_fidelity": 0.19892596738953472,
+      "best_depth_ood_fidelity": 0.12051955007679993,
+      "dataset_scale": "100k",
+      "final_train_fidelity": 0.3279332918197255,
+      "final_validation_fidelity": 0.20262735283050626,
+      "model_scale": "250k",
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-100k-250k-seed2026.json",
+      "source_metric_sha256": "8a27b8f0e015b74820cb2e886d9973203f75af943f3ca8a5cf5e7b349cabb922",
+      "steps": 10000
+    },
+    {
+      "actual_parameters": 1001472,
+      "best_composition_ood_fidelity": 0.2066609460595905,
+      "best_depth_ood_fidelity": 0.12424003818564078,
+      "dataset_scale": "100k",
+      "final_train_fidelity": 0.44911830264919383,
+      "final_validation_fidelity": 0.2023886653040634,
+      "model_scale": "1m",
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-100k-1m-seed2026.json",
+      "source_metric_sha256": "2c9646858d247aea4c08e4f16193e4b9208572b3cf8d3e8369c736ffa6f61ad3",
+      "steps": 10000
+    },
+    {
+      "actual_parameters": 1001472,
+      "best_composition_ood_fidelity": 0.24246115514861089,
+      "best_depth_ood_fidelity": 0.1694050197431236,
+      "dataset_scale": "1m",
+      "final_train_fidelity": 0.388111525183362,
+      "final_validation_fidelity": 0.316030337643209,
+      "model_scale": "1m",
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-1m-1m-seed2026.json",
+      "source_metric_sha256": "cf57b63f5942b15b3cba03bb362025554722e8d33744baa7bc28e96746f43f24",
+      "steps": 10000
+    },
+    {
+      "actual_parameters": 5257088,
+      "best_composition_ood_fidelity": 0.23574608021340993,
+      "best_depth_ood_fidelity": 0.18064113594944953,
+      "dataset_scale": "1m",
+      "final_train_fidelity": 0.3660076619823238,
+      "final_validation_fidelity": 0.31609250740091266,
+      "model_scale": "5m",
+      "seed": 2026,
+      "source_metric": "artifacts/cc_nqe_p4_5/metrics/state/state-1m-5m-seed2026.json",
+      "source_metric_sha256": "5440c208619b4d4119bc3edeee375e100966728b1afd88738bf44fc5fde67999",
+      "steps": 10000
+    }
+  ],
+  "schema_version": "cc-nqe-p4.6-v1",
+  "screening_count": 7,
+  "status": "PASS"
+}

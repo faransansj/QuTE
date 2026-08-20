@@ -1,0 +1,18 @@
+{
+  "arms": {
+    "C1": "monolithic baseline",
+    "C2": "shared recurrent free rollout",
+    "C3": "shared recurrent free rollout + prefix supervision"
+  },
+  "excluded": [
+    "tautological state-composition C4",
+    "teacher forcing",
+    "scheduled sampling",
+    "curriculum"
+  ],
+  "lambda_prefix": 1.0,
+  "prefix_targets": "exact intermediate states are targets only",
+  "rollout": "psi_hat[0]=input; psi_hat[i+1]=T_theta(G_i,psi_hat[i])",
+  "schema_version": "cc-nqe-p4.6-v1",
+  "status": "FROZEN-NOT-EXECUTED"
+}

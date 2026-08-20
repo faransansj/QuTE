@@ -1,0 +1,384 @@
+{
+  "diversity": {
+    "composition_ood_test_sealed": {
+      "N_unique_exact_circuits": 12,
+      "N_unique_k2_motifs": 45,
+      "N_unique_k3_motifs": 36,
+      "N_unique_k4_motifs": 24,
+      "N_unique_structural_signatures": 12,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "qubit_interaction_coverage": {
+        "0->2": 1,
+        "0->3": 2,
+        "2->0": 1,
+        "2->1": 3,
+        "2->3": 1,
+        "3->1": 2
+      }
+    },
+    "composition_ood_validation": {
+      "N_unique_exact_circuits": 12,
+      "N_unique_k2_motifs": 47,
+      "N_unique_k3_motifs": 36,
+      "N_unique_k4_motifs": 24,
+      "N_unique_structural_signatures": 12,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "qubit_interaction_coverage": {
+        "0->2": 1,
+        "1->0": 1,
+        "1->2": 1,
+        "1->3": 1,
+        "3->0": 3,
+        "3->2": 2
+      }
+    },
+    "depth_ood_test_sealed": {
+      "N_unique_exact_circuits": 8,
+      "N_unique_k2_motifs": 61,
+      "N_unique_k3_motifs": 55,
+      "N_unique_k4_motifs": 47,
+      "N_unique_structural_signatures": 8,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "qubit_interaction_coverage": {
+        "0->2": 2,
+        "1->0": 1,
+        "2->0": 1,
+        "2->1": 3,
+        "3->2": 1
+      }
+    },
+    "depth_ood_validation": {
+      "N_unique_exact_circuits": 8,
+      "N_unique_k2_motifs": 46,
+      "N_unique_k3_motifs": 40,
+      "N_unique_k4_motifs": 32,
+      "N_unique_structural_signatures": 8,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        9
+      ],
+      "qubit_interaction_coverage": {
+        "0->2": 3,
+        "0->3": 2,
+        "2->0": 1,
+        "2->1": 1,
+        "2->3": 2
+      }
+    },
+    "iid_validation": {
+      "N_unique_exact_circuits": 12,
+      "N_unique_k2_motifs": 30,
+      "N_unique_k3_motifs": 20,
+      "N_unique_k4_motifs": 12,
+      "N_unique_structural_signatures": 12,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        9
+      ],
+      "qubit_interaction_coverage": {
+        "1->0": 1,
+        "1->3": 2,
+        "2->3": 1,
+        "3->0": 1,
+        "3->1": 1
+      }
+    },
+    "parameter_ood_validation": {
+      "N_unique_exact_circuits": 12,
+      "N_unique_k2_motifs": 27,
+      "N_unique_k3_motifs": 20,
+      "N_unique_k4_motifs": 12,
+      "N_unique_structural_signatures": 12,
+      "parameter_bin_coverage": [
+        4,
+        5,
+        10,
+        11
+      ],
+      "qubit_interaction_coverage": {
+        "1->2": 1
+      }
+    },
+    "state_ood_validation": {
+      "N_unique_exact_circuits": 12,
+      "N_unique_k2_motifs": 30,
+      "N_unique_k3_motifs": 20,
+      "N_unique_k4_motifs": 12,
+      "N_unique_structural_signatures": 12,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        9
+      ],
+      "qubit_interaction_coverage": {
+        "1->0": 1,
+        "1->3": 2,
+        "2->3": 1,
+        "3->0": 1,
+        "3->1": 1
+      }
+    },
+    "train": {
+      "N_unique_exact_circuits": 24,
+      "N_unique_k2_motifs": 53,
+      "N_unique_k3_motifs": 39,
+      "N_unique_k4_motifs": 24,
+      "N_unique_structural_signatures": 24,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "qubit_interaction_coverage": {
+        "0->2": 2,
+        "0->3": 1,
+        "1->3": 2,
+        "2->1": 1,
+        "3->1": 1
+      }
+    }
+  },
+  "hard_checks": {
+    "composition_structural_leakage": true,
+    "composition_val_test_disjoint": true,
+    "depth_separation": true,
+    "deterministic_regeneration": true,
+    "exact_sample_duplicates": true,
+    "hash_consistency": true,
+    "manifest_consistency": true,
+    "parameter_region_isolation": true,
+    "sample_counts": true,
+    "sealed_test_immutability": true,
+    "state_family_isolation": true,
+    "state_id_leakage": true,
+    "state_ood_operator_matched": true,
+    "state_target_normalization": true,
+    "teacher_unitary_unitarity": true
+  },
+  "motif_coverage": {
+    "composition_ood_test_sealed": {
+      "2": {
+        "8": 5,
+        "9": 7
+      },
+      "3": {
+        "8": 4,
+        "9": 8
+      },
+      "4": {
+        "8": 5,
+        "9": 7
+      }
+    },
+    "composition_ood_validation": {
+      "2": {
+        "6": 8,
+        "7": 4
+      },
+      "3": {
+        "6": 5,
+        "7": 7
+      },
+      "4": {
+        "6": 4,
+        "7": 8
+      }
+    },
+    "depth_ood_test_sealed": {
+      "2": {
+        "0": 1,
+        "2": 1,
+        "3": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": 2
+      },
+      "3": {
+        "0": 2,
+        "1": 2,
+        "3": 1,
+        "4": 1,
+        "5": 2
+      },
+      "4": {
+        "0": 1,
+        "1": 3,
+        "2": 1,
+        "3": 1,
+        "8": 1,
+        "9": 1
+      }
+    },
+    "depth_ood_validation": {
+      "2": {
+        "0": 1,
+        "1": 2,
+        "2": 1,
+        "5": 2,
+        "6": 1,
+        "8": 1
+      },
+      "3": {
+        "0": 1,
+        "1": 1,
+        "5": 3,
+        "6": 1,
+        "7": 1,
+        "8": 1
+      },
+      "4": {
+        "1": 1,
+        "2": 2,
+        "4": 2,
+        "5": 1,
+        "8": 2
+      }
+    },
+    "iid_validation": {
+      "2": {
+        "0": 1,
+        "1": 4,
+        "5": 3,
+        "7": 1,
+        "9": 1
+      },
+      "3": {
+        "0": 1,
+        "2": 1,
+        "4": 2,
+        "6": 2,
+        "8": 1,
+        "9": 1
+      },
+      "4": {
+        "0": 1,
+        "1": 2,
+        "7": 1,
+        "8": 1,
+        "9": 1
+      }
+    },
+    "parameter_ood_validation": {
+      "2": {
+        "1": 2,
+        "2": 1,
+        "6": 2,
+        "7": 1,
+        "8": 1,
+        "9": 3
+      },
+      "3": {
+        "0": 2,
+        "1": 1,
+        "3": 2,
+        "4": 1,
+        "7": 1,
+        "8": 1
+      },
+      "4": {
+        "0": 2,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1
+      }
+    },
+    "state_ood_validation": {
+      "2": {
+        "0": 1,
+        "1": 4,
+        "5": 3,
+        "7": 1,
+        "9": 1
+      },
+      "3": {
+        "0": 1,
+        "2": 1,
+        "4": 2,
+        "6": 2,
+        "8": 1,
+        "9": 1
+      },
+      "4": {
+        "0": 1,
+        "1": 2,
+        "7": 1,
+        "8": 1,
+        "9": 1
+      }
+    },
+    "train": {
+      "2": {
+        "0": 1,
+        "1": 2,
+        "2": 2,
+        "3": 9,
+        "4": 4,
+        "5": 2
+      },
+      "3": {
+        "0": 5,
+        "1": 5,
+        "3": 2,
+        "5": 4
+      },
+      "4": {
+        "0": 4,
+        "1": 2,
+        "2": 1,
+        "3": 1,
+        "4": 2,
+        "5": 2
+      }
+    }
+  },
+  "schema_version": "cc-nqe-p4.6-v1",
+  "status": "PASS"
+}

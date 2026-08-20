@@ -1,0 +1,9 @@
+{
+  "G0": "PASS",
+  "G1": "PASS",
+  "G2": "G2-PASS",
+  "mandatory_stop": true,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "sealed_test_access_count": 0,
+  "synthetic": "COMPOSITION-SANITY-PASS"
+}

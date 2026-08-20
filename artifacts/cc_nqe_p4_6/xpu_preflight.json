@@ -1,0 +1,23 @@
+{
+  "actual_parameters": 58256,
+  "checks": {
+    "backward": true,
+    "cpu_xpu_parity": true,
+    "finite_gradients": true,
+    "forward": true,
+    "no_nan_inf": true,
+    "optimizer": true,
+    "tensor_residency": true
+  },
+  "cpu_xpu_max_difference": 1.7881393432617188e-07,
+  "device": "xpu:0",
+  "device_name": "Intel(R) Arc(TM) B580 Graphics",
+  "dtype": "float32",
+  "gate": "G1",
+  "schema_version": "cc-nqe-p4.6-v1",
+  "status": "PASS",
+  "tolerance": {
+    "atol": 0.0002,
+    "rtol": 0.0002
+  }
+}

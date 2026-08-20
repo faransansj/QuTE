@@ -1,0 +1,30 @@
+{
+  "matrix_operator_composer": {
+    "composition_consistency": 1.0,
+    "iid_composition_error": 0.0,
+    "length_7_error": 0.0,
+    "longer_length_error": 0.0,
+    "prefix_product_accuracy": 1.0
+  },
+  "monolithic_sequence_model": {
+    "composition_consistency": 0.39,
+    "iid_composition_error": 0.31,
+    "length_7_error": 0.44,
+    "longer_length_error": 0.58,
+    "prefix_product_accuracy": 0.42
+  },
+  "shared_recurrent_composer": {
+    "composition_consistency": 1.0,
+    "iid_composition_error": 0.0,
+    "length_7_error": 0.0,
+    "longer_length_error": 0.0,
+    "prefix_product_accuracy": 1.0
+  },
+  "shared_recurrent_prefix": {
+    "composition_consistency": 1.0,
+    "iid_composition_error": 0.0,
+    "length_7_error": 0.0,
+    "longer_length_error": 0.0,
+    "prefix_product_accuracy": 1.0
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "A1": {
+    "pairs": 1000000,
+    "probes_per_circuit": 1,
+    "unique_circuits": 1000000
+  },
+  "A2": {
+    "pairs": 1000000,
+    "probes_per_circuit": 4,
+    "unique_circuits": 250000
+  },
+  "A3": {
+    "pairs": 1000000,
+    "probes_per_circuit": 16,
+    "unique_circuits": 62500
+  },
+  "A4": {
+    "pairs": 1000008,
+    "probes_per_circuit": 17,
+    "unique_circuits": 58824
+  },
+  "A5": {
+    "pairs": 1000000,
+    "probes_per_circuit": 64,
+    "unique_circuits": 15625
+  }
+}

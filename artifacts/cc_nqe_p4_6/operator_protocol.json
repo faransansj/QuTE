@@ -1,0 +1,37 @@
+{
+  "action_fidelity": "|<target|M psi>|^2/(||target||^2 ||M psi||^2); raw ||M psi|| recorded",
+  "arms": {
+    "B0": {
+      "model": "direct state",
+      "supervision": "action-only"
+    },
+    "B1": {
+      "model": "unconstrained operator",
+      "supervision": "action-only"
+    },
+    "B2": {
+      "model": "soft-unitarity operator",
+      "supervision": "action-only + unitarity regularizer"
+    },
+    "B3": {
+      "model": "exact-unitarity exp((B-B\u2020)/2)",
+      "supervision": "action-only"
+    },
+    "B4": {
+      "model": "direct-U",
+      "supervision": "PRIVILEGED OPERATOR SUPERVISION"
+    },
+    "B5": {
+      "model": "direct-U + independent operator composition outputs",
+      "supervision": "PRIVILEGED OPERATOR SUPERVISION"
+    }
+  },
+  "primary_allocation": {
+    "name": "A4",
+    "pairs": 1000008,
+    "probes_per_circuit": 17,
+    "unique_circuits": 58824
+  },
+  "schema_version": "cc-nqe-p4.6-v1",
+  "status": "FROZEN-NOT-EXECUTED"
+}

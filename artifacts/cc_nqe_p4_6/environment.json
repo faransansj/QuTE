@@ -1,0 +1,10 @@
+{
+  "python": "3.12.13",
+  "schema_version": "cc-nqe-p4.6-v1",
+  "torch": "2.10.0+xpu",
+  "xpu_available": true,
+  "xpu_device_count": 1,
+  "xpu_device_names": [
+    "Intel(R) Arc(TM) B580 Graphics"
+  ]
+}

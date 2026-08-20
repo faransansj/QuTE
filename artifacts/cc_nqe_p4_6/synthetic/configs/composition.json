@@ -1,0 +1,41 @@
+{
+  "extrapolation_lengths": [
+    8,
+    9,
+    10
+  ],
+  "generators": {
+    "A": [
+      [
+        0,
+        1
+      ],
+      [
+        -1,
+        0
+      ]
+    ],
+    "B": [
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "noncommutative": true,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "seed": 2026,
+  "train_lengths": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "validation_length": 7
+}

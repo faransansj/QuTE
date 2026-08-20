@@ -1,0 +1,116 @@
+{
+  "canonical_circuit_representation": "canonical sorted-key JSON ordered gate list",
+  "composition_depth_policy": "depths 4,5,6 equally represented in train reference, validation, and sealed test",
+  "continuous_parameter_support": "angles in [0,2pi); split by closed-open regions",
+  "depths": {
+    "depth_ood_test_sealed": [
+      8,
+      9,
+      10
+    ],
+    "depth_ood_validation": [
+      7
+    ],
+    "train": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "exact_circuit_signature": "SHA256(canonical representation)",
+  "frozen": true,
+  "gate_alphabet": [
+    "H",
+    "X",
+    "RX",
+    "RY",
+    "RZ",
+    "CNOT"
+  ],
+  "generation_seed": 2026,
+  "leakage_rules": {
+    "circuit_id": "forbidden except state-OOD paired operator IDs",
+    "exact_sample": "forbidden across all splits",
+    "motif_family": "composition partitions disjoint",
+    "same_topology_different_parameters": "allowed outside composition partitions",
+    "state_id": "forbidden across all splits",
+    "structural": "forbidden train/composition-val/composition-test"
+  },
+  "matching_tolerances": {
+    "normalization": 1e-10,
+    "unitarity": 1e-10
+  },
+  "motif_definition": "every contiguous ordered gate/operand token window; family=SHA256(tokens) mod 10",
+  "motif_families": {
+    "composition_ood_test_sealed": [
+      8,
+      9
+    ],
+    "composition_ood_validation": [
+      6,
+      7
+    ],
+    "train": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "motif_lengths": [
+    2,
+    3,
+    4
+  ],
+  "parameter_regions": {
+    "parameter_ood_extrapolation": [
+      [
+        5.235987755982989,
+        6.283185307179586
+      ]
+    ],
+    "parameter_ood_interpolation": [
+      [
+        2.0943951023931953,
+        3.141592653589793
+      ]
+    ],
+    "train_composition_depth_state": [
+      [
+        0,
+        2.0943951023931953
+      ],
+      [
+        3.141592653589793,
+        5.235987755982989
+      ]
+    ]
+  },
+  "qubit_operand_policy": "uniform valid operands; CNOT uses ordered distinct control/target",
+  "schema_version": "cc-nqe-p4.6-v1",
+  "sealed_test_policy": {
+    "access_log_required_zero": true,
+    "ordinary_loaders_reject": true,
+    "splits": [
+      "composition_ood_test_sealed",
+      "depth_ood_test_sealed"
+    ],
+    "targets_generated_and_hashed": true
+  },
+  "state_family_policy": {
+    "state_ood_validation": [
+      "entangled",
+      "Haar-random"
+    ],
+    "train_and_iid": [
+      "product",
+      "random-local"
+    ]
+  },
+  "structural_signature": "ordered gate names and operands; theta excluded"
+}
