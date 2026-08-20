@@ -6,6 +6,7 @@
     "state_action_pairs": 1000008,
     "unique_circuits": 58824
   },
+  "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
   "label": "PRIVILEGED OPERATOR SUPERVISION",
   "lambda_process": 1.0,
   "model": "unconstrained-operator",

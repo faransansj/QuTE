@@ -8,6 +8,7 @@
   },
   "composition_batch_size": 64,
   "composition_contract": "independent C1, C2, and C2-compose-C1 predictions; U(C2 compose C1)=U(C2)U(C1)",
+  "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
   "label": "PRIVILEGED OPERATOR SUPERVISION",
   "lambda_comp": 0.3,
   "lambda_process": 1.0,

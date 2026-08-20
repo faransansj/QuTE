@@ -7,6 +7,7 @@
     "unique_circuits": 58824
   },
   "cayley_scale": 1.0,
+  "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
   "model": "action-only exact-unitarity via basic Cayley parameterization",
   "parameter_budget_target": 1000000,
   "parameter_budget_tolerance_fraction": 0.15,

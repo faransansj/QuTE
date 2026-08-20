@@ -1,0 +1,18 @@
+{
+  "schema_version": "cc-nqe-p4.6-closure-v1",
+  "next_phase": "P4.7 — Compositional Architecture",
+  "status": "RECOMMENDED_NOT_STARTED",
+  "archived_track_c_hypotheses": {
+    "C1": "monolithic state model",
+    "C2": "shared gate-wise recurrent state transition",
+    "C3": "recurrent plus prefix supervision"
+  },
+  "additional_hypothesis": "exact-unitary operator representation plus recursive/compositional circuit encoder",
+  "primary_questions": [
+    "Does shared recursive circuit processing improve Depth-OOD?",
+    "Does prefix supervision improve gate-level semantics?",
+    "Can recursive/compositional encoding be combined with the B3 exact-unitary operator representation?",
+    "Can operator composition bias improve B3 further?"
+  ],
+  "later_gates": ["multi-seed confirmation", "sealed-test evaluation"]
+}

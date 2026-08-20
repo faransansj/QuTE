@@ -1,0 +1,13 @@
+{
+  "schema_version": "cc-nqe-p4.6-closure-v1",
+  "verdict": "P4.6-OPERATOR-INDUCTIVE-BIAS-SUPPORTED",
+  "screening_seed": 2026,
+  "multi_seed_confirmed": false,
+  "sealed_test_evaluated": false,
+  "sealed_test_access_count": 0,
+  "track_a_verdict": "MIXED-DATA-EFFECT",
+  "primary_track_b_candidate": "B3",
+  "claim": "Within the frozen four-qubit circuit distribution, OOD behavior is strongly affected by data allocation and operator-level inductive structure.",
+  "architecture_direction": "Explicit exact-unitary operator learning is a promising architecture direction for CC-NQE.",
+  "evidence_level": "one-seed scientific screening"
+}
