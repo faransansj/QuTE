@@ -1,0 +1,184 @@
+{
+  "arm": "A4",
+  "circuit_count": 58824,
+  "master_prefix": [
+    0,
+    58824
+  ],
+  "pair_count": 1000008,
+  "probe_policy": "SHA256(p4.6-probe-v1 || exact circuit SHA256 || ordered probe index); family=(circuit_index+probe_index) mod 2",
+  "probe_statistics": {
+    "probe_reuse_multiplicity": {
+      "maximum": 2086,
+      "mean": 1.9990364721286569,
+      "minimum": 1,
+      "reused_state_count": 271
+    },
+    "projective_probe_diversity": {
+      "definition": "adjacent deterministic sample squared overlaps |<psi_i|psi_j>|^2; lower means more diverse",
+      "maximum": 0.8953341841697693,
+      "mean": 0.06268220394849777,
+      "median": 0.019736409187316895,
+      "p95": 0.26938578486442566,
+      "sample_pairs": 4095
+    },
+    "state_family_counts": {
+      "product": 500004,
+      "random-local": 500004
+    },
+    "unique_probe_states": 500245
+  },
+  "probes_per_circuit": 17,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "shard_size": 50000,
+  "shards": [
+    {
+      "count": 50000,
+      "offset": 0,
+      "probe_hashes": "probe_hashes_00000.npy",
+      "states": "states_00000.npy",
+      "targets": "targets_00000.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 50000,
+      "probe_hashes": "probe_hashes_00001.npy",
+      "states": "states_00001.npy",
+      "targets": "targets_00001.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 100000,
+      "probe_hashes": "probe_hashes_00002.npy",
+      "states": "states_00002.npy",
+      "targets": "targets_00002.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 150000,
+      "probe_hashes": "probe_hashes_00003.npy",
+      "states": "states_00003.npy",
+      "targets": "targets_00003.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 200000,
+      "probe_hashes": "probe_hashes_00004.npy",
+      "states": "states_00004.npy",
+      "targets": "targets_00004.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 250000,
+      "probe_hashes": "probe_hashes_00005.npy",
+      "states": "states_00005.npy",
+      "targets": "targets_00005.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 300000,
+      "probe_hashes": "probe_hashes_00006.npy",
+      "states": "states_00006.npy",
+      "targets": "targets_00006.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 350000,
+      "probe_hashes": "probe_hashes_00007.npy",
+      "states": "states_00007.npy",
+      "targets": "targets_00007.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 400000,
+      "probe_hashes": "probe_hashes_00008.npy",
+      "states": "states_00008.npy",
+      "targets": "targets_00008.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 450000,
+      "probe_hashes": "probe_hashes_00009.npy",
+      "states": "states_00009.npy",
+      "targets": "targets_00009.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 500000,
+      "probe_hashes": "probe_hashes_00010.npy",
+      "states": "states_00010.npy",
+      "targets": "targets_00010.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 550000,
+      "probe_hashes": "probe_hashes_00011.npy",
+      "states": "states_00011.npy",
+      "targets": "targets_00011.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 600000,
+      "probe_hashes": "probe_hashes_00012.npy",
+      "states": "states_00012.npy",
+      "targets": "targets_00012.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 650000,
+      "probe_hashes": "probe_hashes_00013.npy",
+      "states": "states_00013.npy",
+      "targets": "targets_00013.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 700000,
+      "probe_hashes": "probe_hashes_00014.npy",
+      "states": "states_00014.npy",
+      "targets": "targets_00014.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 750000,
+      "probe_hashes": "probe_hashes_00015.npy",
+      "states": "states_00015.npy",
+      "targets": "targets_00015.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 800000,
+      "probe_hashes": "probe_hashes_00016.npy",
+      "states": "states_00016.npy",
+      "targets": "targets_00016.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 850000,
+      "probe_hashes": "probe_hashes_00017.npy",
+      "states": "states_00017.npy",
+      "targets": "targets_00017.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 900000,
+      "probe_hashes": "probe_hashes_00018.npy",
+      "states": "states_00018.npy",
+      "targets": "targets_00018.npy"
+    },
+    {
+      "count": 50000,
+      "offset": 950000,
+      "probe_hashes": "probe_hashes_00019.npy",
+      "states": "states_00019.npy",
+      "targets": "targets_00019.npy"
+    },
+    {
+      "count": 8,
+      "offset": 1000000,
+      "probe_hashes": "probe_hashes_00020.npy",
+      "states": "states_00020.npy",
+      "targets": "targets_00020.npy"
+    }
+  ],
+  "state": "COMPLETED"
+}

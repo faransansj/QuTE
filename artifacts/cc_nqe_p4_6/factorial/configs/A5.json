@@ -1,0 +1,22 @@
+{
+  "actual_parameters": 1001472,
+  "arm": "A5",
+  "dataset_manifest_hash": "efd17b64eab13fa37666df00b5a6ab1063fd28208d5f69f5c860234d670ace67",
+  "pair_count": 1000000,
+  "probes_per_circuit": 64,
+  "recipe": {
+    "device": "xpu:0",
+    "dtype": "float32",
+    "effective_batch_size": 1024,
+    "learning_rate": 0.0003,
+    "model": "direct state",
+    "model_scale": "1m",
+    "optimizer": "AdamW",
+    "optimizer_updates": 10000,
+    "scheduler": "cosine",
+    "seed": 2026,
+    "validation_interval": 500
+  },
+  "schema_version": "cc-nqe-p4.6-v1",
+  "unique_circuits": 15625
+}

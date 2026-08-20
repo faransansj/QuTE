@@ -1,0 +1,338 @@
+{
+  "arms": {
+    "A1": {
+      "exact_circuits": 1000000,
+      "finite_loss_gradients": "PASS (non-finite loss/gradient hard-stop remained untriggered)",
+      "optimizer_updates": 10000,
+      "pair_exposures": 10240000,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "primary_checkpoint": {
+        "balanced_validation": 0.3090827572482845,
+        "selection": "best balanced validation",
+        "step": 10000
+      },
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 1,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500217
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "runtime": {
+        "samples_per_second": 32952.48150080192,
+        "wall_seconds": 310.75049609399866
+      },
+      "seed": 2026,
+      "state": "COMPLETED",
+      "structural_signatures": 376414,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 27814,
+        "k4": 338486
+      },
+      "validation": {
+        "composition_ood_validation": 0.16861730532643074,
+        "depth_ood_validation": 0.2633027588017285,
+        "iid_validation": 0.49532820761669427,
+        "parameter_ood_validation": 0.6556076469520727,
+        "state_ood_validation": 0.40008926515777904
+      },
+      "xpu_residency": "PASS (enforced xpu:0-only training path; non-XPU batches cannot complete)"
+    },
+    "A2": {
+      "exact_circuits": 250000,
+      "finite_loss_gradients": "PASS (non-finite loss/gradient hard-stop remained untriggered)",
+      "optimizer_updates": 10000,
+      "pair_exposures": 10240000,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "primary_checkpoint": {
+        "balanced_validation": 0.313231829372752,
+        "selection": "best balanced validation",
+        "step": 7500
+      },
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 4,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500230
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "runtime": {
+        "samples_per_second": 33602.537885487174,
+        "wall_seconds": 304.73888673994225
+      },
+      "seed": 2026,
+      "state": "COMPLETED",
+      "structural_signatures": 113609,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 26486,
+        "k4": 145287
+      },
+      "validation": {
+        "composition_ood_validation": 0.16097929258830845,
+        "depth_ood_validation": 0.25531865702942014,
+        "iid_validation": 0.5233975385005275,
+        "parameter_ood_validation": 0.6008848287165165,
+        "state_ood_validation": 0.40620827364424866
+      },
+      "xpu_residency": "PASS (enforced xpu:0-only training path; non-XPU batches cannot complete)"
+    },
+    "A3": {
+      "exact_circuits": 62500,
+      "finite_loss_gradients": "PASS (non-finite loss/gradient hard-stop remained untriggered)",
+      "optimizer_updates": 10000,
+      "pair_exposures": 10240000,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "primary_checkpoint": {
+        "balanced_validation": 0.3232958903665551,
+        "selection": "best balanced validation",
+        "step": 9500
+      },
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 16,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500238
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "runtime": {
+        "samples_per_second": 33503.090689065124,
+        "wall_seconds": 305.64344305801205
+      },
+      "seed": 2026,
+      "state": "COMPLETED",
+      "structural_signatures": 33413,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 20996,
+        "k4": 51148
+      },
+      "validation": {
+        "composition_ood_validation": 0.16905439633410424,
+        "depth_ood_validation": 0.25643077911809087,
+        "iid_validation": 0.5444024956474701,
+        "parameter_ood_validation": 0.5866255496318141,
+        "state_ood_validation": 0.4055997282266617
+      },
+      "xpu_residency": "PASS (enforced xpu:0-only training path; non-XPU batches cannot complete)"
+    },
+    "A4": {
+      "exact_circuits": 58824,
+      "finite_loss_gradients": "PASS (non-finite loss/gradient hard-stop remained untriggered)",
+      "optimizer_updates": 10000,
+      "pair_exposures": 10240000,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "primary_checkpoint": {
+        "balanced_validation": 0.3165291210041485,
+        "selection": "best balanced validation",
+        "step": 8500
+      },
+      "probe_counts": {
+        "pairs": 1000008,
+        "probes_per_circuit": 17,
+        "state_family_counts": {
+          "product": 500004,
+          "random-local": 500004
+        },
+        "unique_probe_states": 500245
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "runtime": {
+        "samples_per_second": 33484.44981311754,
+        "wall_seconds": 305.8135955480393
+      },
+      "seed": 2026,
+      "state": "COMPLETED",
+      "structural_signatures": 31665,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 20629,
+        "k4": 48627
+      },
+      "validation": {
+        "composition_ood_validation": 0.1606642738527929,
+        "depth_ood_validation": 0.24748443230055273,
+        "iid_validation": 0.5414386568590999,
+        "parameter_ood_validation": 0.6475287713110447,
+        "state_ood_validation": 0.3768165037035942
+      },
+      "xpu_residency": "PASS (enforced xpu:0-only training path; non-XPU batches cannot complete)"
+    },
+    "A5": {
+      "exact_circuits": 15625,
+      "finite_loss_gradients": "PASS (non-finite loss/gradient hard-stop remained untriggered)",
+      "optimizer_updates": 10000,
+      "pair_exposures": 10240000,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "primary_checkpoint": {
+        "balanced_validation": 0.3072606130477248,
+        "selection": "best balanced validation",
+        "step": 8500
+      },
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 64,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500230
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "runtime": {
+        "samples_per_second": 33450.61813159119,
+        "wall_seconds": 306.1228928960627
+      },
+      "seed": 2026,
+      "state": "COMPLETED",
+      "structural_signatures": 9651,
+      "unique_motifs": {
+        "k2": 929,
+        "k3": 11981,
+        "k4": 14767
+      },
+      "validation": {
+        "composition_ood_validation": 0.17465935445701083,
+        "depth_ood_validation": 0.2508786079706624,
+        "iid_validation": 0.49624387671550113,
+        "parameter_ood_validation": 0.5328183804328243,
+        "state_ood_validation": 0.34594734633962315
+      },
+      "xpu_residency": "PASS (enforced xpu:0-only training path; non-XPU batches cannot complete)"
+    }
+  },
+  "integrity": {
+    "all_arms_completed": true,
+    "circuit_nesting": "PASS",
+    "distribution_controls": "PASS",
+    "finite_loss_gradients": "PASS",
+    "pair_exposures_each": 10240000,
+    "probe_nesting": "PASS",
+    "sealed_test_access_count": 0,
+    "seed": 2026,
+    "updates_each": 10000,
+    "xpu_residency": "PASS"
+  },
+  "per_metric_best_role": "secondary diagnostic only",
+  "primary_comparison": "one frozen best-balanced-validation checkpoint per arm",
+  "primary_score": "(IID + Composition-OOD + Depth-OOD) / 3",
+  "schema_version": "cc-nqe-p4.6-v1",
+  "state": "COMPLETED",
+  "verdict": "MIXED-DATA-EFFECT",
+  "winner": "A3"
+}

@@ -1,0 +1,210 @@
+{
+  "arms": {
+    "A1": {
+      "exact_circuits": 1000000,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 1,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500217
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "structural_signatures": 376414,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 27814,
+        "k4": 338486
+      }
+    },
+    "A2": {
+      "exact_circuits": 250000,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 4,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500230
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "structural_signatures": 113609,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 26486,
+        "k4": 145287
+      }
+    },
+    "A3": {
+      "exact_circuits": 62500,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 16,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500238
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "structural_signatures": 33413,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 20996,
+        "k4": 51148
+      }
+    },
+    "A4": {
+      "exact_circuits": 58824,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "probe_counts": {
+        "pairs": 1000008,
+        "probes_per_circuit": 17,
+        "state_family_counts": {
+          "product": 500004,
+          "random-local": 500004
+        },
+        "unique_probe_states": 500245
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "structural_signatures": 31665,
+      "unique_motifs": {
+        "k2": 930,
+        "k3": 20629,
+        "k4": 48627
+      }
+    },
+    "A5": {
+      "exact_circuits": 15625,
+      "parameter_bin_coverage": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9
+      ],
+      "probe_counts": {
+        "pairs": 1000000,
+        "probes_per_circuit": 64,
+        "state_family_counts": {
+          "product": 500000,
+          "random-local": 500000
+        },
+        "unique_probe_states": 500230
+      },
+      "qubit_interaction_coverage": [
+        "0->2",
+        "0->3",
+        "1->0",
+        "1->2",
+        "1->3",
+        "2->0",
+        "2->1",
+        "2->3",
+        "3->0",
+        "3->1",
+        "3->2"
+      ],
+      "structural_signatures": 9651,
+      "unique_motifs": {
+        "k2": 929,
+        "k3": 11981,
+        "k4": 14767
+      }
+    }
+  },
+  "schema_version": "cc-nqe-p4.6-v1"
+}

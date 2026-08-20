@@ -6,6 +6,7 @@ import torch
 from cc_nqe import DIM, Gate, circuit_unitary, generate_state
 from cc_nqe_p4_5 import parameter_count, state_fidelity
 from cc_nqe_p4_6 import *
+from cc_nqe_p4_6_track_a import generate_master_pool, load_validation, ordered_probes, probe_family, probe_seed, track_a_verdict
 
 
 def _circuit_batch(circuit,max_depth=4):
@@ -86,6 +87,32 @@ def test_resume_compatibility():
     config={'seed':2026}; payload={'config_hash':digest(config),'dataset_manifest_hash':'x'}; validate_resume(payload,config,'x')
     with pytest.raises(ValueError,match='config'): validate_resume(payload,{'seed':2027},'x')
     with pytest.raises(ValueError,match='dataset'): validate_resume(payload,config,'y')
+
+def test_track_a_ordered_probes_are_deterministic_nested_and_family_balanced():
+    exact=bytes(range(32)); p1=ordered_probes(exact,0,1); p64=ordered_probes(exact,0,64)
+    assert np.array_equal(p1[0],p64[0])
+    assert probe_seed(exact,0)==probe_seed(exact,0) and probe_seed(exact,0)!=probe_seed(exact,1)
+    assert [probe_family(0,i) for i in range(4)]==['product','random-local','product','random-local']
+    assert [probe_family(i,0) for i in range(4)]==['product','random-local','product','random-local']
+
+def test_track_a_master_pool_is_one_deterministic_prefix_source(tmp_path,monkeypatch):
+    import cc_nqe_p4_6_track_a as track
+    monkeypatch.setattr(track,'DATA_ROOT',tmp_path); monkeypatch.setattr(track,'TRACK_ROOT',tmp_path/'track')
+    manifest=generate_master_pool(24); ids=np.load(tmp_path/'master/exact_sha256.npy')
+    assert manifest['exact_circuit_count']==24 and len({bytes(x) for x in ids})==24
+    assert manifest['subset_policy']=='A1-A5 are prefixes of this ordered pool'
+    assert [int(np.load(tmp_path/'master/masks.npy')[i].sum()) for i in range(12)]==list(range(1,7))*2
+
+def test_track_a_validation_loader_refuses_sealed_splits():
+    with pytest.raises(PermissionError,match='non-validation'): load_validation('composition_ood_test_sealed')
+    with pytest.raises(PermissionError,match='non-validation'): load_validation('depth_ood_test_sealed')
+
+def test_track_a_verdict_uses_only_allowed_terminology():
+    def rows(values): return {arm:{'primary_checkpoint':{'metrics':{'balanced_validation':value}}} for arm,value in zip(FACTORIAL_ARMS,values)}
+    assert track_a_verdict(rows([.3,.2,.2,.2,.1]))=='CIRCUIT-COVERAGE-DOMINANT'
+    assert track_a_verdict(rows([.1,.2,.2,.3,.4]))=='PROBE-COVERAGE-DOMINANT'
+    assert track_a_verdict(rows([.1,.2,.4,.2,.1]))=='MIXED-DATA-EFFECT'
+    assert track_a_verdict(rows([.2,.201,.202,.203,.204]))=='NO-CLEAR-DATA-EFFECT'
 
 @pytest.mark.skipif(not torch.xpu.is_available(),reason='native XPU unavailable')
 def test_xpu_residency():

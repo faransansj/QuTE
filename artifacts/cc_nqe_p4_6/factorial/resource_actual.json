@@ -1,0 +1,13 @@
+{
+  "arm_runtime_seconds": {
+    "A1": 310.75049609399866,
+    "A2": 304.73888673994225,
+    "A3": 305.64344305801205,
+    "A4": 305.8135955480393,
+    "A5": 306.1228928960627
+  },
+  "free_disk_bytes_after_run": 77296582656,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "track_a_checkpoint_bytes": 153517423,
+  "track_a_dataset_bytes": 1728065611
+}

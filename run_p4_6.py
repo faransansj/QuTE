@@ -81,9 +81,16 @@ def main():
         freeze_p45(); r=preflight()
         if r['status']!='PASS': raise SystemExit('XPU-BLOCKED')
         generate_ood_v2()
-    elif a.command=='status': print(json.dumps(status(),indent=2))
-    elif a.command in ('audit','factorial-screen','operator-screen','architecture-screen'): unavailable(a.command)
-    elif a.command=='report': unavailable('G6')
+    elif a.command=='status':
+        track=ROOT/'track_a/status.json'; print((track.read_text() if track.exists() else json.dumps(status(),indent=2)))
+    elif a.command=='factorial-screen':
+        from cc_nqe_p4_6_track_a import factorial_screen, install_signal_handlers
+        install_signal_handlers(); print(json.dumps(factorial_screen(),indent=2))
+    elif a.command in ('audit','operator-screen','architecture-screen'): unavailable(a.command)
+    elif a.command=='report':
+        path=ROOT/'P4_6B_REPORT.md'
+        if not path.exists(): unavailable('P4.6-B')
+        print(path.read_text())
     elif a.command=='run-screening-all':
         freeze_p45(); r=preflight();
         if r['status']!='PASS': raise SystemExit('XPU-BLOCKED')
