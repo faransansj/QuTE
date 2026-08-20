@@ -1,0 +1,55 @@
+{
+  "best_balanced_validation": 0.597151925166448,
+  "best_checkpoint_step": 7000,
+  "config_hash": "b92ecb30bcd242d48c87b76e7677ed2b03f39d7c462a3f362ce64afebb22d5da",
+  "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+  "run_kind": "confirmatory",
+  "runtime": 2316.489540328039,
+  "samples_per_second": 4420.481863496741,
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.7-confirmatory-v1",
+  "scientific": true,
+  "sealed_test_access_count": 0,
+  "seed": 2028,
+  "state": "COMPLETED",
+  "step": 10000,
+  "validation_at_best_balanced_checkpoint": {
+    "S_balanced": 0.597151925166448,
+    "composition_ood_validation": {
+      "normalized_action_fidelity": 0.4880511462688446,
+      "phase_aligned_frobenius_error": 0.8921442031860352,
+      "process_fidelity": 0.35534927248954773,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.4428078404525877e-07
+    },
+    "depth_ood_validation": {
+      "normalized_action_fidelity": 0.569843590259552,
+      "phase_aligned_frobenius_error": 0.9413032531738281,
+      "process_fidelity": 0.31556370854377747,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.649250632202893e-07
+    },
+    "iid_validation": {
+      "normalized_action_fidelity": 0.7335610389709473,
+      "phase_aligned_frobenius_error": 0.6028344035148621,
+      "process_fidelity": 0.6058813333511353,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.210639848954088e-07
+    },
+    "parameter_ood_validation": {
+      "normalized_action_fidelity": 0.5717716217041016,
+      "phase_aligned_frobenius_error": 0.6934212446212769,
+      "process_fidelity": 0.5382335782051086,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.2398164389869635e-07
+    },
+    "state_ood_validation": {
+      "normalized_action_fidelity": 0.6344824433326721,
+      "phase_aligned_frobenius_error": 0.6028344035148621,
+      "process_fidelity": 0.6058813333511353,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.210639848954088e-07
+    }
+  },
+  "variant": "C2"
+}

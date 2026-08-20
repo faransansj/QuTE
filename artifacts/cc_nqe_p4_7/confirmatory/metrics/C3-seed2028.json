@@ -1,0 +1,55 @@
+{
+  "best_balanced_validation": 0.5997452934583029,
+  "best_checkpoint_step": 9500,
+  "config_hash": "557b37f3b76c9fbe701938db13d431d653c8e96fa566550bc9bfc21b095b8629",
+  "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+  "run_kind": "confirmatory",
+  "runtime": 1526.607240776997,
+  "samples_per_second": 6707.684679124244,
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.7-confirmatory-v1",
+  "scientific": true,
+  "sealed_test_access_count": 0,
+  "seed": 2028,
+  "state": "COMPLETED",
+  "step": 10000,
+  "validation_at_best_balanced_checkpoint": {
+    "S_balanced": 0.5997452934583029,
+    "composition_ood_validation": {
+      "normalized_action_fidelity": 0.4899272918701172,
+      "phase_aligned_frobenius_error": 0.8507072329521179,
+      "process_fidelity": 0.39971908926963806,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.566616217336559e-07
+    },
+    "depth_ood_validation": {
+      "normalized_action_fidelity": 0.5303676724433899,
+      "phase_aligned_frobenius_error": 0.9497916102409363,
+      "process_fidelity": 0.30988627672195435,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.3103156365777977e-07
+    },
+    "iid_validation": {
+      "normalized_action_fidelity": 0.7789409160614014,
+      "phase_aligned_frobenius_error": 0.5224985480308533,
+      "process_fidelity": 0.6698409914970398,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.2643925490228867e-07
+    },
+    "parameter_ood_validation": {
+      "normalized_action_fidelity": 0.6627717018127441,
+      "phase_aligned_frobenius_error": 0.644255518913269,
+      "process_fidelity": 0.5729518532752991,
+      "raw_action_norm": 0.9999999403953552,
+      "unitarity_error": 2.3609823074366432e-07
+    },
+    "state_ood_validation": {
+      "normalized_action_fidelity": 0.7013057470321655,
+      "phase_aligned_frobenius_error": 0.5224985480308533,
+      "process_fidelity": 0.6698409914970398,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.2643925490228867e-07
+    }
+  },
+  "variant": "C3"
+}

@@ -1,0 +1,51 @@
+{
+  "best_balanced_validation": 0.6073119938373566,
+  "best_checkpoint_step": 10000,
+  "runtime_seconds": 2396.8092949650018,
+  "samples_per_second": 4272.346582396546,
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.7-v1",
+  "scientific": true,
+  "sealed_test_access_count": 0,
+  "state": "COMPLETED",
+  "step": 10000,
+  "validation_at_best_balanced_checkpoint": {
+    "S_balanced": 0.6073119938373566,
+    "composition_ood_validation": {
+      "normalized_action_fidelity": 0.4855585992336273,
+      "phase_aligned_frobenius_error": 0.8807536959648132,
+      "process_fidelity": 0.36589664220809937,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.3164579943113495e-07
+    },
+    "depth_ood_validation": {
+      "normalized_action_fidelity": 0.5999252796173096,
+      "phase_aligned_frobenius_error": 0.9205098152160645,
+      "process_fidelity": 0.33163896203041077,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.390701467902545e-07
+    },
+    "iid_validation": {
+      "normalized_action_fidelity": 0.7364521026611328,
+      "phase_aligned_frobenius_error": 0.5942980647087097,
+      "process_fidelity": 0.6109240055084229,
+      "raw_action_norm": 0.9999999403953552,
+      "unitarity_error": 2.211883156633121e-07
+    },
+    "parameter_ood_validation": {
+      "normalized_action_fidelity": 0.5875083208084106,
+      "phase_aligned_frobenius_error": 0.6851688623428345,
+      "process_fidelity": 0.5375186204910278,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.44574721364188e-07
+    },
+    "state_ood_validation": {
+      "normalized_action_fidelity": 0.6408777236938477,
+      "phase_aligned_frobenius_error": 0.5942980647087097,
+      "process_fidelity": 0.6109240055084229,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.211883156633121e-07
+    }
+  },
+  "variant": "C2"
+}

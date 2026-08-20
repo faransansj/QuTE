@@ -1,0 +1,55 @@
+{
+  "best_balanced_validation": 0.6229572395483652,
+  "best_checkpoint_step": 7500,
+  "config_hash": "3b64ab24f8564ea642b4eabe12cdb9d050201540359cd8212fb55f63884a4fa2",
+  "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+  "run_kind": "confirmatory",
+  "runtime": 1529.0906939969864,
+  "samples_per_second": 6696.790478289433,
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.7-confirmatory-v1",
+  "scientific": true,
+  "sealed_test_access_count": 0,
+  "seed": 2027,
+  "state": "COMPLETED",
+  "step": 10000,
+  "validation_at_best_balanced_checkpoint": {
+    "S_balanced": 0.6229572395483652,
+    "composition_ood_validation": {
+      "normalized_action_fidelity": 0.46919092535972595,
+      "phase_aligned_frobenius_error": 0.8643791079521179,
+      "process_fidelity": 0.38762611150741577,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.2753316386570077e-07
+    },
+    "depth_ood_validation": {
+      "normalized_action_fidelity": 0.5858624577522278,
+      "phase_aligned_frobenius_error": 0.9579489231109619,
+      "process_fidelity": 0.30523672699928284,
+      "raw_action_norm": 0.9999998807907104,
+      "unitarity_error": 2.27813529818377e-07
+    },
+    "iid_validation": {
+      "normalized_action_fidelity": 0.8138183355331421,
+      "phase_aligned_frobenius_error": 0.4906829297542572,
+      "process_fidelity": 0.7002410888671875,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.3988280872799805e-07
+    },
+    "parameter_ood_validation": {
+      "normalized_action_fidelity": 0.5742228031158447,
+      "phase_aligned_frobenius_error": 0.7510406970977783,
+      "process_fidelity": 0.4673161506652832,
+      "raw_action_norm": 0.9999999403953552,
+      "unitarity_error": 2.40473553958509e-07
+    },
+    "state_ood_validation": {
+      "normalized_action_fidelity": 0.744265079498291,
+      "phase_aligned_frobenius_error": 0.4906829297542572,
+      "process_fidelity": 0.7002410888671875,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.3988280872799805e-07
+    }
+  },
+  "variant": "C3"
+}

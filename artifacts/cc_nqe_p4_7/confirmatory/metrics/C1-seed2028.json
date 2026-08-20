@@ -1,0 +1,55 @@
+{
+  "best_balanced_validation": 0.6070692737897238,
+  "best_checkpoint_step": 3000,
+  "config_hash": "97923245fc7693a52103acf131ad86f8e5def9d52ab626d99162cc70e6ebfeca",
+  "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+  "run_kind": "confirmatory",
+  "runtime": 700.6221673759865,
+  "samples_per_second": 14615.580946220247,
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.7-confirmatory-v1",
+  "scientific": true,
+  "sealed_test_access_count": 0,
+  "seed": 2028,
+  "state": "COMPLETED",
+  "step": 10000,
+  "validation_at_best_balanced_checkpoint": {
+    "S_balanced": 0.6070692737897238,
+    "composition_ood_validation": {
+      "normalized_action_fidelity": 0.4635113477706909,
+      "phase_aligned_frobenius_error": 0.923477053642273,
+      "process_fidelity": 0.32930582761764526,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.394545504103007e-07
+    },
+    "depth_ood_validation": {
+      "normalized_action_fidelity": 0.5469794273376465,
+      "phase_aligned_frobenius_error": 0.9596257209777832,
+      "process_fidelity": 0.3007201552391052,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.357451478474104e-07
+    },
+    "iid_validation": {
+      "normalized_action_fidelity": 0.8107170462608337,
+      "phase_aligned_frobenius_error": 0.544009804725647,
+      "process_fidelity": 0.67095947265625,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.1545598372085806e-07
+    },
+    "parameter_ood_validation": {
+      "normalized_action_fidelity": 0.6669318079948425,
+      "phase_aligned_frobenius_error": 0.6773066520690918,
+      "process_fidelity": 0.5414954423904419,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.1178064457672008e-07
+    },
+    "state_ood_validation": {
+      "normalized_action_fidelity": 0.7227907180786133,
+      "phase_aligned_frobenius_error": 0.544009804725647,
+      "process_fidelity": 0.67095947265625,
+      "raw_action_norm": 1.0,
+      "unitarity_error": 2.1545598372085806e-07
+    }
+  },
+  "variant": "C1"
+}
