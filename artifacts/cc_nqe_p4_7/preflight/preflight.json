@@ -1,0 +1,36 @@
+{
+  "c2_gradient_l1": 3409.8755687475204,
+  "checks": {
+    "C3_no_teacher_forcing": true,
+    "anchor_integrity": true,
+    "cayley_exact_unitarity": true,
+    "data_allocation": true,
+    "finite_nonzero_c2_gradient": true,
+    "finite_prefix_loss": true,
+    "no_cpu_fallback": true,
+    "nonzero_composition_loss": true,
+    "optimizer_update": true,
+    "parameter_fairness": true,
+    "profiler_native_xpu_solve": true,
+    "sealed_access_zero": true,
+    "synthetic_consistency_zero": true,
+    "xpu_residency": true
+  },
+  "composition_loss": 0.3891662657260895,
+  "device": "xpu:0",
+  "device_name": "Intel(R) Arc(TM) B580 Graphics",
+  "maximum_updates": 1,
+  "parameter_counts": {
+    "C1": 1063124,
+    "C2": 1063124,
+    "C3": 1063124
+  },
+  "prefix_loss": 0.9261586666107178,
+  "profiler_solve_device_time_total": 1371.1069999999927,
+  "purpose": "implementation_validation",
+  "schema_version": "cc-nqe-p4.7-v1",
+  "scientific_run": false,
+  "status": "PASS",
+  "synthetic_consistency_loss": 0.0,
+  "unitarity_error": 2.6721463086687436e-07
+}

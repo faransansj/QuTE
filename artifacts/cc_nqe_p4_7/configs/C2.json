@@ -1,0 +1,54 @@
+{
+  "C0_parameters": 1073312,
+  "actual_parameters": 1063124,
+  "additional_compute": {
+    "operator_forward_paths": 4,
+    "reason": "final action plus independently evaluated direct/full, first-part, and second-part composition paths"
+  },
+  "allocation": {
+    "probes_per_circuit": 17,
+    "source_arm": "A4",
+    "state_action_pairs": 1000008,
+    "unique_circuits": 58824
+  },
+  "architecture": {
+    "B3_head_ff_width": 320,
+    "B3_head_input_width": 160,
+    "analytical_gate_matrices": false,
+    "cayley_scale": 1.0,
+    "continuous_parameter_encoding": "3-value existing tensor encoding",
+    "gate_embedding": true,
+    "initial_state": "learned",
+    "operator_head": "P4.6_B3_dimensions_plus_basic_cayley",
+    "qubit_operand_embeddings": true,
+    "recurrent_width": 438,
+    "shared_transition": true,
+    "type": "shared_causal_residual_recurrence"
+  },
+  "composition_split_policy": "depth>=2: 1 + SHA256(decimal A4 pair sample ID || seed2026) mod (depth-1)",
+  "lambda_comp": 0.3,
+  "lambda_prefix": 0.0,
+  "parameter_fairness_fraction": 0.009492114128976476,
+  "parameter_fairness_pass": true,
+  "privileged": false,
+  "recipe": {
+    "device": "xpu:0",
+    "dtype": "float32",
+    "effective_batch_size": 1024,
+    "learning_rate": 0.0003,
+    "maximum_updates": 10000,
+    "optimizer": "AdamW",
+    "scheduler": "cosine",
+    "seed": 2026,
+    "validation_interval": 500
+  },
+  "schema_version": "cc-nqe-p4.7-v1",
+  "scientific_state": "NOT_RUN",
+  "supervision": [
+    "C",
+    "psi_in",
+    "psi_out"
+  ],
+  "supervision_class": "ACTION_ONLY_PLUS_SELF_CONSISTENCY",
+  "variant": "C2"
+}

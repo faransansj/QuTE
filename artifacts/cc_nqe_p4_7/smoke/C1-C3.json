@@ -1,0 +1,58 @@
+{
+  "maximum_updates": 1,
+  "purpose": "implementation_validation",
+  "schema_version": "cc-nqe-p4.7-v1",
+  "scientific_run": false,
+  "scientific_runs": "NONE",
+  "status": "PASS",
+  "variants": {
+    "C1": {
+      "action_fidelity": 0.3192286193370819,
+      "checkpoint_resume": "PASS",
+      "composition_loss": null,
+      "finite_gradients": true,
+      "loss": 0.6807713508605957,
+      "optimizer_updates": 1,
+      "prefix_loss": null,
+      "process_fidelity": 0.2058093249797821,
+      "purpose": "implementation_validation",
+      "raw_action_norm": 1.0,
+      "scientific_run": false,
+      "status": "PASS",
+      "unitarity_error": 2.1315429421520093e-07,
+      "xpu_residency": true
+    },
+    "C2": {
+      "action_fidelity": 0.3192286193370819,
+      "checkpoint_resume": "PASS",
+      "composition_loss": 0.4397098422050476,
+      "finite_gradients": true,
+      "loss": 0.8126842975616455,
+      "optimizer_updates": 1,
+      "prefix_loss": null,
+      "process_fidelity": 0.2058093249797821,
+      "purpose": "implementation_validation",
+      "raw_action_norm": 1.0,
+      "scientific_run": false,
+      "status": "PASS",
+      "unitarity_error": 2.1315429421520093e-07,
+      "xpu_residency": true
+    },
+    "C3": {
+      "action_fidelity": 0.3192286193370819,
+      "checkpoint_resume": "PASS",
+      "composition_loss": null,
+      "finite_gradients": true,
+      "loss": 1.3175795078277588,
+      "optimizer_updates": 1,
+      "prefix_loss": 0.6368082165718079,
+      "process_fidelity": 0.20580928027629852,
+      "purpose": "implementation_validation",
+      "raw_action_norm": 1.0,
+      "scientific_run": false,
+      "status": "PASS",
+      "unitarity_error": 2.2217982120764646e-07,
+      "xpu_residency": true
+    }
+  }
+}

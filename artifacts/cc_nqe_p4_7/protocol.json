@@ -1,0 +1,37 @@
+{
+  "C0_rerun": false,
+  "excluded": [
+    "C4",
+    "multi-seed confirmation",
+    "sealed tests",
+    "arbitrary-qubit scalability",
+    "post-hoc variants"
+  ],
+  "schema_version": "cc-nqe-p4.7-v1",
+  "scientific_question": "Can shared recursive encoding improve composition/depth OOD while preserving B3 exact-unitary representation?",
+  "screen_order": [
+    "C1",
+    "C2",
+    "C3"
+  ],
+  "sealed_splits": [
+    "composition_ood_test_sealed",
+    "depth_ood_test_sealed"
+  ],
+  "sealed_test_access_count": 0,
+  "seed": 2026,
+  "status": "IMPLEMENTED_NOT_SCIENTIFICALLY_RUN",
+  "validation_splits": [
+    "iid_validation",
+    "state_ood_validation",
+    "parameter_ood_validation",
+    "composition_ood_validation",
+    "depth_ood_validation"
+  ],
+  "variants": {
+    "C0": "frozen P4.6 B3 anchor",
+    "C1": "recursive exact-unitary action-only",
+    "C2": "C1 plus non-tautological operator composition self-consistency",
+    "C3": "C1 plus privileged prefix action supervision"
+  }
+}

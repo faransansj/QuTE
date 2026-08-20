@@ -1,0 +1,97 @@
+{
+  "C0_rerun": false,
+  "allocation": {
+    "probes_per_circuit": 17,
+    "source_arm": "A4",
+    "state_action_pairs": 1000008,
+    "unique_circuits": 58824
+  },
+  "anchor": {
+    "actual_parameters": 1073312,
+    "anchor_integrity": "PASS",
+    "best_balanced_score": 0.5904355843861898,
+    "best_checkpoint_step": 8500,
+    "canonical_config_hash": "bff1722a762277c8f88f020a436ce84884eb3ab2931822db0f386424c1d45d3f",
+    "commit": "f97990728194e5bedcebccc0294c89dd1bfb5b98",
+    "config_hash": "1880d510b97bbb027bae30418de7882b23b905fb6e2f196434b75d541d42f49e",
+    "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+    "metric_artifact_hash": "b77e5695205ec2fed3f7bfec69174cde8ba5a9b43c9a87efc82147c603d10352",
+    "role": "frozen P4.6 B3 reference; no rerun",
+    "schema_version": "cc-nqe-p4.7-v1",
+    "scientific_state": "REFERENCE_ONLY",
+    "supervision_class": "ACTION_ONLY",
+    "variant": "C0"
+  },
+  "architecture": {
+    "B3_head_ff_width": 320,
+    "B3_head_input_width": 160,
+    "analytical_gate_matrices": false,
+    "cayley_scale": 1.0,
+    "continuous_parameter_encoding": "3-value existing tensor encoding",
+    "gate_embedding": true,
+    "initial_state": "learned",
+    "operator_head": "P4.6_B3_dimensions_plus_basic_cayley",
+    "qubit_operand_embeddings": true,
+    "recurrent_width": 438,
+    "shared_transition": true,
+    "type": "shared_causal_residual_recurrence"
+  },
+  "compute_note": "Equal optimizer updates and final state-action exposures; C2 triple operator evaluations and C3 prefix heads add FLOPs.",
+  "excluded": [
+    "C4",
+    "multi-seed confirmation",
+    "sealed tests",
+    "arbitrary-qubit scalability",
+    "post-hoc variants"
+  ],
+  "parameter_counts": {
+    "C0": 1073312,
+    "C1": 1063124,
+    "C2": 1063124,
+    "C3": 1063124
+  },
+  "recipe": {
+    "device": "xpu:0",
+    "dtype": "float32",
+    "effective_batch_size": 1024,
+    "learning_rate": 0.0003,
+    "maximum_updates": 10000,
+    "optimizer": "AdamW",
+    "scheduler": "cosine",
+    "seed": 2026,
+    "validation_interval": 500
+  },
+  "schema_version": "cc-nqe-p4.7-v1",
+  "scientific_question": "Can shared recursive encoding improve composition/depth OOD while preserving B3 exact-unitary representation?",
+  "screen_order": [
+    "C1",
+    "C2",
+    "C3"
+  ],
+  "sealed_splits": [
+    "composition_ood_test_sealed",
+    "depth_ood_test_sealed"
+  ],
+  "sealed_test_access_count": 0,
+  "seed": 2026,
+  "status": "IMPLEMENTED_NOT_SCIENTIFICALLY_RUN",
+  "supervision_classes": {
+    "C0": "ACTION_ONLY",
+    "C1": "ACTION_ONLY",
+    "C2": "ACTION_ONLY_PLUS_SELF_CONSISTENCY",
+    "C3": "PRIVILEGED_PREFIX_ACTION_SUPERVISION"
+  },
+  "validation_splits": [
+    "iid_validation",
+    "state_ood_validation",
+    "parameter_ood_validation",
+    "composition_ood_validation",
+    "depth_ood_validation"
+  ],
+  "variants": {
+    "C0": "frozen P4.6 B3 anchor",
+    "C1": "recursive exact-unitary action-only",
+    "C2": "C1 plus non-tautological operator composition self-consistency",
+    "C3": "C1 plus privileged prefix action supervision"
+  }
+}
