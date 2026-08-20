@@ -72,7 +72,7 @@ def unavailable(track): raise SystemExit(f'{track}-BLOCKED: G2 has not passed; n
 def status():
     p=ROOT/'status.json'; return json.loads(p.read_text()) if p.exists() else {"schema_version":SCHEMA,"state":"PENDING","gate":"G0"}
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('command',choices=('preflight','freeze-p4-5','generate-ood-v2','audit','factorial-screen','operator-screen','architecture-screen','status','report','run-screening-all')); a=p.parse_args(); ROOT.mkdir(parents=True,exist_ok=True)
+    p=argparse.ArgumentParser(); p.add_argument('command',choices=('preflight','freeze-p4-5','generate-ood-v2','audit','factorial-screen','operator-preflight','operator-smoke','operator-screen','operator-run','architecture-screen','status','report','run-screening-all')); p.add_argument('variant',nargs='?',choices=('B0','B1','B2','B3','B4','B5')); a=p.parse_args(); ROOT.mkdir(parents=True,exist_ok=True)
     if a.command=='freeze-p4-5': print(json.dumps(freeze_p45(),indent=2))
     elif a.command=='preflight':
         freeze_p45(); r=preflight(); print(json.dumps(r,indent=2));
@@ -82,11 +82,22 @@ def main():
         if r['status']!='PASS': raise SystemExit('XPU-BLOCKED')
         generate_ood_v2()
     elif a.command=='status':
-        track=ROOT/'track_a/status.json'; print((track.read_text() if track.exists() else json.dumps(status(),indent=2)))
+        from cc_nqe_p4_6_track_b import operator_status
+        print(json.dumps(operator_status(),indent=2))
     elif a.command=='factorial-screen':
         from cc_nqe_p4_6_track_a import factorial_screen, install_signal_handlers
         install_signal_handlers(); print(json.dumps(factorial_screen(),indent=2))
-    elif a.command in ('audit','operator-screen','architecture-screen'): unavailable(a.command)
+    elif a.command in ('operator-preflight','operator-smoke','operator-screen','operator-run'):
+        from cc_nqe_p4_6_track_b import install_signal_handlers, operator_preflight, operator_run, operator_screen, operator_smoke
+        install_signal_handlers()
+        if a.command=='operator-preflight': result=operator_preflight()
+        elif a.command=='operator-smoke': result=operator_smoke()
+        elif a.command=='operator-screen': result=operator_screen()
+        else:
+            if not a.variant: p.error('operator-run requires B0..B5')
+            result=operator_run(a.variant)
+        print(json.dumps(result,indent=2))
+    elif a.command in ('audit','architecture-screen'): unavailable(a.command)
     elif a.command=='report':
         path=ROOT/'P4_6B_REPORT.md'
         if not path.exists(): unavailable('P4.6-B')

@@ -1,0 +1,35 @@
+{
+  "actual_parameters": 1073312,
+  "allocation": {
+    "probes_per_circuit": 17,
+    "source_arm": "A4",
+    "state_action_pairs": 1000008,
+    "unique_circuits": 58824
+  },
+  "lambda_policy": "predeclared value from allowed {0.01,0.1}; no scientific search",
+  "lambda_unitary": 0.1,
+  "model": "soft-unitarity-operator",
+  "parameter_budget_target": 1000000,
+  "parameter_budget_tolerance_fraction": 0.15,
+  "parameter_budget_valid": true,
+  "privileged": false,
+  "recipe": {
+    "device": "xpu:0",
+    "dtype": "float32",
+    "effective_batch_size": 1024,
+    "learning_rate": 0.0003,
+    "maximum_updates": 10000,
+    "optimizer": "AdamW",
+    "scheduler": "cosine",
+    "seed": 2026,
+    "validation_interval": 500
+  },
+  "schema_version": "cc-nqe-p4.6-v1",
+  "scientific_metrics_at_freeze": "NOT_RUN",
+  "supervision": [
+    "C",
+    "psi_in",
+    "psi_out"
+  ],
+  "variant": "B2"
+}

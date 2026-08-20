@@ -17,7 +17,7 @@ artifacts/cc_nqe_p4_5/datasets/states.jsonl
 artifacts/cc_nqe_p4_6/datasets/**/*.npy
 artifacts/cc_nqe_p4_6/datasets/**/*.npz
 artifacts/cc_nqe_p4_6/checkpoints/
-artifacts/cc_nqe_p4_6/track_a/datasets/
-artifacts/cc_nqe_p4_6/track_a/checkpoints/
+artifacts/cc_nqe_p4_6/track_a/
 artifacts/cc_nqe_p4_6/track_a_terminal.log
 artifacts/cc_nqe_p4_6/operator/checkpoints/
+artifacts/cc_nqe_p4_6/operator/data/

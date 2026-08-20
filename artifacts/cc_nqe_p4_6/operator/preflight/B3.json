@@ -1,0 +1,76 @@
+{
+  "checks": {
+    "A_xpu0": true,
+    "backward": true,
+    "continuous_under_perturbation": true,
+    "cpu_xpu_action_fidelity_parity": true,
+    "cpu_xpu_element_parity": true,
+    "finite_nonzero_gradients": true,
+    "forward": true,
+    "identity": true,
+    "initialization_not_saturated": true,
+    "inputs_xpu0": true,
+    "near_identity": true,
+    "no_hidden_cpu_transfer": true,
+    "no_nan_inf": true,
+    "no_xpu_cpu_fallback": true,
+    "optimizer_update": true,
+    "profiler_native_xpu_solve": true,
+    "skew_hermitian": true,
+    "solve_inputs_output_xpu0": true,
+    "unitarity_thresholds": true
+  },
+  "conditioning": {
+    "max_condition_estimate": 1.8952467441558838,
+    "min_singular_value": 1.0000206232070923
+  },
+  "config_hash": "64e95472ac89bb0ebee388dec29e680af27fdccddbbac6a398b840fddc61ab98",
+  "cpu_xpu_action_fidelity_difference": 2.086162567138672e-07,
+  "cpu_xpu_max_element_difference": 3.488272284357663e-07,
+  "device": "xpu:0",
+  "device_name": "Intel(R) Arc(TM) B580 Graphics",
+  "finite_status": true,
+  "maximum_updates": 1,
+  "profiler": {
+    "solve_device_time_total": 3974.6009999983944,
+    "solve_events": [
+      "aten::linalg_solve",
+      "aten::linalg_solve_ex",
+      "aten::_linalg_solve_ex",
+      "oneapi::mkl::lapack::internal::usm::ref::getrf_batch_strided<std::complex<float>, long, float>(sycl::_V1::queue&, long, long, std::complex<float>*, long, long, long*, long, long, long*, std::vector<sycl::_V1::event, std::allocator<sycl::_V1::event> > const&)::{lambda(sycl::_V1::handler&)#1}::operator()(sycl::_V1::handler&) const::{lambda(sycl::_V1::nd_item<1>)#1}",
+      "aten::linalg_lu_solve",
+      "ctrsm_batch_ll_nn_8x8_4x8",
+      "ctrsm_batch_lu_nn_8x8_4x8",
+      "aten::resolve_conj",
+      "autograd::engine::evaluate_function: LinalgSolveExBackward0",
+      "LinalgSolveExBackward0",
+      "ctrsm_batch_lu_tn_8x8_4x8",
+      "ctrsm_batch_ll_tn_8x8_4x8"
+    ]
+  },
+  "purpose": "implementation_validation",
+  "raw_output_state_norm": {
+    "max_error_from_one": 5.416613578796387,
+    "mean": 5.694849014282227
+  },
+  "schema_version": "cc-nqe-p4.6-v1",
+  "scientific_run": false,
+  "solve_failures": 0,
+  "status": "PASS",
+  "thresholds": {
+    "cpu_xpu_action_fidelity_difference": 1e-05,
+    "cpu_xpu_max_element_difference": 0.0001,
+    "max_unitarity_error": 0.0001,
+    "mean_unitarity_error": 1e-05
+  },
+  "unitarity_error": {
+    "max": 2.234198888118044e-07,
+    "mean": 2.2153898271426442e-07,
+    "p95": 2.2327249382669834e-07
+  },
+  "variant": "B3",
+  "warnings": [
+    "The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /pytorch/aten/src/ATen/NestedTensorImpl.cpp:178.)",
+    "Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True."
+  ]
+}

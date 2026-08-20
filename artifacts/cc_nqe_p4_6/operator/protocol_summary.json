@@ -1,0 +1,98 @@
+{
+  "B2_lambda_unitary": 0.1,
+  "B3_cayley_limitation": "Cayley and matrix exponential are different parameterizations. A basic Cayley chart does not globally cover every element of U(16), notably the -1-eigenvalue boundary. Global-phase-invariant state/process metrics mitigate but do not remove this limitation.",
+  "B3_description": "action-only exact-unitarity via basic Cayley parameterization",
+  "B5_lambda_comp": 0.3,
+  "allocation": {
+    "probes_per_circuit": 17,
+    "source_arm": "A4",
+    "state_action_pairs": 1000008,
+    "unique_circuits": 58824
+  },
+  "recipe": {
+    "device": "xpu:0",
+    "dtype": "float32",
+    "effective_batch_size": 1024,
+    "learning_rate": 0.0003,
+    "maximum_updates": 10000,
+    "optimizer": "AdamW",
+    "scheduler": "cosine",
+    "seed": 2026,
+    "validation_interval": 500
+  },
+  "scalability_scope": "explicit 16x16 operator prediction is a four-qubit diagnostic only",
+  "schema_version": "cc-nqe-p4.6-v1",
+  "sealed_access_count": 0,
+  "sealed_splits_loaded": false,
+  "state": "IMPLEMENTED_NOT_SCIENTIFICALLY_RUN",
+  "variants": {
+    "B0": {
+      "actual_parameters": 1001472,
+      "parameter_budget_valid": true,
+      "privileged": false,
+      "scientific_state": "NOT_RUN",
+      "supervision": [
+        "C",
+        "psi_in",
+        "psi_out"
+      ]
+    },
+    "B1": {
+      "actual_parameters": 1073312,
+      "parameter_budget_valid": true,
+      "privileged": false,
+      "scientific_state": "NOT_RUN",
+      "supervision": [
+        "C",
+        "psi_in",
+        "psi_out"
+      ]
+    },
+    "B2": {
+      "actual_parameters": 1073312,
+      "parameter_budget_valid": true,
+      "privileged": false,
+      "scientific_state": "NOT_RUN",
+      "supervision": [
+        "C",
+        "psi_in",
+        "psi_out"
+      ]
+    },
+    "B3": {
+      "actual_parameters": 1073312,
+      "parameter_budget_valid": true,
+      "privileged": false,
+      "scientific_state": "NOT_RUN",
+      "supervision": [
+        "C",
+        "psi_in",
+        "psi_out"
+      ]
+    },
+    "B4": {
+      "actual_parameters": 1073312,
+      "parameter_budget_valid": true,
+      "privileged": true,
+      "scientific_state": "NOT_RUN",
+      "supervision": [
+        "C",
+        "psi_in",
+        "psi_out",
+        "exact_U"
+      ]
+    },
+    "B5": {
+      "actual_parameters": 1073312,
+      "parameter_budget_valid": true,
+      "privileged": true,
+      "scientific_state": "NOT_RUN",
+      "supervision": [
+        "C",
+        "psi_in",
+        "psi_out",
+        "exact_U"
+      ]
+    }
+  }
+}

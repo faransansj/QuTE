@@ -96,12 +96,11 @@ class OperatorModel(nn.Module):
     def forward(self,gates,qubits,parameters,mask):
         raw=self.head(self.circuit(gates,qubits,parameters,mask)).reshape(-1,2,DIM,DIM); b=torch.complex(raw[:,0],raw[:,1])
         if self.kind=="unconstrained": return b
-        a=b-b.mH
-        if self.kind=="lie": return torch.matrix_exp(a)
+        if self.kind=="lie": return torch.matrix_exp((b-b.mH)/2)
+        a=(b-b.mH)/2
         eye=torch.eye(DIM,dtype=a.dtype,device=a.device).expand_as(a)
-        # Scaled Cayley chart omits eigenvalue -1; scale limits ill-conditioned generators.
-        a=torch.tanh(a.abs())*torch.exp(1j*torch.angle(a)); a=(a-a.mH)/2
-        return torch.linalg.solve(eye-a/2,eye+a/2)
+        # Basic Cayley chart is exactly unitary but excludes the -1-eigenvalue boundary.
+        return torch.linalg.solve(eye+a,eye-a)
 
 class GateTransition(nn.Module):
     def __init__(self,width:int=448):

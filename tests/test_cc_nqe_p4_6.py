@@ -7,6 +7,9 @@ from cc_nqe import DIM, Gate, circuit_unitary, generate_state
 from cc_nqe_p4_5 import parameter_count, state_fidelity
 from cc_nqe_p4_6 import *
 from cc_nqe_p4_6_track_a import generate_master_pool, load_validation, ordered_probes, probe_family, probe_seed, track_a_verdict
+from cc_nqe_p4_6_track_b import (ALLOCATION, VARIANTS, _model, _protocol_checks, action_metrics, b5_composition_loss,
+    operator_action, operator_status, phase_aligned_normalized_frobenius_error,
+    soft_unitarity_loss, validate_operator_checkpoint, variant_config)
 
 
 def _circuit_batch(circuit,max_depth=4):
@@ -42,7 +45,7 @@ def test_operator_metrics_phase_invariant_application_and_ordering():
     psi=torch.tensor(generate_state(1,'Haar-random')); assert torch.allclose(exact@psi,u2@(u1@psi))
     assert not torch.allclose(u1@u2,u2@u1)
 
-def test_lie_and_scaled_cayley_are_unitary():
+def test_lie_and_basic_cayley_are_unitary():
     args=_circuit_batch([Gate('H',(0,)),Gate('CNOT',(0,1))])
     for kind in ('lie','cayley'):
         u=OperatorModel(kind,{'width':16,'ff':32,'layers':1,'heads':4})(*args)
@@ -113,6 +116,81 @@ def test_track_a_verdict_uses_only_allowed_terminology():
     assert track_a_verdict(rows([.1,.2,.2,.3,.4]))=='PROBE-COVERAGE-DOMINANT'
     assert track_a_verdict(rows([.1,.2,.4,.2,.1]))=='MIXED-DATA-EFFECT'
     assert track_a_verdict(rows([.2,.201,.202,.203,.204]))=='NO-CLEAR-DATA-EFFECT'
+
+def test_track_a_frozen_result_integrity():
+    frozen=json.loads((Path('artifacts/cc_nqe_p4_6/factorial/summary.json')).read_text())
+    assert frozen['winner']=='A3' and frozen['verdict']=='MIXED-DATA-EFFECT'
+    assert frozen['integrity']=={'all_arms_completed':True,'updates_each':10000,'pair_exposures_each':10240000,'seed':2026,'xpu_residency':'PASS','finite_loss_gradients':'PASS','circuit_nesting':'PASS','probe_nesting':'PASS','distribution_controls':'PASS','sealed_test_access_count':0}
+    assert all(x['primary_checkpoint']['selection']=='best balanced validation' for x in frozen['arms'].values())
+
+def test_track_b_a4_allocation_and_supervision_contracts():
+    assert ALLOCATION=={'unique_circuits':58824,'probes_per_circuit':17,'state_action_pairs':1000008,'source_arm':'A4'}
+    common=['C','psi_in','psi_out']
+    assert all(VARIANTS[v]['supervision']==common for v in ('B0','B1','B2','B3'))
+    assert VARIANTS['B4']['label']=='PRIVILEGED OPERATOR SUPERVISION' and VARIANTS['B5']['label']=='PRIVILEGED OPERATOR SUPERVISION'
+    assert VARIANTS['B2']['lambda_unitary']==.1 and VARIANTS['B5']['lambda_comp']==.3
+
+def test_track_b_action_fidelity_scale_invariance_and_raw_norm():
+    state=torch.zeros(1,2*DIM); state[0,0]=1
+    target=state.clone()
+    operator=torch.eye(DIM,dtype=torch.complex64)[None]; operator[0,0,0]=37
+    fidelity,norm=action_metrics(operator,state,target)
+    assert torch.allclose(fidelity,torch.ones_like(fidelity)) and torch.allclose(norm,torch.tensor([37.]))
+
+def test_track_b_soft_unitarity_loss_and_basic_cayley_exact_unitarity():
+    eye=torch.eye(DIM,dtype=torch.complex64)[None]
+    assert soft_unitarity_loss(eye)==0
+    bad=eye*2; assert torch.allclose(soft_unitarity_loss(bad),torch.tensor(9.))
+    zero=torch.zeros_like(eye); assert torch.equal(torch.linalg.solve(eye+zero,eye-zero),eye)
+    b=torch.randn(2,DIM,DIM,dtype=torch.complex64,requires_grad=True); a=(b-b.mH)/2; assert torch.allclose(a,-a.mH)
+    u=torch.linalg.solve(eye+a,eye-a); assert raw_unitarity_error(u).max()<1e-5
+    u.real.sum().backward(); assert torch.isfinite(b.grad).all() and b.grad.abs().sum()>0
+    args=_circuit_batch([Gate('H',(0,)),Gate('CNOT',(0,1))]); exact=_model('B3')(*args); assert raw_unitarity_error(exact).max()<1e-5
+
+def test_track_b_process_phase_and_frobenius_metrics():
+    exact=torch.eye(DIM,dtype=torch.complex64)[None]; phased=exact*torch.exp(torch.tensor(.7j))
+    assert torch.allclose(process_fidelity(phased,exact),torch.ones(1),atol=1e-6)
+    assert phase_aligned_normalized_frobenius_error(phased,exact).max()<1e-6
+
+def test_track_b_operator_to_state_application_and_composition_order():
+    c1=[Gate('H',(0,))]; c2=[Gate('CNOT',(0,1))]; u1=torch.tensor(circuit_unitary(c1),dtype=torch.complex64); u2=torch.tensor(circuit_unitary(c2),dtype=torch.complex64); state=torch.tensor(generate_state(9,'Haar-random'),dtype=torch.complex64)
+    real=torch.cat((state.real,state.imag))[None]; action,norm=operator_action((u2@u1)[None],real)
+    got=torch.complex(action[0,:DIM],action[0,DIM:]); assert torch.allclose(got,u2@(u1@state),atol=1e-6) and torch.allclose(norm,torch.ones(1),atol=1e-6)
+    assert not torch.allclose(u2@u1,u1@u2)
+
+def test_track_b_b5_composition_loss_is_non_tautological_and_has_gradient():
+    torch.manual_seed(4); direct=torch.randn(2,DIM,DIM,dtype=torch.complex64,requires_grad=True); first=torch.randn(2,DIM,DIM,dtype=torch.complex64,requires_grad=True); second=torch.randn(2,DIM,DIM,dtype=torch.complex64,requires_grad=True)
+    loss=b5_composition_loss(direct,second,first); assert loss>0
+    loss.backward(); assert direct.grad is not None and direct.grad.abs().sum()>0 and first.grad.abs().sum()>0 and second.grad.abs().sum()>0
+
+def test_track_b_parameter_budget_matching_and_protocol_equality():
+    counts={v:variant_config(v)['actual_parameters'] for v in VARIANTS}
+    assert all(850000<=n<=1150000 for n in counts.values()) and counts['B0']==1001472 and all(counts[v]==1073312 for v in ('B1','B2','B3','B4','B5'))
+    assert all(_protocol_checks().values())
+
+def test_track_b_checkpoint_resume_and_status_schema():
+    config={'variant':'B1'}; payload={'config':config,'config_hash':digest(config),'dataset_manifest_hash':'x'}; validate_operator_checkpoint(payload,config,'x')
+    with pytest.raises(ValueError,match='config'): validate_operator_checkpoint(payload,{'variant':'B2'},'x')
+    with pytest.raises(ValueError,match='dataset'): validate_operator_checkpoint(payload,config,'y')
+    value=operator_status(); assert value['schema_version']==SCHEMA and set(value['scientific_runs'])==set(VARIANTS) and value['sealed_test_access_count']==0
+
+def test_track_b_screen_preflights_before_any_scientific_run(monkeypatch):
+    import cc_nqe_p4_6_track_b as track
+    called=[]; monkeypatch.setattr(track,'require_operator_preconditions',lambda:None); monkeypatch.setattr(track,'operator_preflight',lambda:{'status':'B3-XPU-BLOCKED'}); monkeypatch.setattr(track,'operator_run',lambda variant:called.append(variant))
+    with pytest.raises(RuntimeError,match='refused before any scientific variant'): track.operator_screen()
+    assert called==[]
+
+def test_track_b_completed_run_returns_frozen_metric(monkeypatch,tmp_path):
+    import cc_nqe_p4_6_track_b as track
+    monkeypatch.setattr(track,'OP_ROOT',tmp_path); monkeypatch.setattr(track,'require_operator_preconditions',lambda:None)
+    expected={'schema_version':SCHEMA,'variant':'B1','state':'COMPLETED','latest_validation':{'iid_validation':{'predicted_operator_state_fidelity':.5}}}
+    atomic_json(tmp_path/'metrics/B1.json',expected)
+    assert track.operator_run('B1')==expected
+
+@pytest.mark.skipif(not torch.xpu.is_available(),reason='native XPU unavailable')
+def test_track_b_xpu_cayley_forward_backward_and_residency():
+    model=_model('B3','xpu:0'); args=tuple(x.to('xpu:0') for x in _circuit_batch([Gate('H',(0,)),Gate('CNOT',(0,1))])); out=model(*args); loss=raw_unitarity_error(out).mean()+(1-process_fidelity(out,torch.eye(DIM,dtype=out.dtype,device=out.device)[None])).mean(); loss.backward()
+    assert out.device.type=='xpu' and torch.isfinite(out).all() and all(p.grad is None or torch.isfinite(p.grad).all() for p in model.parameters()) and raw_unitarity_error(out).max()<1e-4
 
 @pytest.mark.skipif(not torch.xpu.is_available(),reason='native XPU unavailable')
 def test_xpu_residency():
