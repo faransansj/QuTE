@@ -1,0 +1,12 @@
+{
+  "candidate_roles_unchanged": {
+    "C0": "anchor comparator; monolithic action-only exact-unitary Cayley operator",
+    "C1": "primary general-purpose candidate; shared causal recurrent action-only exact-unitary operator",
+    "C2": "composition specialist; C1 plus operator-composition self-consistency"
+  },
+  "composition": "SEALED-COMPOSITION-NOT-SUPPORTED",
+  "formal_significance_claimed": false,
+  "overall": "P4.8-SEALED-PARTIALLY-SUPPORTED",
+  "recurrent": "SEALED-RECURRENT-QUALIFIED",
+  "schema_version": "cc-nqe-p4.8-v1"
+}

@@ -1,8 +1,29 @@
 {
-  "access_count": 0,
-  "history": [],
+  "access_count": 1,
+  "history": [
+    {
+      "state": "STARTED",
+      "time": 1787253030.980687,
+      "transaction_id": "96c378b1-2e91-4312-8356-4c5263f3e898"
+    },
+    {
+      "state": "COMPLETED",
+      "time": 1787253033.5456302,
+      "transaction_id": "96c378b1-2e91-4312-8356-4c5263f3e898"
+    }
+  ],
   "schema_version": "cc-nqe-p4.8-v1",
-  "sealed_test_evaluated": false,
-  "state": "PREPARED",
-  "transaction": null
+  "sealed_test_evaluated": true,
+  "state": "COMPLETED",
+  "transaction": {
+    "candidate_freeze_sha256": "386b4c6dd4d61704740b7a6d4b68eda460939e87482951e8ce27b4e8c30e39b9",
+    "checkpoint_hashes_sha256": "279ecc0ccf187bca557ccad1071fc05762c53c9fa0a1586d613120de963a523f",
+    "dataset_hashes_sha256": "9cf18be4fffda2f7a13073e022d379ef50f7105d62046eb15d445c0348fba62f",
+    "implementation_commit": "1c369d7fb6fc0add400943cddb3e43b84fcbeb75",
+    "protocol_sha256": "5d65f74baade59fa105d66b73300ad657ce21aca11e76b7a3c151290f40fecc0",
+    "schema_version": "cc-nqe-p4.8-v1",
+    "state": "PREPARED",
+    "transaction_id": "96c378b1-2e91-4312-8356-4c5263f3e898",
+    "unlock_token": "d2ff286d7322fbe04de070a2da38e439c5e674a78b1b02601fa884e51f1ecfa3"
+  }
 }

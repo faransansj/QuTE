@@ -1,13 +1,15 @@
 {
   "access_count": 0,
   "candidate_count": 9,
-  "candidate_hashes": "PASS",
+  "candidate_freeze_sha256": "386b4c6dd4d61704740b7a6d4b68eda460939e87482951e8ce27b4e8c30e39b9",
+  "implementation_commit": "1c369d7fb6fc0add400943cddb3e43b84fcbeb75",
   "p4_7_integrity": {
     "artifact_hashes_verified": 21,
     "cells": "12/12",
     "source_commit": "cd77fdeb51a481b04086c6192fad3c4b02e8b9aa",
     "status": "PASS"
   },
+  "protocol_sha256": "5d65f74baade59fa105d66b73300ad657ce21aca11e76b7a3c151290f40fecc0",
   "schema_version": "cc-nqe-p4.8-v1",
   "sealed_arrays_loaded": false,
   "sealed_metadata": {
@@ -70,5 +72,12 @@
     "schema_version": "cc-nqe-p4.6-v1",
     "status": "PASS"
   },
-  "status": "PREPARED"
+  "sealed_test_evaluated": false,
+  "status": "PASS",
+  "xpu": {
+    "cpu_fallback": false,
+    "device": "xpu:0",
+    "native_cayley": true,
+    "status": "PASS"
+  }
 }

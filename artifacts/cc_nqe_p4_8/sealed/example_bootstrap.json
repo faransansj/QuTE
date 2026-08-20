@@ -1,0 +1,176 @@
+[
+  {
+    "F_comp_test_delta": {
+      "ci": [
+        0.005330524362943837,
+        0.16305273270991164
+      ],
+      "estimate": 0.08297269239847083
+    },
+    "F_depth_macro_delta": {
+      "ci": [
+        -0.1675665163331562,
+        0.11148751320110427
+      ],
+      "estimate": -0.028757466417219903
+    },
+    "S_sealed_delta": {
+      "ci": [
+        -0.05440269660739432,
+        0.10650488660974386
+      ],
+      "estimate": 0.02710761299062546
+    },
+    "bootstrap_seed": 47008,
+    "comparison": "C1_minus_C0",
+    "confidence_level": 0.95,
+    "label": "example-level bootstrap uncertainty",
+    "resamples": 10000,
+    "seed": 2026
+  },
+  {
+    "F_comp_test_delta": {
+      "ci": [
+        -0.1134853426478609,
+        0.10039735004935815
+      ],
+      "estimate": -0.008070233174900446
+    },
+    "F_depth_macro_delta": {
+      "ci": [
+        -0.008487711660563946,
+        0.1672505730142196
+      ],
+      "estimate": 0.07802845837755336
+    },
+    "S_sealed_delta": {
+      "ci": [
+        -0.03419450574275895,
+        0.10642482758591235
+      ],
+      "estimate": 0.034979112601326454
+    },
+    "bootstrap_seed": 47008,
+    "comparison": "C1_minus_C0",
+    "confidence_level": 0.95,
+    "label": "example-level bootstrap uncertainty",
+    "resamples": 10000,
+    "seed": 2027
+  },
+  {
+    "F_comp_test_delta": {
+      "ci": [
+        -0.1437082999579919,
+        -0.02435006503704547
+      ],
+      "estimate": -0.08329449863716339
+    },
+    "F_depth_macro_delta": {
+      "ci": [
+        -0.1397355277505186,
+        0.12721507768664095
+      ],
+      "estimate": -0.0031981971114873886
+    },
+    "S_sealed_delta": {
+      "ci": [
+        -0.11789472934324295,
+        0.02919542003017139
+      ],
+      "estimate": -0.04324634787432539
+    },
+    "bootstrap_seed": 47008,
+    "comparison": "C1_minus_C0",
+    "confidence_level": 0.95,
+    "label": "example-level bootstrap uncertainty",
+    "resamples": 10000,
+    "seed": 2028
+  },
+  {
+    "F_comp_test_delta": {
+      "ci": [
+        -0.15025981645376305,
+        -0.00464982746634635
+      ],
+      "estimate": -0.07607405230495108
+    },
+    "F_depth_macro_delta": {
+      "ci": [
+        -0.09503430469582479,
+        0.038387253466579646
+      ],
+      "estimate": -0.025246997105164662
+    },
+    "S_sealed_delta": {
+      "ci": [
+        -0.10086681091479477,
+        -0.001999235348719412
+      ],
+      "estimate": -0.05066052470505787
+    },
+    "bootstrap_seed": 47008,
+    "comparison": "C2_minus_C1",
+    "confidence_level": 0.95,
+    "label": "example-level bootstrap uncertainty",
+    "resamples": 10000,
+    "seed": 2026
+  },
+  {
+    "F_comp_test_delta": {
+      "ci": [
+        -0.13797546513745448,
+        0.013481800647362704
+      ],
+      "estimate": -0.0586831406969092
+    },
+    "F_depth_macro_delta": {
+      "ci": [
+        -0.14519907948043612,
+        -0.04130994031826655
+      ],
+      "estimate": -0.09585212419430415
+    },
+    "S_sealed_delta": {
+      "ci": [
+        -0.12487100932632227,
+        -0.03150823383883918
+      ],
+      "estimate": -0.07726763244560668
+    },
+    "bootstrap_seed": 47008,
+    "comparison": "C2_minus_C1",
+    "confidence_level": 0.95,
+    "label": "example-level bootstrap uncertainty",
+    "resamples": 10000,
+    "seed": 2027
+  },
+  {
+    "F_comp_test_delta": {
+      "ci": [
+        0.00014340043717311413,
+        0.04561951868390679
+      ],
+      "estimate": 0.02120190259665833
+    },
+    "F_depth_macro_delta": {
+      "ci": [
+        -0.05874505235503117,
+        0.05728187784552574
+      ],
+      "estimate": 0.0015777947070697944
+    },
+    "S_sealed_delta": {
+      "ci": [
+        -0.021417263229735303,
+        0.04131233965566327
+      ],
+      "estimate": 0.011389848651864062
+    },
+    "bootstrap_seed": 47008,
+    "comparison": "C2_minus_C1",
+    "confidence_level": 0.95,
+    "label": "example-level bootstrap uncertainty",
+    "resamples": 10000,
+    "seed": 2028
+  }
+]

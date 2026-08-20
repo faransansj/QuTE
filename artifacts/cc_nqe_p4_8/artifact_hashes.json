@@ -1,0 +1,16 @@
+{
+  "algorithm": "SHA-256",
+  "artifacts": {
+    "artifacts/cc_nqe_p4_8/P4_8_FINAL_REPORT.md": "572ea827d44748ab2876649d6db2992dc3eb35e3950c593e50e585faf777ab3f",
+    "artifacts/cc_nqe_p4_8/candidate_freeze.json": "386b4c6dd4d61704740b7a6d4b68eda460939e87482951e8ce27b4e8c30e39b9",
+    "artifacts/cc_nqe_p4_8/protocol.json": "5d65f74baade59fa105d66b73300ad657ce21aca11e76b7a3c151290f40fecc0",
+    "artifacts/cc_nqe_p4_8/scientific_verdict.json": "84fc59b1befa55fb3685a3a4ec73a8f30ee198f1140aec89d25c7742bbdddb90",
+    "artifacts/cc_nqe_p4_8/sealed/aggregate_summary.json": "f9897fc69c4c29e6d92afa6212e4db8ba8a191bc902a5492c99728e6f1cd8a9c",
+    "artifacts/cc_nqe_p4_8/sealed/depth_curves.json": "dbbaf6aa563623fb21aaef12bf28fb290d15a8b9462efe5b9a45d4611324de96",
+    "artifacts/cc_nqe_p4_8/sealed/example_bootstrap.json": "37a614bae77a19ab393afc8b10b7ebee19d22f2eb61a3429e681d48e5c896133",
+    "artifacts/cc_nqe_p4_8/sealed/paired_deltas.json": "a4e77ee435545eadfaae4f2ee9f6b78240dcbcb6e5e3c416ff17b9698c9109a9",
+    "artifacts/cc_nqe_p4_8/sealed/per_checkpoint_metrics.json": "5afce89fcf641ffa9f9bbe8d23ded1de16a25be185684c92794f76a16c80e1bd",
+    "artifacts/cc_nqe_p4_8/sealed/per_seed_summary.json": "f286827bccc9fde080f924d976601542dde8a3b624d49cace95a760829ca5261",
+    "artifacts/cc_nqe_p4_8/sealed/result_hashes.sha256": "838361c587adcbd6d0bebd6984dea313ac34b6898f59ec4d7eb557f88c0c0edd"
+  }
+}
