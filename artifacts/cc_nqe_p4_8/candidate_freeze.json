@@ -1,0 +1,270 @@
+{
+  "candidate_roles": {
+    "C0": "anchor comparator; monolithic action-only exact-unitary Cayley operator",
+    "C1": "primary general-purpose candidate; shared causal recurrent action-only exact-unitary operator",
+    "C2": "composition specialist; C1 plus operator-composition self-consistency"
+  },
+  "checkpoints": [
+    {
+      "architecture_identifier": "P4.6-B3-monolithic-operator",
+      "best_balanced_checkpoint_step": 8500,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_6/operator/checkpoints/B3-best-balanced.pt",
+      "checkpoint_sha256": "33f161067123e229fb34d3e855069431996657e09f623b00375d3d9b90c8ab49",
+      "config_file_sha256": "1880d510b97bbb027bae30418de7882b23b905fb6e2f196434b75d541d42f49e",
+      "config_hash": "bff1722a762277c8f88f020a436ce84884eb3ab2931822db0f386424c1d45d3f",
+      "config_path": "artifacts/cc_nqe_p4_6/operator/configs/B3.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1073312,
+      "role": "anchor comparator; monolithic action-only exact-unitary Cayley operator",
+      "seed": 2026,
+      "source_metric_hash": "b77e5695205ec2fed3f7bfec69174cde8ba5a9b43c9a87efc82147c603d10352",
+      "source_metric_path": "artifacts/cc_nqe_p4_6/operator/metrics/B3.json",
+      "source_phase": "P4.6_B3_anchor",
+      "supervision_class": "ACTION_ONLY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C0"
+    },
+    {
+      "architecture_identifier": "P4.7-shared-causal-residual-recurrence",
+      "best_balanced_checkpoint_step": 6000,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/checkpoints/C1-best-balanced.pt",
+      "checkpoint_sha256": "57ad15057ceb74d70e9879b9a17683c9f116f8ae073c3f22052ffc26467ef082",
+      "config_file_sha256": "8e9a77977a630d9e4555d86a346306f67f0a4bcabe52c23ad660c241fb317691",
+      "config_hash": "fe425ce893adee5442260d84a6aae8a99a603b82694754634e830c0d836061a6",
+      "config_path": "artifacts/cc_nqe_p4_7/configs/C1.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1063124,
+      "role": "primary general-purpose candidate; shared causal recurrent action-only exact-unitary operator",
+      "seed": 2026,
+      "source_metric_hash": "669de45ebeeecc3e6d5116249f5dcf2ff6ee91d6c8e846ab9d76a4f15c00662c",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/metrics/C1.json",
+      "source_phase": "P4.7_screening",
+      "supervision_class": "ACTION_ONLY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C1"
+    },
+    {
+      "architecture_identifier": "P4.7-shared-causal-residual-recurrence",
+      "best_balanced_checkpoint_step": 10000,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/checkpoints/C2-best-balanced.pt",
+      "checkpoint_sha256": "a19a6f87f3ed99380fd8fe1a48c0bd49d11d2b621e3619a8986a6585725b5543",
+      "config_file_sha256": "a6953011e45073aee709fa54e5c17c58c15c8c1093ae4a1b3f47c527c3d201f1",
+      "config_hash": "fc7f3f8fbc3069655cb8d6d26bb56601c85e1b3351d3fb5fcc611787fe913d61",
+      "config_path": "artifacts/cc_nqe_p4_7/configs/C2.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1063124,
+      "role": "composition specialist; C1 plus operator-composition self-consistency",
+      "seed": 2026,
+      "source_metric_hash": "76b660f8979e4811c5ef10a12a8bdb862579abb5108f94f0a4e402bc783df775",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/metrics/C2.json",
+      "source_phase": "P4.7_screening",
+      "supervision_class": "ACTION_ONLY_PLUS_SELF_CONSISTENCY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C2"
+    },
+    {
+      "architecture_identifier": "P4.6-B3-monolithic-operator",
+      "best_balanced_checkpoint_step": 8500,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C0-seed2027-best-balanced.pt",
+      "checkpoint_sha256": "a1c74d621e3558308bd554dfdaaa2b0b436bfe257972847f4c78c9b3d03bbf2a",
+      "config_file_sha256": "475be4d84c95d4cc5646aad11b101d28f5615ed092482b59511ac452482b6565",
+      "config_hash": "7b03d79b69586a15c4fafea1f40e22111cac54f0d497684eebdd5f066bf0d954",
+      "config_path": "artifacts/cc_nqe_p4_7/confirmatory/configs/C0-seed2027.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1073312,
+      "role": "anchor comparator; monolithic action-only exact-unitary Cayley operator",
+      "seed": 2027,
+      "source_metric_hash": "013e87f49935305bdc4bea56724ea01c3554c0ff28367d673b0affb81aec0d8f",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/confirmatory/metrics/C0-seed2027.json",
+      "source_phase": "P4.7_confirmatory",
+      "supervision_class": "ACTION_ONLY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C0"
+    },
+    {
+      "architecture_identifier": "P4.7-shared-causal-residual-recurrence",
+      "best_balanced_checkpoint_step": 8000,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C1-seed2027-best-balanced.pt",
+      "checkpoint_sha256": "e4013c2bd2c663e973c4cf3666bc8c9373a4a2a89ac6485052bcf4df96354663",
+      "config_file_sha256": "aef6146b58c87b6cbefdd15c8c9ff3bdef779dc6594f8eb14baa7b8664894b58",
+      "config_hash": "6d4e88087e40d2092750d2279e2fa1c3d884df855d0cb3d90fc885f125214227",
+      "config_path": "artifacts/cc_nqe_p4_7/confirmatory/configs/C1-seed2027.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1063124,
+      "role": "primary general-purpose candidate; shared causal recurrent action-only exact-unitary operator",
+      "seed": 2027,
+      "source_metric_hash": "14b90e1f66846eb92db5349d58a2725cc20041267b05e11ccaa43148cf5b447a",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/confirmatory/metrics/C1-seed2027.json",
+      "source_phase": "P4.7_confirmatory",
+      "supervision_class": "ACTION_ONLY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C1"
+    },
+    {
+      "architecture_identifier": "P4.7-shared-causal-residual-recurrence",
+      "best_balanced_checkpoint_step": 9000,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C2-seed2027-best-balanced.pt",
+      "checkpoint_sha256": "bc2922f9913b1cf1d6dfbb5aea465131f5882f8590e83104dd20efe9e621b022",
+      "config_file_sha256": "4cde7ff863099be1f62ca27fea2ba240d479564e1d71d0c988dca9f7f9ea3c03",
+      "config_hash": "3c7b5c005abc3af786a5aeb91823962caa65eea05417c6eb6ad7bb963597b39e",
+      "config_path": "artifacts/cc_nqe_p4_7/confirmatory/configs/C2-seed2027.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1063124,
+      "role": "composition specialist; C1 plus operator-composition self-consistency",
+      "seed": 2027,
+      "source_metric_hash": "e27dae1f2cabbda24f063337f1d3a0ca10ed805b2e5047b8dba7723612b9662f",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/confirmatory/metrics/C2-seed2027.json",
+      "source_phase": "P4.7_confirmatory",
+      "supervision_class": "ACTION_ONLY_PLUS_SELF_CONSISTENCY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C2"
+    },
+    {
+      "architecture_identifier": "P4.6-B3-monolithic-operator",
+      "best_balanced_checkpoint_step": 7000,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C0-seed2028-best-balanced.pt",
+      "checkpoint_sha256": "25080b5fa5082c3f4953a2718c7c230041ef391b7a15f11bfef4946fd60b7a56",
+      "config_file_sha256": "dcc1dfb996210c27e912cfbad46762ee8a3b6bf0d701d8d8ea89db32e5e5b725",
+      "config_hash": "045e780185d5a8d46b6a3ddc1aae90829bed6ec96d45b00a3743cc78a5f038fd",
+      "config_path": "artifacts/cc_nqe_p4_7/confirmatory/configs/C0-seed2028.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1073312,
+      "role": "anchor comparator; monolithic action-only exact-unitary Cayley operator",
+      "seed": 2028,
+      "source_metric_hash": "861f7cc0f3282e25ac09c26b211c58c125d5b70e46178575f30c2db0e9e83f11",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/confirmatory/metrics/C0-seed2028.json",
+      "source_phase": "P4.7_confirmatory",
+      "supervision_class": "ACTION_ONLY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C0"
+    },
+    {
+      "architecture_identifier": "P4.7-shared-causal-residual-recurrence",
+      "best_balanced_checkpoint_step": 3000,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C1-seed2028-best-balanced.pt",
+      "checkpoint_sha256": "4d974d39e1615ef0ad13f8e54315ffa4486c3cc5156a0b465883cbf45ae5270d",
+      "config_file_sha256": "0c8a7a35dab5cb32db63abcf8f45ba9ea30a9d9a554cd239df9ea9613f2dd69c",
+      "config_hash": "97923245fc7693a52103acf131ad86f8e5def9d52ab626d99162cc70e6ebfeca",
+      "config_path": "artifacts/cc_nqe_p4_7/confirmatory/configs/C1-seed2028.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1063124,
+      "role": "primary general-purpose candidate; shared causal recurrent action-only exact-unitary operator",
+      "seed": 2028,
+      "source_metric_hash": "d499f00569299d0e320435a21ee60aa087f0c99ed75ff12927261ad48f437de2",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/confirmatory/metrics/C1-seed2028.json",
+      "source_phase": "P4.7_confirmatory",
+      "supervision_class": "ACTION_ONLY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C1"
+    },
+    {
+      "architecture_identifier": "P4.7-shared-causal-residual-recurrence",
+      "best_balanced_checkpoint_step": 7000,
+      "cayley_metadata": {
+        "dtype": "FP32",
+        "explicit_dimension": 16,
+        "parameterization": "basic_cayley",
+        "scale": 1.0
+      },
+      "checkpoint_path": "artifacts/cc_nqe_p4_7/confirmatory/checkpoints/C2-seed2028-best-balanced.pt",
+      "checkpoint_sha256": "64b6974193db1fe21eac09e2b33bb31a408ec19b4479b9114fb6fab214d8568d",
+      "config_file_sha256": "9a307bb088459ae95d2da247865473e845c1733eb92ade7c1a10ae9eb8f7ae75",
+      "config_hash": "b92ecb30bcd242d48c87b76e7677ed2b03f39d7c462a3f362ce64afebb22d5da",
+      "config_path": "artifacts/cc_nqe_p4_7/confirmatory/configs/C2-seed2028.json",
+      "dataset_manifest_hash": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+      "model_parameter_count": 1063124,
+      "role": "composition specialist; C1 plus operator-composition self-consistency",
+      "seed": 2028,
+      "source_metric_hash": "612011a6c2793cb33357111eae59b8d284da2c789cc65ab46e288754ba3d4f89",
+      "source_metric_path": "artifacts/cc_nqe_p4_7/confirmatory/metrics/C2-seed2028.json",
+      "source_phase": "P4.7_confirmatory",
+      "supervision_class": "ACTION_ONLY_PLUS_SELF_CONSISTENCY",
+      "training_completion_status": "COMPLETED",
+      "variant": "C2"
+    }
+  ],
+  "excluded_C3": "Archived negative privileged-supervision result; final test cannot reconsider screening.",
+  "frozen_evaluation_endpoints": {
+    "F_comp_test": "mean composition fidelity",
+    "F_depth_10": "mean fidelity at depth 10",
+    "F_depth_8": "mean fidelity at depth 8",
+    "F_depth_9": "mean fidelity at depth 9",
+    "F_depth_macro": "mean(F_depth_8,F_depth_9,F_depth_10)",
+    "S_sealed": "(F_comp_test+F_depth_macro)/2",
+    "depth_diagnostics": [
+      "least-squares slope over 8,9,10",
+      "absolute degradation depth 8 to 10"
+    ]
+  },
+  "frozen_verdict_logic": {
+    "composition": [
+      "SEALED-COMPOSITION-SPECIFIC-GAIN: all three F_comp_test deltas positive",
+      "SEALED-COMPOSITION-GAIN-QUALIFIED: positive mean with mixed signs",
+      "SEALED-COMPOSITION-NOT-SUPPORTED: nonpositive mean"
+    ],
+    "formal_significance": false,
+    "overall": [
+      "P4.8-SEALED-HYPOTHESES-SUPPORTED: both strongest verdicts",
+      "P4.8-SEALED-PARTIALLY-SUPPORTED: exactly one strongest or one/both qualified",
+      "P4.8-SEALED-NOT-SUPPORTED: neither supported",
+      "P4.8-SEALED-INCONCLUSIVE: integrity, execution, or incomplete-evaluation failure only"
+    ],
+    "recurrent": [
+      "SEALED-RECURRENT-SUPPORTED: all three S_sealed deltas positive",
+      "SEALED-RECURRENT-QUALIFIED: positive mean with mixed signs",
+      "SEALED-RECURRENT-NOT-SUPPORTED: nonpositive mean"
+    ]
+  },
+  "no_more_tuning_declaration": "No training, tuning, replacement, variant addition, or post-test selection is permitted.",
+  "schema_version": "cc-nqe-p4.8-v1",
+  "source_p4_7_commit": "cd77fdeb51a481b04086c6192fad3c4b02e8b9aa",
+  "status": "FROZEN"
+}

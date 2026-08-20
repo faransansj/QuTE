@@ -1,0 +1,74 @@
+{
+  "access_count": 0,
+  "candidate_count": 9,
+  "candidate_hashes": "PASS",
+  "p4_7_integrity": {
+    "artifact_hashes_verified": 21,
+    "cells": "12/12",
+    "source_commit": "cd77fdeb51a481b04086c6192fad3c4b02e8b9aa",
+    "status": "PASS"
+  },
+  "schema_version": "cc-nqe-p4.8-v1",
+  "sealed_arrays_loaded": false,
+  "sealed_metadata": {
+    "contract_sha256": "591fa9fcf9ab09f55a7b857b07be9e0a767424a31847e90cca8eafc057c02b20",
+    "datasets": {
+      "composition_ood_test_sealed": {
+        "manifest_sha256": "0407e43cbda439e3779ac7b9a2288e7750610218f4f96b5bc5e199efd5844fce",
+        "payload_headers": {
+          "inputs.npy": {
+            "dtype": "<c16",
+            "fortran_order": false,
+            "shape": [
+              12,
+              16
+            ]
+          },
+          "targets.npy": {
+            "dtype": "<c16",
+            "fortran_order": false,
+            "shape": [
+              12,
+              16
+            ]
+          }
+        },
+        "payload_sha256": "f29122321c060e5f0a104d8497dbdb4b28cda653e28cdd681bef26781809f448",
+        "sample_count": 12,
+        "schema_version": "cc-nqe-p4.6-v1",
+        "split_identity": "composition_ood_test_sealed",
+        "target_arrays_loaded": false
+      },
+      "depth_ood_test_sealed": {
+        "manifest_sha256": "5100016ba3eb52efafbe0c8c115b485aff8e383312855cb588775d4f9ffb7e5c",
+        "payload_headers": {
+          "inputs.npy": {
+            "dtype": "<c16",
+            "fortran_order": false,
+            "shape": [
+              8,
+              16
+            ]
+          },
+          "targets.npy": {
+            "dtype": "<c16",
+            "fortran_order": false,
+            "shape": [
+              8,
+              16
+            ]
+          }
+        },
+        "payload_sha256": "cdf45cb652ab39a5c1ba697392c0b630c093f126041b94797887b1d6977312ce",
+        "sample_count": 8,
+        "schema_version": "cc-nqe-p4.6-v1",
+        "split_identity": "depth_ood_test_sealed",
+        "target_arrays_loaded": false
+      }
+    },
+    "historical_access_count": 0,
+    "schema_version": "cc-nqe-p4.6-v1",
+    "status": "PASS"
+  },
+  "status": "PREPARED"
+}

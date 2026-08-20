@@ -29,3 +29,6 @@ artifacts/cc_nqe_p4_7/status.json
 artifacts/cc_nqe_p4_7/confirmatory/checkpoints/
 artifacts/cc_nqe_p4_7/confirmatory/progress.jsonl
 artifacts/cc_nqe_p4_7/confirmatory/status.json
+
+# P4.8 transaction-private per-example results are never public artifacts.
+artifacts/cc_nqe_p4_8/.transaction-*/

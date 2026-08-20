@@ -1,0 +1,80 @@
+{
+  "access_count": 0,
+  "batch_size": 4,
+  "bootstrap": {
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 47008,
+    "confidence_level": 0.95,
+    "label": "example-level bootstrap uncertainty"
+  },
+  "candidates": {
+    "C0": "anchor comparator; monolithic action-only exact-unitary Cayley operator",
+    "C1": "primary general-purpose candidate; shared causal recurrent action-only exact-unitary operator",
+    "C2": "composition specialist; C1 plus operator-composition self-consistency"
+  },
+  "device": "xpu:0",
+  "dtype": "FP32",
+  "endpoints": {
+    "F_comp_test": "mean composition fidelity",
+    "F_depth_10": "mean fidelity at depth 10",
+    "F_depth_8": "mean fidelity at depth 8",
+    "F_depth_9": "mean fidelity at depth 9",
+    "F_depth_macro": "mean(F_depth_8,F_depth_9,F_depth_10)",
+    "S_sealed": "(F_comp_test+F_depth_macro)/2",
+    "depth_diagnostics": [
+      "least-squares slope over 8,9,10",
+      "absolute degradation depth 8 to 10"
+    ]
+  },
+  "evaluation_order": [
+    "C0-2026",
+    "C1-2026",
+    "C2-2026",
+    "C0-2027",
+    "C1-2027",
+    "C2-2027",
+    "C0-2028",
+    "C1-2028",
+    "C2-2028"
+  ],
+  "hypotheses": {
+    "H1": "C1 improves over C0 on S_sealed",
+    "H2": "C2 improves over C1 on F_comp_test with trade-offs visible",
+    "H3": "C0 remains the anchor"
+  },
+  "no_more_tuning": true,
+  "no_post_test_selection": true,
+  "objective": "one untouched final evaluation of validation-selected P4.7 conclusions",
+  "primary_comparisons": [
+    "C1_minus_C0",
+    "C2_minus_C1"
+  ],
+  "schema_version": "cc-nqe-p4.8-v1",
+  "sealed_test_evaluated": false,
+  "secondary_comparison": "C2_minus_C0",
+  "seeds": [
+    2026,
+    2027,
+    2028
+  ],
+  "status": "FROZEN_NOT_RUN",
+  "verdict_rules": {
+    "composition": [
+      "SEALED-COMPOSITION-SPECIFIC-GAIN: all three F_comp_test deltas positive",
+      "SEALED-COMPOSITION-GAIN-QUALIFIED: positive mean with mixed signs",
+      "SEALED-COMPOSITION-NOT-SUPPORTED: nonpositive mean"
+    ],
+    "formal_significance": false,
+    "overall": [
+      "P4.8-SEALED-HYPOTHESES-SUPPORTED: both strongest verdicts",
+      "P4.8-SEALED-PARTIALLY-SUPPORTED: exactly one strongest or one/both qualified",
+      "P4.8-SEALED-NOT-SUPPORTED: neither supported",
+      "P4.8-SEALED-INCONCLUSIVE: integrity, execution, or incomplete-evaluation failure only"
+    ],
+    "recurrent": [
+      "SEALED-RECURRENT-SUPPORTED: all three S_sealed deltas positive",
+      "SEALED-RECURRENT-QUALIFIED: positive mean with mixed signs",
+      "SEALED-RECURRENT-NOT-SUPPORTED: nonpositive mean"
+    ]
+  }
+}
