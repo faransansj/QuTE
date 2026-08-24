@@ -1,0 +1,21 @@
+{
+  "schema_version": "cc-nqe-ab-confirmatory-v1",
+  "state": "BLOCKED_LOCAL_ENVIRONMENT",
+  "anchor_commit": "142ab98536dcabc8831da9f1dd661445355d9d6c",
+  "host": "Darwin arm64",
+  "required_device": "Intel Arc B580 xpu:0",
+  "blockers": [
+    "torch 2.10.0 XPU wheel is unavailable for Darwin arm64",
+    "P4.6 generated A3/A4 dataset payloads are not present in this checkout"
+  ],
+  "completed": [
+    "research proposal gate",
+    "protocol freeze",
+    "source/config/metric hash anchor",
+    "seed-2026 result reuse declaration"
+  ],
+  "pending_cells": [
+    "A3-seed2027", "A4-seed2027", "B0-seed2027", "B1-seed2027", "B3-seed2027",
+    "A3-seed2028", "A4-seed2028", "B0-seed2028", "B1-seed2028", "B3-seed2028"
+  ]
+}
