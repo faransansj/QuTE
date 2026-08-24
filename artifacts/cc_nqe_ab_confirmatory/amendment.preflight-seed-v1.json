@@ -1,0 +1,83 @@
+{
+  "amendment_id": "preflight-seed-v1",
+  "status": "PASS",
+  "schema_version": "cc-nqe-ab-confirmatory-amendment-v1",
+  "reason": "The scientific training seed was coupled to implementation-validation preflight RNG through track.SEED.",
+  "observed_failure": {
+    "cell": "B3/seed-2027",
+    "check": "near_identity",
+    "observed_max_abs_cayley_minus_identity": 1.0220122337341309,
+    "threshold": "< 1.0",
+    "status": "B3-XPU-BLOCKED"
+  },
+  "evidence": {
+    "other_xpu_and_numerical_checks": "PASS",
+    "passing_checks": [
+      "XPU residency",
+      "native XPU solve profiler",
+      "CPU/XPU element parity",
+      "CPU/XPU action fidelity parity",
+      "unitarity",
+      "forward",
+      "backward",
+      "finite nonzero gradients",
+      "optimizer update",
+      "continuity",
+      "NaN/Inf"
+    ],
+    "near_identity_by_seed": {
+      "2026": 0.9047459959983826,
+      "2027": 1.0220122337341309,
+      "2028": 0.877293050289154
+    }
+  },
+  "change": {
+    "preflight_rng_seed": 2026,
+    "scientific_training_seed_for_pending_cell": 2027,
+    "semantic_scope": "operator_preflight implementation-validation RNG only",
+    "source_change": "Add PREFLIGHT_SEED=2026 and use it for the torch.manual_seed call inside operator_preflight. Scientific operator_run RNG remains based on SEED."
+  },
+  "scientific_invariants": {
+    "training_semantics_unchanged": true,
+    "training_seed_unchanged": true,
+    "datasets_unchanged": true,
+    "model_unchanged": true,
+    "loss_unchanged": true,
+    "optimizer_unchanged": true,
+    "learning_rate_unchanged": true,
+    "scheduler_unchanged": true,
+    "batch_size_unchanged": true,
+    "update_count_unchanged": true,
+    "metric_definitions_unchanged": true,
+    "validation_unchanged": true,
+    "checkpoint_selection_unchanged": true,
+    "verdict_rules_unchanged": true,
+    "sealed_test_accessed": false
+  },
+  "completed_run_reuse": {
+    "status": "PASS",
+    "basis": "Checkpoint-embedded scientific configs match the frozen seed-2026 configs after normalizing only recipe.seed; checkpoint config hashes, dataset manifest hashes, cell seeds, and 10000-step counts match.",
+    "reused_cells": [
+      "2027/A3",
+      "2027/A4",
+      "2027/B0",
+      "2027/B1",
+      "2028/A3",
+      "2028/A4",
+      "2028/B0",
+      "2028/B1",
+      "2028/B3"
+    ],
+    "b3_seed_2028_reused": true
+  },
+  "provenance": {
+    "starting_head": "3fd0bcd739e38e8702dd2e12a244dcd3d3fe4f50",
+    "parent_anchor_path": "artifacts/cc_nqe_ab_confirmatory/anchor.json",
+    "parent_anchor_sha256": "fc9ea1936c6283dc28a2d498bb805fec2b791249d5a08efe284366b79ab7cee8",
+    "parent_anchor_git_commit": "3fd0bcd739e38e8702dd2e12a244dcd3d3fe4f50",
+    "parent_track_b_source_sha256": "5470a46a6800b09023a5eab8eb252a3ade72169a97405f5aff3957fcc7d99e79",
+    "amended_track_b_source_sha256": "e6eaca51181d50200de8e6d42d41b2b41e90d3258d4d565f1a8d7dcfc3961acc",
+    "amended_anchor_path": "artifacts/cc_nqe_ab_confirmatory/anchor.preflight-seed-amendment-v1.json",
+    "parent_anchor_preserved": true
+  }
+}

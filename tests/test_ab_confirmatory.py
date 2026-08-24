@@ -18,6 +18,13 @@ def test_predeclared_verdict_rules():
     assert ab.classify([-1, -1, 1], [1, 1, 1], [-2, 1, 0]) == {"A3": "NOT_SUPPORTED", "B3": "NOT_SUPPORTED"}
 
 
+def test_preflight_seed_is_independent_of_scientific_seed():
+    with ab._track_b_context(2027) as track:
+        assert track.PREFLIGHT_SEED == 2026
+        assert track.SEED == 2027
+        assert track.RECIPE["seed"] == 2027
+
+
 def test_prepare_freezes_hashes_without_opening_sealed(tmp_path, monkeypatch):
     monkeypatch.setattr(ab, "CONFIRM_ROOT", tmp_path)
     anchor = ab.prepare()

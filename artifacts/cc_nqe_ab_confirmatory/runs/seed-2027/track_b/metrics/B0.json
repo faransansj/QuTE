@@ -1,0 +1,57 @@
+{
+  "best_balanced_validation": 0.2962683786948522,
+  "best_checkpoint_step": 6500,
+  "latest_validation": {
+    "composition_ood_validation": {
+      "direct_state_fidelity": 0.14990895986557007,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": null,
+      "predicted_operator_state_fidelity": null,
+      "process_fidelity": null,
+      "raw_action_norm": null,
+      "raw_unitarity_error": null
+    },
+    "depth_ood_validation": {
+      "direct_state_fidelity": 0.24271905422210693,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": null,
+      "predicted_operator_state_fidelity": null,
+      "process_fidelity": null,
+      "raw_action_norm": null,
+      "raw_unitarity_error": null
+    },
+    "iid_validation": {
+      "direct_state_fidelity": 0.4912296533584595,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": null,
+      "predicted_operator_state_fidelity": null,
+      "process_fidelity": null,
+      "raw_action_norm": null,
+      "raw_unitarity_error": null
+    },
+    "parameter_ood_validation": {
+      "direct_state_fidelity": 0.612777829170227,
+      "exact_operator_state_fidelity": 0.9999999403953552,
+      "phase_aligned_frobenius_error": null,
+      "predicted_operator_state_fidelity": null,
+      "process_fidelity": null,
+      "raw_action_norm": null,
+      "raw_unitarity_error": null
+    },
+    "state_ood_validation": {
+      "direct_state_fidelity": 0.4004354476928711,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": null,
+      "predicted_operator_state_fidelity": null,
+      "process_fidelity": null,
+      "raw_action_norm": null,
+      "raw_unitarity_error": null
+    }
+  },
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "scientific": true,
+  "state": "COMPLETED",
+  "step": 10000,
+  "variant": "B0"
+}

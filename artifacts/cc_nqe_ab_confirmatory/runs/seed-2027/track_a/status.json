@@ -1,0 +1,15 @@
+{
+  "arm": "A4",
+  "checkpoint": "/home/midori/Develop/Quantum_research/QuTE-dev/artifacts/cc_nqe_ab_confirmatory/runs/seed-2027/track_a/checkpoints/A4-latest.pt",
+  "eta_seconds": 0.0,
+  "loss": 0.45229053497314453,
+  "phase": "training",
+  "resumable_command": "uv run python run_p4_6.py factorial-screen",
+  "samples_per_second": 13306.144233251362,
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "step": 10000,
+  "timestamp": 1787552225.6040158,
+  "total": 10000,
+  "training_fidelity": 0.5477094650268555
+}

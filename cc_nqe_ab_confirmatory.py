@@ -108,7 +108,10 @@ def prepare() -> dict[str, Any]:
 
 
 def verify_anchor() -> dict[str, Any]:
-    anchor = json.loads((CONFIRM_ROOT / "anchor.json").read_text())
+    path = CONFIRM_ROOT / "anchor.preflight-seed-amendment-v1.json"
+    if not path.exists():
+        path = CONFIRM_ROOT / "anchor.json"
+    anchor = json.loads(path.read_text())
     failures = [name for name, expected in anchor["source_hashes"].items() if not (PROJECT_ROOT / name).exists() or sha256(PROJECT_ROOT / name) != expected]
     if failures:
         raise RuntimeError(f"anchor differs: {failures}")

@@ -21,6 +21,7 @@ artifacts/cc_nqe_p4_6/track_a/
 artifacts/cc_nqe_p4_6/track_a_terminal.log
 artifacts/cc_nqe_p4_6/operator/checkpoints/
 artifacts/cc_nqe_p4_6/operator/data/
+artifacts/cc_nqe_ab_confirmatory/runs/**/checkpoints/
 
 # P4.7 scientific checkpoints and live status are local runtime payloads.
 artifacts/cc_nqe_p4_7/checkpoints/

@@ -1,11 +1,26 @@
 {
+  "amendment_id": "preflight-seed-v1",
+  "amendment_path": "artifacts/cc_nqe_ab_confirmatory/amendment.preflight-seed-v1.json",
+  "amendment_sha256": "bdda2c6a871354a685d6f4672b9e93fc2fe0cd5a777f402ee77320b4b3359e99",
+  "base_git_commit": "3fd0bcd739e38e8702dd2e12a244dcd3d3fe4f50",
   "dataset_manifest_hashes": {
     "A3": "008e486f6b08ad56656a69fdcf28a988148bac0955382ec1d8eaa5b33f770f7a",
     "A4": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
     "B_A4": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009"
   },
-  "git_commit": "3fd0bcd739e38e8702dd2e12a244dcd3d3fe4f50",
-  "schema_version": "cc-nqe-ab-confirmatory-v1",
+  "parent_anchor": {
+    "git_commit": "3fd0bcd739e38e8702dd2e12a244dcd3d3fe4f50",
+    "path": "artifacts/cc_nqe_ab_confirmatory/anchor.json",
+    "preserved": true,
+    "sha256": "fc9ea1936c6283dc28a2d498bb805fec2b791249d5a08efe284366b79ab7cee8"
+  },
+  "preflight_seed": 2026,
+  "schema_version": "cc-nqe-ab-confirmatory-amended-anchor-v1",
+  "scientific_training_seeds": [
+    2027,
+    2028
+  ],
+  "scientific_training_semantics": "UNCHANGED",
   "sealed_test_access_count": 0,
   "source_hashes": {
     "artifacts/cc_nqe_p4_6/factorial/configs/A3.json": "46f51e6fd1b1f1cf4458b83e8e180158969f7bc614ec9921648c9aab37537286",
@@ -18,10 +33,10 @@
     "artifacts/cc_nqe_p4_6/operator/metrics/B0.json": "3e3c29bfdef161886badf20ba861f700f3408fffb149f570d6f21899345218ad",
     "artifacts/cc_nqe_p4_6/operator/metrics/B1.json": "d804d396eedf3cfca275a7c3fa33e7bffda79ac1ed140e9cd16f2320ee33e915",
     "artifacts/cc_nqe_p4_6/operator/metrics/B3.json": "b77e5695205ec2fed3f7bfec69174cde8ba5a9b43c9a87efc82147c603d10352",
-    "cc_nqe_ab_confirmatory.py": "fec5c45f4c99fbae8f81310ca84791b39e6fa7b52f0167061d29de43d9b1dc85",
+    "cc_nqe_ab_confirmatory.py": "9764a89556ec75a73ff4adf371a4af87337f764b4bbd66073adda2f18ac42658",
     "cc_nqe_p4_6.py": "971f721c0bb3b5037c73877a08dc7fb6027918ad6e72f5daf6254183e4ee14bf",
     "cc_nqe_p4_6_track_a.py": "9c3ad79f393fe92dac22a77188b0775a2cf54cde31305626f2f02b01cf101205",
-    "cc_nqe_p4_6_track_b.py": "5470a46a6800b09023a5eab8eb252a3ade72169a97405f5aff3957fcc7d99e79",
+    "cc_nqe_p4_6_track_b.py": "e6eaca51181d50200de8e6d42d41b2b41e90d3258d4d565f1a8d7dcfc3961acc",
     "governance/qute_anchor_manifest.json": "247f351f33b574b22ce84f84cd14385cbeeb795e583603c6ba423152d7c19ba7"
   },
   "status": "PASS"

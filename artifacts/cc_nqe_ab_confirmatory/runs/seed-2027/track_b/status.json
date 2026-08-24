@@ -1,0 +1,22 @@
+{
+  "Composition_OOD_val": 0.42069560289382935,
+  "Depth_OOD_val": 0.49707087874412537,
+  "ETA": 0.0,
+  "IID_val": 0.6737925410270691,
+  "Parameter_OOD_val": 0.684949517250061,
+  "State_OOD_val": 0.5836189985275269,
+  "action_fidelity": 0.7522786259651184,
+  "checkpoint": "/home/midori/Develop/Quantum_research/QuTE-dev/artifacts/cc_nqe_ab_confirmatory/runs/seed-2027/track_b/checkpoints/B3-latest.pt",
+  "device": "xpu:0",
+  "elapsed": 311.8113423170016,
+  "loss": 0.24772138893604279,
+  "lr": 0.0,
+  "process_fidelity": null,
+  "samples_per_second": 32840.37047500841,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "state": "RUNNING",
+  "step": "10000/10000",
+  "timestamp": 1787559542.309516,
+  "unitarity_error": 2.5624873956076044e-07,
+  "variant": "B3"
+}

@@ -14,6 +14,7 @@ from cc_nqe_p4_6 import OperatorModel, ROOT, SCHEMA, SEED, normalized_action_fid
 from cc_nqe_p4_6_track_a import ArmData, DATA_ROOT, VALIDATION_SPLITS, load_validation, _decode
 
 OP_ROOT=ROOT/"operator"
+PREFLIGHT_SEED=2026
 ALLOCATION={"unique_circuits":58_824,"probes_per_circuit":17,"state_action_pairs":1_000_008,"source_arm":"A4"}
 RECIPE={"seed":SEED,"device":"xpu:0","dtype":"float32","optimizer":"AdamW","learning_rate":3e-4,"scheduler":"cosine","effective_batch_size":1024,"maximum_updates":10_000,"validation_interval":500}
 VARIANTS={
@@ -108,7 +109,7 @@ def operator_preflight()->dict[str,Any]:
  try:
   from torch.profiler import profile, ProfilerActivity
   with warnings.catch_warnings(record=True) as caught, contextlib.redirect_stderr(stderr):
-   warnings.simplefilter("always"); torch.manual_seed(SEED)
+   warnings.simplefilter("always"); torch.manual_seed(PREFLIGHT_SEED)
    cpu=_model("B3").eval(); xpu=_model("B3","xpu:0"); xpu.load_state_dict(cpu.state_dict()); xpu.eval()
    circuits=[[Gate("H",(0,)),Gate("CNOT",(0,1))],[Gate("RX",(2,),.4),Gate("X",(3,))],[Gate("RY",(1,),-.7)]]; args=_circuit_tensors(circuits,"cpu")
    with torch.no_grad(): cpu_a,cpu_lhs,cpu_rhs,reference=_b3_parts(cpu,args)

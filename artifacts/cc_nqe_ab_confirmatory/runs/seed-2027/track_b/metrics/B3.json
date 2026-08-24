@@ -1,0 +1,57 @@
+{
+  "best_balanced_validation": 0.5307605465253195,
+  "best_checkpoint_step": 8000,
+  "latest_validation": {
+    "composition_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.8870698809623718,
+      "predicted_operator_state_fidelity": 0.42069560289382935,
+      "process_fidelity": 0.36417156457901,
+      "raw_action_norm": 1.0,
+      "raw_unitarity_error": 2.5004925419125357e-07
+    },
+    "depth_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.9303480386734009,
+      "predicted_operator_state_fidelity": 0.49707087874412537,
+      "process_fidelity": 0.329850435256958,
+      "raw_action_norm": 1.0,
+      "raw_unitarity_error": 2.462945758452406e-07
+    },
+    "iid_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.6236938834190369,
+      "predicted_operator_state_fidelity": 0.6737925410270691,
+      "process_fidelity": 0.5599929094314575,
+      "raw_action_norm": 1.0,
+      "raw_unitarity_error": 2.4833965994730534e-07
+    },
+    "parameter_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 0.9999999403953552,
+      "phase_aligned_frobenius_error": 0.6582828760147095,
+      "predicted_operator_state_fidelity": 0.684949517250061,
+      "process_fidelity": 0.5612854361534119,
+      "raw_action_norm": 1.0,
+      "raw_unitarity_error": 2.3541410598681978e-07
+    },
+    "state_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.6236938834190369,
+      "predicted_operator_state_fidelity": 0.5836189985275269,
+      "process_fidelity": 0.5599929094314575,
+      "raw_action_norm": 1.0,
+      "raw_unitarity_error": 2.4833965994730534e-07
+    }
+  },
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "scientific": true,
+  "state": "COMPLETED",
+  "step": 10000,
+  "variant": "B3"
+}

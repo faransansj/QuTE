@@ -1,0 +1,57 @@
+{
+  "best_balanced_validation": 0.4844654897848765,
+  "best_checkpoint_step": 5000,
+  "latest_validation": {
+    "composition_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.9567624926567078,
+      "predicted_operator_state_fidelity": 0.3265182375907898,
+      "process_fidelity": 0.23842619359493256,
+      "raw_action_norm": 0.7919967174530029,
+      "raw_unitarity_error": 0.5125913619995117
+    },
+    "depth_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.9117730855941772,
+      "predicted_operator_state_fidelity": 0.392056941986084,
+      "process_fidelity": 0.2688322067260742,
+      "raw_action_norm": 0.7824441194534302,
+      "raw_unitarity_error": 0.49088430404663086
+    },
+    "iid_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.5775856375694275,
+      "predicted_operator_state_fidelity": 0.7223180532455444,
+      "process_fidelity": 0.6406112909317017,
+      "raw_action_norm": 0.7984725832939148,
+      "raw_unitarity_error": 0.5375659465789795
+    },
+    "parameter_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 0.9999999403953552,
+      "phase_aligned_frobenius_error": 0.5280740857124329,
+      "predicted_operator_state_fidelity": 0.6648285388946533,
+      "process_fidelity": 0.6374329328536987,
+      "raw_action_norm": 0.9186915159225464,
+      "raw_unitarity_error": 0.33917444944381714
+    },
+    "state_ood_validation": {
+      "direct_state_fidelity": null,
+      "exact_operator_state_fidelity": 1.0,
+      "phase_aligned_frobenius_error": 0.5775856375694275,
+      "predicted_operator_state_fidelity": 0.6609107255935669,
+      "process_fidelity": 0.6406112909317017,
+      "raw_action_norm": 0.789699912071228,
+      "raw_unitarity_error": 0.5375659465789795
+    }
+  },
+  "samples_seen": 10240000,
+  "schema_version": "cc-nqe-p4.6-v1",
+  "scientific": true,
+  "state": "COMPLETED",
+  "step": 10000,
+  "variant": "B1"
+}
