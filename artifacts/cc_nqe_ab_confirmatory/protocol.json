@@ -1,0 +1,43 @@
+{
+  "balanced_score": "mean(IID, Composition-OOD, Depth-OOD fidelity)",
+  "checkpoint_selection": "best balanced validation",
+  "formal_significance": false,
+  "new_training_seeds": [
+    2027,
+    2028
+  ],
+  "no_post_result_tuning": true,
+  "purpose": "minimal multi-seed confirmation of the P4.6 A3 and B3 validation selections",
+  "reuse_seed_2026": true,
+  "schema_version": "cc-nqe-ab-confirmatory-v1",
+  "sealed_test_access": "PROHIBITED",
+  "seeds": [
+    2026,
+    2027,
+    2028
+  ],
+  "status": "FROZEN_NOT_RUN",
+  "track_a": {
+    "arms": [
+      "A3",
+      "A4"
+    ],
+    "primary_comparison": "A3_minus_A4"
+  },
+  "track_b": {
+    "primary_comparisons": [
+      "B3_minus_B0",
+      "B3_minus_B1"
+    ],
+    "variants": [
+      "B0",
+      "B1",
+      "B3"
+    ]
+  },
+  "validation_only": true,
+  "verdict_rules": {
+    "A3": "SUPPORTED if A3-A4 > 0 for every seed; QUALIFIED if mean > 0 with mixed signs; otherwise NOT_SUPPORTED",
+    "B3": "SUPPORTED if B3-B0 and B3-B1 are > 0 for every seed; QUALIFIED if both means > 0 with mixed signs; otherwise NOT_SUPPORTED"
+  }
+}

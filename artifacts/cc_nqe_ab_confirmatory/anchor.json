@@ -1,0 +1,28 @@
+{
+  "dataset_manifest_hashes": {
+    "A3": "008e486f6b08ad56656a69fdcf28a988148bac0955382ec1d8eaa5b33f770f7a",
+    "A4": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009",
+    "B_A4": "67a25b4384825dc477b22cbfc6f13bfc1424a95474cc8bcbc002c4ff010bf009"
+  },
+  "git_commit": "142ab98536dcabc8831da9f1dd661445355d9d6c",
+  "schema_version": "cc-nqe-ab-confirmatory-v1",
+  "sealed_test_access_count": 0,
+  "source_hashes": {
+    "artifacts/cc_nqe_p4_6/factorial/configs/A3.json": "46f51e6fd1b1f1cf4458b83e8e180158969f7bc614ec9921648c9aab37537286",
+    "artifacts/cc_nqe_p4_6/factorial/configs/A4.json": "93369ca4cbf6f9c0a140e2667b35bb9df3d3daac290e79dceb8b74bd56de3eee",
+    "artifacts/cc_nqe_p4_6/factorial/metrics/A3.json": "0358fbe8dce5d96215decae7184de3a5dec5e5541e21bd35a0e227857ca8648d",
+    "artifacts/cc_nqe_p4_6/factorial/metrics/A4.json": "d3bfd6138bc5a49231d04ae059480b77a9901d88425dc5749e67b72c601cfcae",
+    "artifacts/cc_nqe_p4_6/operator/configs/B0.json": "96393d8a7e96b1c2a5537c8e1d090a4f96d2aa4b630a52a71e02769e9c30cc4d",
+    "artifacts/cc_nqe_p4_6/operator/configs/B1.json": "63ac8751fdff1f8851c5c99d289d34aad95c5811271ee0eefead9045a0316d83",
+    "artifacts/cc_nqe_p4_6/operator/configs/B3.json": "1880d510b97bbb027bae30418de7882b23b905fb6e2f196434b75d541d42f49e",
+    "artifacts/cc_nqe_p4_6/operator/metrics/B0.json": "3e3c29bfdef161886badf20ba861f700f3408fffb149f570d6f21899345218ad",
+    "artifacts/cc_nqe_p4_6/operator/metrics/B1.json": "d804d396eedf3cfca275a7c3fa33e7bffda79ac1ed140e9cd16f2320ee33e915",
+    "artifacts/cc_nqe_p4_6/operator/metrics/B3.json": "b77e5695205ec2fed3f7bfec69174cde8ba5a9b43c9a87efc82147c603d10352",
+    "cc_nqe_ab_confirmatory.py": "fec5c45f4c99fbae8f81310ca84791b39e6fa7b52f0167061d29de43d9b1dc85",
+    "cc_nqe_p4_6.py": "971f721c0bb3b5037c73877a08dc7fb6027918ad6e72f5daf6254183e4ee14bf",
+    "cc_nqe_p4_6_track_a.py": "9c3ad79f393fe92dac22a77188b0775a2cf54cde31305626f2f02b01cf101205",
+    "cc_nqe_p4_6_track_b.py": "5470a46a6800b09023a5eab8eb252a3ade72169a97405f5aff3957fcc7d99e79",
+    "governance/qute_anchor_manifest.json": "247f351f33b574b22ce84f84cd14385cbeeb795e583603c6ba423152d7c19ba7"
+  },
+  "status": "PASS"
+}
