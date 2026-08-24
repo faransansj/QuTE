@@ -18,7 +18,7 @@ from typing import Any
 import numpy as np
 import torch
 
-from cc_nqe import Gate
+from cc_nqe import ACCEL, ACCEL_DEVICE, Gate, accel_synchronize
 from cc_nqe_p4_5 import atomic_json, state_fidelity
 from cc_nqe_p4_6 import OperatorModel
 from cc_nqe_p4_6_track_b import _circuit_tensors, operator_action
@@ -177,7 +177,7 @@ def prepare_artifacts() -> dict[str, Any]:
     p47 = verify_p47(); records = candidate_records(); sealed = verify_sealed_metadata()
     protocol = {"schema_version": SCHEMA, "status": "FROZEN_NOT_RUN", "objective": "one untouched final evaluation of validation-selected P4.7 conclusions",
         "hypotheses": {"H1": "C1 improves over C0 on S_sealed", "H2": "C2 improves over C1 on F_comp_test with trade-offs visible", "H3": "C0 remains the anchor"},
-        "candidates": ROLES, "seeds": list(SEEDS), "evaluation_order": [f"{v}-{s}" for v, s in ORDER], "device": "xpu:0", "dtype": "FP32", "batch_size": BATCH_SIZE,
+        "candidates": ROLES, "seeds": list(SEEDS), "evaluation_order": [f"{v}-{s}" for v, s in ORDER], "device": str(ACCEL_DEVICE), "dtype": "FP32", "batch_size": BATCH_SIZE,
         "endpoints": {"F_comp_test": "mean composition fidelity", "F_depth_8": "mean fidelity at depth 8", "F_depth_9": "mean fidelity at depth 9", "F_depth_10": "mean fidelity at depth 10", "F_depth_macro": "mean(F_depth_8,F_depth_9,F_depth_10)", "S_sealed": "(F_comp_test+F_depth_macro)/2", "depth_diagnostics": ["least-squares slope over 8,9,10", "absolute degradation depth 8 to 10"]},
         "primary_comparisons": ["C1_minus_C0", "C2_minus_C1"], "secondary_comparison": "C2_minus_C0", "verdict_rules": {"recurrent": ["SEALED-RECURRENT-SUPPORTED: all three S_sealed deltas positive", "SEALED-RECURRENT-QUALIFIED: positive mean with mixed signs", "SEALED-RECURRENT-NOT-SUPPORTED: nonpositive mean"], "composition": ["SEALED-COMPOSITION-SPECIFIC-GAIN: all three F_comp_test deltas positive", "SEALED-COMPOSITION-GAIN-QUALIFIED: positive mean with mixed signs", "SEALED-COMPOSITION-NOT-SUPPORTED: nonpositive mean"], "overall": ["P4.8-SEALED-HYPOTHESES-SUPPORTED: both strongest verdicts", "P4.8-SEALED-PARTIALLY-SUPPORTED: exactly one strongest or one/both qualified", "P4.8-SEALED-NOT-SUPPORTED: neither supported", "P4.8-SEALED-INCONCLUSIVE: integrity, execution, or incomplete-evaluation failure only"], "formal_significance": False},
         "bootstrap": BOOTSTRAP, "no_post_test_selection": True, "no_more_tuning": True, "sealed_test_evaluated": False, "access_count": 0}
@@ -213,14 +213,14 @@ def verify_freeze() -> dict[str, Any]:
 
 
 def xpu_preflight() -> dict[str, Any]:
-    if not hasattr(torch, "xpu") or not torch.xpu.is_available(): raise RuntimeError("XPU-PREFLIGHT-BLOCKED: native xpu:0 unavailable; no CPU fallback")
-    device = torch.device("xpu:0")
+    if ACCEL == "cpu": raise RuntimeError("PREFLIGHT-BLOCKED: no native CUDA/XPU accelerator; no CPU fallback")
+    device = ACCEL_DEVICE
     gates = torch.ones((1, 1), dtype=torch.long, device=device); qubits = torch.zeros((1, 1, 2), dtype=torch.long, device=device)
     params = torch.zeros((1, 1, 3), device=device); mask = torch.ones((1, 1), dtype=torch.bool, device=device)
     with torch.no_grad(): out = RecursiveOperatorModel().to(device).eval()(gates, qubits, params, mask)
-    torch.xpu.synchronize()
-    if out.device.type != "xpu" or not bool(torch.isfinite(out).all()): raise RuntimeError("XPU-PREFLIGHT-BLOCKED: native Cayley inference failed")
-    return {"status": "PASS", "device": "xpu:0", "native_cayley": True, "cpu_fallback": False}
+    accel_synchronize()
+    if out.device.type != ACCEL or not bool(torch.isfinite(out).all()): raise RuntimeError("XPU-PREFLIGHT-BLOCKED: native Cayley inference failed")
+    return {"status": "PASS", "device": str(ACCEL_DEVICE), "native_cayley": True, "cpu_fallback": False}
 
 
 def _scientific_tree_clean() -> bool:
@@ -315,10 +315,10 @@ def _evaluate_checkpoint(variant: str, seed: int, datasets: dict[str, tuple[list
                 packed_targets = torch.cat((targets.real, targets.imag), 1).float()
                 values.extend(state_fidelity(action, packed_targets).detach().cpu().numpy().tolist())
             all_examples[split] = values
-    torch.xpu.synchronize(); del model
+    accel_synchronize(); del model
     comp = np.asarray(all_examples["composition_ood_test_sealed"])
     depth_rows = datasets["depth_ood_test_sealed"][0]; depth = {d: np.asarray([v for v, row in zip(all_examples["depth_ood_test_sealed"], depth_rows) if row["depth"] == d]) for d in (8, 9, 10)}
-    return {"variant": variant, "seed": seed, "metrics": calculate_metrics(comp, depth), "comp_examples": comp.tolist(), "depth_examples": {str(k): v.tolist() for k, v in depth.items()}, "runtime_seconds": time.monotonic() - started, "device": "xpu:0", "dtype": "FP32"}
+    return {"variant": variant, "seed": seed, "metrics": calculate_metrics(comp, depth), "comp_examples": comp.tolist(), "depth_examples": {str(k): v.tolist() for k, v in depth.items()}, "runtime_seconds": time.monotonic() - started, "device": str(ACCEL_DEVICE), "dtype": "FP32"}
 
 
 def _load_scientific_datasets() -> dict[str, tuple[list[dict[str, Any]], dict[str, np.ndarray]]]:
@@ -347,7 +347,7 @@ def _summaries(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def dry_run() -> dict[str, Any]:
-    verify_freeze(); device = torch.device("xpu:0") if xpu_preflight()["status"] == "PASS" else None
+    verify_freeze(); device = ACCEL_DEVICE if xpu_preflight()["status"] == "PASS" else None
     rows = [_evaluate_checkpoint(v, s, _validation_mirrors(), device) for v, s in ORDER]
     result = {"schema_version": SCHEMA, "status": "PASS", "scientific_run": False, "sealed_data_used": False,
               "purpose": "implementation_validation", "checkpoint_count": len(rows), "summaries": _summaries(rows), "access_count": 0}
@@ -396,7 +396,7 @@ def sealed_evaluate(token: str | None, resume_id: str | None = None) -> dict[str
         for variant, seed in ORDER:
             path = private / f"{variant}-{seed}.json"
             if path.exists(): row = json.loads(path.read_text())
-            else: row = _evaluate_checkpoint(variant, seed, datasets, torch.device("xpu:0")); dump(path, row)
+            else: row = _evaluate_checkpoint(variant, seed, datasets, ACCEL_DEVICE); dump(path, row)
             rows.append(row)
         _publish(rows, transaction_id)
         log.update({"state": "COMPLETED", "sealed_test_evaluated": True}); log["history"].append({"transaction_id": transaction_id, "state": "COMPLETED", "time": time.time()}); dump(ROOT / "sealed_access_log.json", log)

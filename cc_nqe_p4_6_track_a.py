@@ -9,7 +9,7 @@ from typing import Any
 import numpy as np
 import torch
 
-from cc_nqe import DIM, GATES, GATE_TO_ID, N_QUBITS, Gate, generate_circuit, generate_state, serialize_circuit, simulate
+from cc_nqe import ACCEL_DEVICE, DIM, GATES, GATE_TO_ID, N_QUBITS, Gate, accel_synchronize, generate_circuit, generate_state, serialize_circuit, simulate
 from cc_nqe_p4_5 import MODEL_SCALES, ScaledCCNQE, atomic_json, parameter_count, state_fidelity, _tensorize_circuit
 from cc_nqe_p4_6 import FACTORIAL_ARMS, ROOT, SCHEMA, SEED, balanced_score, digest, motif_family, motifs, resource_estimate
 
@@ -25,7 +25,7 @@ FROZEN_HASHES = {
     "ood_split_contract.json": "591fa9fcf9ab09f55a7b857b07be9e0a767424a31847e90cca8eafc057c02b20",
     "audit.json": "81089e5fab2887e7e210232c1449266928175b94ec3f156b9147b32939a27fe1",
 }
-RECIPE = {"model": "direct state", "model_scale": "1m", "seed": SEED, "dtype": "float32", "device": "xpu:0", "optimizer": "AdamW", "learning_rate": 3e-4, "scheduler": "cosine", "effective_batch_size": BATCH_SIZE, "optimizer_updates": MAX_UPDATES, "validation_interval": VALIDATION_INTERVAL}
+RECIPE = {"model": "direct state", "model_scale": "1m", "seed": SEED, "dtype": "float32", "device": str(ACCEL_DEVICE), "optimizer": "AdamW", "learning_rate": 3e-4, "scheduler": "cosine", "effective_batch_size": BATCH_SIZE, "optimizer_updates": MAX_UPDATES, "validation_interval": VALIDATION_INTERVAL}
 VERDICT_RULE = "Pre-specified heuristic (not a statistical significance claim): balanced-score range < 0.01 => NO-CLEAR-DATA-EFFECT; otherwise A1/A2 winner => CIRCUIT-COVERAGE-DOMINANT, A3 => MIXED-DATA-EFFECT, A4/A5 => PROBE-COVERAGE-DOMINANT."
 _STOP = False
 
@@ -200,7 +200,7 @@ def _checkpoint(path: Path, model, optimizer, scheduler, config, step, samples, 
 def train_arm(arm: str) -> dict[str, Any]:
     metric_path=TRACK_ROOT/f"metrics/{arm}.json"
     if metric_path.exists() and json.loads(metric_path.read_text()).get("state")=="COMPLETED": return json.loads(metric_path.read_text())
-    device=torch.device("xpu:0"); torch.manual_seed(SEED); data=ArmData(arm); model=ScaledCCNQE("1m","state").to(device); optimizer=torch.optim.AdamW(model.parameters(),lr=3e-4); scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,MAX_UPDATES)
+    device=ACCEL_DEVICE; torch.manual_seed(SEED); data=ArmData(arm); model=ScaledCCNQE("1m","state").to(device); optimizer=torch.optim.AdamW(model.parameters(),lr=3e-4); scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,MAX_UPDATES)
     config={"schema_version":SCHEMA,"arm":arm,"unique_circuits":data.manifest["circuit_count"],"probes_per_circuit":data.probes,"pair_count":data.length,"actual_parameters":parameter_count(model),"recipe":RECIPE,"dataset_manifest_hash":_sha(data.root/"manifest.json")}; atomic_json(TRACK_ROOT/f"configs/{arm}.json",config)
     checkpoint=TRACK_ROOT/f"checkpoints/{arm}-latest.pt"; primary=TRACK_ROOT/f"checkpoints/{arm}-best-balanced.pt"; step=samples=0; rng=np.random.default_rng(SEED); seen=np.zeros(data.length,np.bool_); circuit_exposures=np.zeros(config["unique_circuits"],np.int64); curve=[]; best=-math.inf
     if checkpoint.exists():
@@ -213,7 +213,7 @@ def train_arm(arm: str) -> dict[str, Any]:
         if not torch.isfinite(loss) or not all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters()): raise FloatingPointError(f"{arm}: non-finite training")
         optimizer.step(); scheduler.step(); step+=1; samples+=BATCH_SIZE; seen[indices]=True; np.add.at(circuit_exposures,indices//data.probes,1)
         if step%VALIDATION_INTERVAL==0 or step==MAX_UPDATES:
-            torch.xpu.synchronize(); metrics={split:evaluate(model,split,device) for split in VALIDATION_SPLITS}; metrics.update(step=step,train_fidelity=_train_fidelity(model,data,device),balanced_validation=balanced_score(metrics["iid_validation"],metrics["composition_ood_validation"],metrics["depth_ood_validation"])); curve.append(metrics)
+            accel_synchronize(); metrics={split:evaluate(model,split,device) for split in VALIDATION_SPLITS}; metrics.update(step=step,train_fidelity=_train_fidelity(model,data,device),balanced_validation=balanced_score(metrics["iid_validation"],metrics["composition_ood_validation"],metrics["depth_ood_validation"])); curve.append(metrics)
             _checkpoint(checkpoint,model,optimizer,scheduler,config,step,samples,rng,seen,circuit_exposures,curve)
             if metrics["balanced_validation"]>best: best=metrics["balanced_validation"]; _checkpoint(primary,model,optimizer,scheduler,config,step,samples,rng,seen,circuit_exposures,curve)
         if time.monotonic()-last>=30 or step%VALIDATION_INTERVAL==0:

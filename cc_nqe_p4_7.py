@@ -17,7 +17,7 @@ import numpy as np
 import torch
 from torch import nn
 
-from cc_nqe import DIM, GATES, N_QUBITS, Gate, apply_gate, circuit_unitary
+from cc_nqe import ACCEL, ACCEL_DEVICE, DIM, GATES, N_QUBITS, Gate, accel_device_name, accel_profiler_activities, accel_rng_state, accel_set_rng_state, accel_synchronize, apply_gate, circuit_unitary
 from cc_nqe_p4_5 import atomic_json, parameter_count, state_fidelity
 from cc_nqe_p4_6 import OperatorModel, SEED, digest, process_fidelity, raw_unitarity_error
 from cc_nqe_p4_6_track_a import ArmData, DATA_ROOT, VALIDATION_SPLITS, _decode, load_validation
@@ -300,7 +300,7 @@ def validate_checkpoint(payload: dict[str, Any], config: dict[str, Any], dataset
 
 
 def _checkpoint_payload(model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step):
-    return {"model": model.state_dict(), "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(), "step": step, "samples_seen": samples, "numpy_rng": rng.bit_generator.state, "torch_rng": torch.get_rng_state(), "xpu_rng": torch.xpu.get_rng_state() if torch.xpu.is_available() else None, "variant": config["variant"], "config_hash": digest(config), "dataset_manifest_hash": dataset_hash, "best_checkpoint_state": {"score": best, "step": best_step}}
+    return {"model": model.state_dict(), "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(), "step": step, "samples_seen": samples, "numpy_rng": rng.bit_generator.state, "torch_rng": torch.get_rng_state(), "xpu_rng": accel_rng_state(), "variant": config["variant"], "config_hash": digest(config), "dataset_manifest_hash": dataset_hash, "best_checkpoint_state": {"score": best, "step": best_step}}
 
 
 def save_checkpoint(path: Path, *args) -> None:
@@ -312,14 +312,14 @@ def save_checkpoint(path: Path, *args) -> None:
 
 def preflight() -> dict[str, Any]:
     prepare_artifacts()
-    result = {"schema_version": SCHEMA, "scientific_run": False, "purpose": "implementation_validation", "maximum_updates": 1, "device": "xpu:0", "checks": {}, "status": "P4.7-XPU-BLOCKED"}
+    result = {"schema_version": SCHEMA, "scientific_run": False, "purpose": "implementation_validation", "maximum_updates": 1, "device": str(ACCEL_DEVICE), "checks": {}, "status": "P4.7-XPU-BLOCKED"}
     path = ROOT / "preflight/preflight.json"
     try:
         require_preconditions()
-        if not torch.xpu.is_available():
-            raise RuntimeError("native XPU unavailable; no CPU fallback")
+        if ACCEL == "cpu":
+            raise RuntimeError("native accelerator unavailable; no CPU fallback")
         torch.manual_seed(SEED)
-        device = torch.device("xpu:0")
+        device = ACCEL_DEVICE
         model = RecursiveOperatorModel().to(device)
         circuits = [[Gate("H", (0,)), Gate("CNOT", (0, 1))], [Gate("RX", (2,), 0.4), Gate("X", (3,))]]
         args = _circuit_tensors(circuits, device)
@@ -331,21 +331,21 @@ def preflight() -> dict[str, Any]:
         c2_loss, _, _, operators, comp, _ = loss_for_batch("C2", model, batch, circuits, ["a", "b"])
         optimizer.zero_grad(); c2_loss.backward(retain_graph=False)
         c2_gradient = sum(float(p.grad.abs().sum().detach().cpu()) for p in model.parameters() if p.grad is not None)
-        optimizer.step(); torch.xpu.synchronize()
+        optimizer.step(); accel_synchronize()
         c3_loss, _, _, _, _, prefix = loss_for_batch("C3", model, batch, circuits)
-        optimizer.zero_grad(); c3_loss.backward(); torch.xpu.synchronize()
+        optimizer.zero_grad(); c3_loss.backward(); accel_synchronize()
         from torch.profiler import ProfilerActivity, profile
         optimizer.zero_grad(set_to_none=True)
-        with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.XPU]) as profiler:
+        with profile(activities=accel_profiler_activities()) as profiler:
             profiled = model(*args)
             (1 - process_fidelity(profiled, torch.eye(DIM, dtype=profiled.dtype, device=device)[None])).mean().backward()
-            torch.xpu.synchronize()
+            accel_synchronize()
         solve_device_time = sum(event.device_time_total for event in profiler.key_averages() if any(token in event.key.lower() for token in ("solve", "getrf", "trsm")))
         identity = torch.eye(DIM, dtype=operators.dtype, device=device)[None]
         synthetic_consistency = float(composition_loss(identity, identity, identity).detach().cpu())
         checks = {
             "anchor_integrity": True, "data_allocation": True, "sealed_access_zero": True,
-            "xpu_residency": operators.device.type == "xpu", "no_cpu_fallback": operators.device.type == "xpu",
+            "xpu_residency": operators.device.type == ACCEL, "no_cpu_fallback": operators.device.type == ACCEL,
             "profiler_native_xpu_solve": solve_device_time > 0,
             "cayley_exact_unitarity": float(raw_unitarity_error(operators).max().detach().cpu()) < 1e-4,
             "finite_nonzero_c2_gradient": math.isfinite(c2_gradient) and c2_gradient > 0,
@@ -355,7 +355,7 @@ def preflight() -> dict[str, Any]:
             "optimizer_update": not torch.equal(before, next(model.parameters()).detach()),
             "parameter_fairness": variant_config("C1")["parameter_fairness_pass"],
         }
-        result.update(checks=checks, status="PASS" if all(checks.values()) else "P4.7-IMPLEMENTATION-BLOCKED", parameter_counts={v: variant_config(v)["actual_parameters"] for v in VARIANTS}, composition_loss=float(comp.detach().cpu()), synthetic_consistency_loss=synthetic_consistency, c2_gradient_l1=c2_gradient, prefix_loss=float(prefix.detach().cpu()), unitarity_error=float(raw_unitarity_error(operators).max().detach().cpu()), profiler_solve_device_time_total=solve_device_time, device_name=torch.xpu.get_device_name(0))
+        result.update(checks=checks, status="PASS" if all(checks.values()) else "P4.7-IMPLEMENTATION-BLOCKED", parameter_counts={v: variant_config(v)["actual_parameters"] for v in VARIANTS}, composition_loss=float(comp.detach().cpu()), synthetic_consistency_loss=synthetic_consistency, c2_gradient_l1=c2_gradient, prefix_loss=float(prefix.detach().cpu()), unitarity_error=float(raw_unitarity_error(operators).max().detach().cpu()), profiler_solve_device_time_total=solve_device_time, device_name=accel_device_name())
     except Exception as exc:
         result["reason"] = f"{type(exc).__name__}: {exc}"
     atomic_json(path, result)
@@ -370,7 +370,7 @@ def smoke() -> dict[str, Any]:
         result["reason"] = "preflight did not pass"
         atomic_json(ROOT / "smoke/C1-C3.json", result)
         return result
-    device = torch.device("xpu:0")
+    device = ACCEL_DEVICE
     data = ArmData("A4")
     indices = np.arange(4) * data.probes
     circuits = _sample_circuits(data, indices)
@@ -385,7 +385,7 @@ def smoke() -> dict[str, Any]:
         loss, fidelity, norm, operator, comp, prefix = loss_for_batch(variant, model, batch, circuits, [int(i) for i in indices])
         optimizer.zero_grad(); loss.backward()
         finite = all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters())
-        optimizer.step(); scheduler.step(); torch.xpu.synchronize()
+        optimizer.step(); scheduler.step(); accel_synchronize()
         config = variant_config(variant)
         rng = np.random.default_rng(SEED)
         payload = _checkpoint_payload(model, optimizer, scheduler, config, dataset_hash, 1, len(indices), rng, -math.inf, None)
@@ -396,8 +396,8 @@ def smoke() -> dict[str, Any]:
         restored_optimizer = torch.optim.AdamW(restored.parameters(), 3e-4); restored_optimizer.load_state_dict(loaded["optimizer"])
         restored_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(restored_optimizer, RECIPE["maximum_updates"]); restored_scheduler.load_state_dict(loaded["scheduler"])
         exact = torch.as_tensor(np.asarray([circuit_unitary(circuit) for circuit in circuits], np.complex64)).to(device)
-        passed = finite and bool(torch.isfinite(loss)) and not torch.equal(before, next(model.parameters()).detach()) and operator.device.type == "xpu"
-        result["variants"][variant] = {"status": "PASS" if passed else "FAIL", "scientific_run": False, "purpose": "implementation_validation", "optimizer_updates": 1, "loss": float(loss.detach().cpu()), "action_fidelity": float(fidelity.mean().detach().cpu()), "process_fidelity": float(process_fidelity(operator, exact).mean().detach().cpu()), "unitarity_error": float(raw_unitarity_error(operator).mean().detach().cpu()), "raw_action_norm": float(norm.mean().detach().cpu()), "composition_loss": float(comp.detach().cpu()) if comp is not None else None, "prefix_loss": float(prefix.detach().cpu()) if prefix is not None else None, "xpu_residency": operator.device.type == "xpu", "finite_gradients": finite, "checkpoint_resume": "PASS"}
+        passed = finite and bool(torch.isfinite(loss)) and not torch.equal(before, next(model.parameters()).detach()) and operator.device.type == ACCEL
+        result["variants"][variant] = {"status": "PASS" if passed else "FAIL", "scientific_run": False, "purpose": "implementation_validation", "optimizer_updates": 1, "loss": float(loss.detach().cpu()), "action_fidelity": float(fidelity.mean().detach().cpu()), "process_fidelity": float(process_fidelity(operator, exact).mean().detach().cpu()), "unitarity_error": float(raw_unitarity_error(operator).mean().detach().cpu()), "raw_action_norm": float(norm.mean().detach().cpu()), "composition_loss": float(comp.detach().cpu()) if comp is not None else None, "prefix_loss": float(prefix.detach().cpu()) if prefix is not None else None, "xpu_residency": operator.device.type == ACCEL, "finite_gradients": finite, "checkpoint_resume": "PASS"}
     result["status"] = "PASS" if all(v["status"] == "PASS" for v in result["variants"].values()) else "P4.7-IMPLEMENTATION-BLOCKED"
     atomic_json(ROOT / "smoke/C1-C3.json", result)
     return result
@@ -426,7 +426,7 @@ def run(variant: str) -> dict[str, Any]:
     config = variant_config(variant)
     dataset_hash = _sha(DATA_ROOT / "A4/manifest.json")
     atomic_json(ROOT / f"configs/{variant}.json", config)
-    device = torch.device("xpu:0")
+    device = ACCEL_DEVICE
     torch.manual_seed(SEED)
     data = ArmData("A4")
     model = RecursiveOperatorModel().to(device)
@@ -442,7 +442,7 @@ def run(variant: str) -> dict[str, Any]:
         model.load_state_dict(payload["model"]); optimizer.load_state_dict(payload["optimizer"]); scheduler.load_state_dict(payload["scheduler"])
         step, samples = payload["step"], payload["samples_seen"]
         rng.bit_generator.state = payload["numpy_rng"]; torch.set_rng_state(payload["torch_rng"])
-        if payload.get("xpu_rng") is not None: torch.xpu.set_rng_state(payload["xpu_rng"])
+        accel_set_rng_state(payload.get("xpu_rng"))
         best, best_step = payload["best_checkpoint_state"]["score"], payload["best_checkpoint_state"]["step"]
     started = time.monotonic(); start_samples = samples; validation = {}; loss = fidelity = norm = operator = comp = prefix = None
     while step < RECIPE["maximum_updates"] and not _STOP:
@@ -456,7 +456,7 @@ def run(variant: str) -> dict[str, Any]:
         optimizer.step(); scheduler.step(); step += 1; samples += len(indices)
         checkpoint_name = str(latest_path)
         if step % RECIPE["validation_interval"] == 0 or step == RECIPE["maximum_updates"]:
-            torch.xpu.synchronize(); validation = evaluate(model, device)
+            accel_synchronize(); validation = evaluate(model, device)
             if validation["S_balanced"] > best:
                 best, best_step = validation["S_balanced"], step
                 save_checkpoint(best_path, model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
@@ -465,7 +465,7 @@ def run(variant: str) -> dict[str, Any]:
         if step % 50 == 0 or step % RECIPE["validation_interval"] == 0:
             elapsed = time.monotonic() - started
             metric = lambda split: validation.get(split, {}).get("normalized_action_fidelity")
-            _status_row(variant=variant, step=f"{step}/{RECIPE['maximum_updates']}", loss=float(loss.detach().cpu()), action_fidelity=float(fidelity.mean().detach().cpu()), process_fidelity=validation.get("iid_validation", {}).get("process_fidelity"), unitarity_error=float(raw_unitarity_error(operator).mean().detach().cpu()), IID_val=metric("iid_validation"), State_OOD_val=metric("state_ood_validation"), Parameter_OOD_val=metric("parameter_ood_validation"), Composition_OOD_val=metric("composition_ood_validation"), Depth_OOD_val=metric("depth_ood_validation"), S_balanced=validation.get("S_balanced"), lr=optimizer.param_groups[0]["lr"], samples_per_second=(samples - start_samples) / max(elapsed, 1e-9), elapsed=elapsed, ETA=(RECIPE["maximum_updates"] - step) * elapsed / max(step, 1), device="xpu:0", checkpoint=checkpoint_name, composition_loss=float(comp.detach().cpu()) if comp is not None else None, prefix_loss=float(prefix.detach().cpu()) if prefix is not None else None, state="RUNNING", scientific_runs={v: ("RUNNING" if v == variant else status()["scientific_runs"].get(v, "NOT_RUN")) for v in VARIANTS}, sealed_test_access_count=0)
+            _status_row(variant=variant, step=f"{step}/{RECIPE['maximum_updates']}", loss=float(loss.detach().cpu()), action_fidelity=float(fidelity.mean().detach().cpu()), process_fidelity=validation.get("iid_validation", {}).get("process_fidelity"), unitarity_error=float(raw_unitarity_error(operator).mean().detach().cpu()), IID_val=metric("iid_validation"), State_OOD_val=metric("state_ood_validation"), Parameter_OOD_val=metric("parameter_ood_validation"), Composition_OOD_val=metric("composition_ood_validation"), Depth_OOD_val=metric("depth_ood_validation"), S_balanced=validation.get("S_balanced"), lr=optimizer.param_groups[0]["lr"], samples_per_second=(samples - start_samples) / max(elapsed, 1e-9), elapsed=elapsed, ETA=(RECIPE["maximum_updates"] - step) * elapsed / max(step, 1), device=str(ACCEL_DEVICE), checkpoint=checkpoint_name, composition_loss=float(comp.detach().cpu()) if comp is not None else None, prefix_loss=float(prefix.detach().cpu()) if prefix is not None else None, state="RUNNING", scientific_runs={v: ("RUNNING" if v == variant else status()["scientific_runs"].get(v, "NOT_RUN")) for v in VARIANTS}, sealed_test_access_count=0)
     save_checkpoint(latest_path, model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
     state = "INTERRUPTED" if _STOP else "COMPLETED"
     if state == "COMPLETED":
@@ -595,13 +595,13 @@ def confirmatory_preflight() -> dict[str, Any]:
         "C0_config_equivalence": True, "C1_C2_C3_config_integrity": configs_ok,
         "same_seed_deterministic_initialization": same_seed, "seed_override_changes_initialization": different_seed,
         "dataset_hash_unchanged": _sha(DATA_ROOT / "A4/manifest.json") == ANCHOR_FILES["dataset_manifest"][1],
-        "xpu_available": torch.xpu.is_available(), "sealed_access_zero": True, "resume_compatibility": True,
+        "xpu_available": ACCEL != "cpu", "sealed_access_zero": True, "resume_compatibility": True,
     }
-    if torch.xpu.is_available():
+    if ACCEL != "cpu":
         torch.manual_seed(2027)
-        model = confirmatory_model("C0", "xpu:0")
-        operator = model(*_circuit_tensors([[Gate("H", (0,)), Gate("CNOT", (0, 1))]], "xpu:0"))
-        checks["Cayley_XPU_native"] = operator.device.type == "xpu" and float(raw_unitarity_error(operator).max().detach().cpu()) < 1e-4
+        model = confirmatory_model("C0", ACCEL_DEVICE)
+        operator = model(*_circuit_tensors([[Gate("H", (0,)), Gate("CNOT", (0, 1))]], ACCEL_DEVICE))
+        checks["Cayley_XPU_native"] = operator.device.type == ACCEL and float(raw_unitarity_error(operator).max().detach().cpu()) < 1e-4
         checks["no_CPU_fallback"] = checks["Cayley_XPU_native"]
     else:
         checks["Cayley_XPU_native"] = checks["no_CPU_fallback"] = False
@@ -672,7 +672,7 @@ def confirm_run(variant: str, seed: int) -> dict[str, Any]:
     _STOP = False
     config = confirmatory_config(variant, seed)
     dataset_hash = _sha(DATA_ROOT / "A4/manifest.json")
-    device = torch.device("xpu:0")
+    device = ACCEL_DEVICE
     torch.manual_seed(seed)
     data = ArmData("A4")
     model = confirmatory_model(variant, device)
@@ -688,7 +688,7 @@ def confirm_run(variant: str, seed: int) -> dict[str, Any]:
         model.load_state_dict(payload["model"]); optimizer.load_state_dict(payload["optimizer"]); scheduler.load_state_dict(payload["scheduler"])
         step, samples = payload["step"], payload["samples_seen"]
         rng.bit_generator.state = payload["numpy_rng"]; torch.set_rng_state(payload["torch_rng"])
-        if payload.get("xpu_rng") is not None: torch.xpu.set_rng_state(payload["xpu_rng"])
+        accel_set_rng_state(payload.get("xpu_rng"))
         best, best_step = payload["best_checkpoint_state"]["score"], payload["best_checkpoint_state"]["step"]
     started = time.monotonic(); start_samples = samples; validation = {}; loss = fidelity = norm = operator = comp = prefix = None
     while step < RECIPE["maximum_updates"] and not _STOP:
@@ -706,7 +706,7 @@ def confirm_run(variant: str, seed: int) -> dict[str, Any]:
         optimizer.step(); scheduler.step(); step += 1; samples += len(indices)
         checkpoint_name = str(latest_path)
         if step % RECIPE["validation_interval"] == 0 or step == RECIPE["maximum_updates"]:
-            torch.xpu.synchronize(); validation = _evaluate_confirmatory(variant, model, device)
+            accel_synchronize(); validation = _evaluate_confirmatory(variant, model, device)
             if validation["S_balanced"] > best:
                 best, best_step = validation["S_balanced"], step
                 save_confirmatory_checkpoint(best_path, model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
@@ -715,7 +715,7 @@ def confirm_run(variant: str, seed: int) -> dict[str, Any]:
         if step % 50 == 0 or step % RECIPE["validation_interval"] == 0:
             elapsed = time.monotonic() - started
             metric = lambda split: validation.get(split, {}).get("normalized_action_fidelity")
-            _confirm_status_row(variant=variant, seed=seed, step=step, maximum_updates=RECIPE["maximum_updates"], loss=float(loss.detach().cpu()), action_fidelity=float(fidelity.mean().detach().cpu()), process_fidelity=validation.get("iid_validation", {}).get("process_fidelity"), unitarity_error=float(raw_unitarity_error(operator).mean().detach().cpu()), IID_val=metric("iid_validation"), State_OOD_val=metric("state_ood_validation"), Parameter_OOD_val=metric("parameter_ood_validation"), Composition_OOD_val=metric("composition_ood_validation"), Depth_OOD_val=metric("depth_ood_validation"), S_balanced=validation.get("S_balanced"), lr=optimizer.param_groups[0]["lr"], samples_per_second=(samples-start_samples)/max(elapsed, 1e-9), elapsed=elapsed, ETA=(RECIPE["maximum_updates"]-step)*elapsed/max(step, 1), checkpoint=checkpoint_name, device="xpu:0", state="RUNNING")
+            _confirm_status_row(variant=variant, seed=seed, step=step, maximum_updates=RECIPE["maximum_updates"], loss=float(loss.detach().cpu()), action_fidelity=float(fidelity.mean().detach().cpu()), process_fidelity=validation.get("iid_validation", {}).get("process_fidelity"), unitarity_error=float(raw_unitarity_error(operator).mean().detach().cpu()), IID_val=metric("iid_validation"), State_OOD_val=metric("state_ood_validation"), Parameter_OOD_val=metric("parameter_ood_validation"), Composition_OOD_val=metric("composition_ood_validation"), Depth_OOD_val=metric("depth_ood_validation"), S_balanced=validation.get("S_balanced"), lr=optimizer.param_groups[0]["lr"], samples_per_second=(samples-start_samples)/max(elapsed, 1e-9), elapsed=elapsed, ETA=(RECIPE["maximum_updates"]-step)*elapsed/max(step, 1), checkpoint=checkpoint_name, device=str(ACCEL_DEVICE), state="RUNNING")
     save_confirmatory_checkpoint(latest_path, model, optimizer, scheduler, config, dataset_hash, step, samples, rng, best, best_step)
     state = "INTERRUPTED" if _STOP else "COMPLETED"
     if state == "COMPLETED":

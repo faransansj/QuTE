@@ -8,14 +8,14 @@ from typing import Any
 import numpy as np
 import torch
 
-from cc_nqe import DIM, Gate, circuit_unitary, serialize_circuit
+from cc_nqe import ACCEL, ACCEL_DEVICE, DIM, Gate, accel_device_name, accel_profiler_activities, accel_synchronize, circuit_unitary, serialize_circuit
 from cc_nqe_p4_5 import ScaledCCNQE, apply_operator, atomic_json, parameter_count, state_fidelity, _tensorize_circuit
 from cc_nqe_p4_6 import OperatorModel, ROOT, SCHEMA, SEED, normalized_action_fidelity, phase_aligned_error, process_fidelity, raw_unitarity_error, digest
 from cc_nqe_p4_6_track_a import ArmData, DATA_ROOT, VALIDATION_SPLITS, load_validation, _decode
 
 OP_ROOT=ROOT/"operator"
 ALLOCATION={"unique_circuits":58_824,"probes_per_circuit":17,"state_action_pairs":1_000_008,"source_arm":"A4"}
-RECIPE={"seed":SEED,"device":"xpu:0","dtype":"float32","optimizer":"AdamW","learning_rate":3e-4,"scheduler":"cosine","effective_batch_size":1024,"maximum_updates":10_000,"validation_interval":500}
+RECIPE={"seed":SEED,"device":str(ACCEL_DEVICE),"dtype":"float32","optimizer":"AdamW","learning_rate":3e-4,"scheduler":"cosine","effective_batch_size":1024,"maximum_updates":10_000,"validation_interval":500}
 VARIANTS={
  "B0":{"model":"direct-state","supervision":["C","psi_in","psi_out"],"privileged":False},
  "B1":{"model":"unconstrained-operator","supervision":["C","psi_in","psi_out"],"privileged":False},
@@ -101,32 +101,32 @@ def _b3_parts(model:OperatorModel,args:tuple[torch.Tensor,...]):
 
 def operator_preflight()->dict[str,Any]:
  prepare_operator_artifacts(); config=variant_config("B3")
- result={"schema_version":SCHEMA,"scientific_run":False,"purpose":"implementation_validation","variant":"B3","maximum_updates":1,"config_hash":digest(config),"device":"xpu:0","checks":{},"status":"B3-XPU-BLOCKED","thresholds":{"mean_unitarity_error":1e-5,"max_unitarity_error":1e-4,"cpu_xpu_max_element_difference":1e-4,"cpu_xpu_action_fidelity_difference":1e-5}}
+ result={"schema_version":SCHEMA,"scientific_run":False,"purpose":"implementation_validation","variant":"B3","maximum_updates":1,"config_hash":digest(config),"device":str(ACCEL_DEVICE),"checks":{},"status":"B3-XPU-BLOCKED","thresholds":{"mean_unitarity_error":1e-5,"max_unitarity_error":1e-4,"cpu_xpu_max_element_difference":1e-4,"cpu_xpu_action_fidelity_difference":1e-5}}
  path=OP_ROOT/"preflight/B3.json"
- if not torch.xpu.is_available(): result["reason"]="native XPU unavailable; no CPU fallback"; atomic_json(path,result); return result
+ if ACCEL == "cpu": result["reason"]="no native CUDA/XPU accelerator; no CPU fallback"; atomic_json(path,result); return result
  stderr=io.StringIO()
  try:
   from torch.profiler import profile, ProfilerActivity
   with warnings.catch_warnings(record=True) as caught, contextlib.redirect_stderr(stderr):
    warnings.simplefilter("always"); torch.manual_seed(SEED)
-   cpu=_model("B3").eval(); xpu=_model("B3","xpu:0"); xpu.load_state_dict(cpu.state_dict()); xpu.eval()
+   cpu=_model("B3").eval(); xpu=_model("B3",ACCEL_DEVICE); xpu.load_state_dict(cpu.state_dict()); xpu.eval()
    circuits=[[Gate("H",(0,)),Gate("CNOT",(0,1))],[Gate("RX",(2,),.4),Gate("X",(3,))],[Gate("RY",(1,),-.7)]]; args=_circuit_tensors(circuits,"cpu")
    with torch.no_grad(): cpu_a,cpu_lhs,cpu_rhs,reference=_b3_parts(cpu,args)
-   xargs=tuple(x.to("xpu:0") for x in args); target=torch.randn(len(circuits),2*DIM,device="xpu:0")
+   xargs=tuple(x.to(ACCEL_DEVICE) for x in args); target=torch.randn(len(circuits),2*DIM,device=str(ACCEL_DEVICE))
    opt=torch.optim.AdamW(xpu.parameters(),3e-4); before=next(xpu.parameters()).detach().clone()
-   with profile(activities=[ProfilerActivity.CPU,ProfilerActivity.XPU]) as prof:
-    a,lhs,rhs,out=_b3_parts(xpu,xargs); fidelity,norm=action_metrics(out,torch.randn_like(target),target); loss=(1-fidelity).mean(); opt.zero_grad(); loss.backward(); opt.step(); torch.xpu.synchronize()
+   with profile(activities=accel_profiler_activities()) as prof:
+    a,lhs,rhs,out=_b3_parts(xpu,xargs); fidelity,norm=action_metrics(out,torch.randn_like(target),target); loss=(1-fidelity).mean(); opt.zero_grad(); loss.backward(); opt.step(); accel_synchronize()
    finite_grad=all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in xpu.parameters()); nonzero_grad=any(p.grad is not None and bool((p.grad.abs()>0).any()) for p in xpu.parameters()); updated=not torch.equal(before,next(xpu.parameters()).detach())
    xpu.load_state_dict(cpu.state_dict()); xpu.eval()
-   with torch.no_grad(): xa,xlhs,xrhs,parity=_b3_parts(xpu,xargs); torch.xpu.synchronize()
-  messages=[str(w.message) for w in caught]+stderr.getvalue().splitlines(); fallback=[m for m in messages if "fallback" in m.lower() and "xpu" in m.lower()]
+   with torch.no_grad(): xa,xlhs,xrhs,parity=_b3_parts(xpu,xargs); accel_synchronize()
+  messages=[str(w.message) for w in caught]+stderr.getvalue().splitlines(); fallback=[m for m in messages if "fallback" in m.lower() and ACCEL in m.lower()]
   events={e.key:e.device_time_total for e in prof.key_averages()}; solve_device_time=sum(t for k,t in events.items() if "solve" in k.lower() or "getrf" in k.lower() or "trsm" in k.lower())
   unity=raw_unitarity_error(out.detach()); element_diff=float((reference-parity.cpu()).abs().max()); cpu_f,_=action_metrics(reference,torch.ones(len(circuits),2*DIM),torch.ones(len(circuits),2*DIM)); xpu_f,_=action_metrics(parity.cpu(),torch.ones(len(circuits),2*DIM),torch.ones(len(circuits),2*DIM)); fidelity_diff=float((cpu_f-xpu_f).abs().max())
   singular=torch.linalg.svdvals(cpu_lhs); cond=singular[...,0]/singular[...,-1]
   perturb=cpu_a.clone(); perturb[:,0,1]+=1e-6; perturb[:,1,0]-=1e-6; eye=torch.eye(DIM,dtype=perturb.dtype).expand_as(perturb); changed=torch.linalg.solve(eye+perturb,eye-perturb)
-  checks={"inputs_xpu0":all(x.device==torch.device("xpu:0") for x in xargs),"A_xpu0":a.device==torch.device("xpu:0"),"solve_inputs_output_xpu0":lhs.device==rhs.device==out.device==torch.device("xpu:0"),"forward":bool(torch.isfinite(out).all()),"backward":finite_grad,"finite_nonzero_gradients":finite_grad and nonzero_grad,"optimizer_update":updated,"no_nan_inf":bool(torch.isfinite(out).all() and torch.isfinite(loss) and torch.isfinite(norm).all()),"no_hidden_cpu_transfer":not fallback,"no_xpu_cpu_fallback":not fallback,"profiler_native_xpu_solve":solve_device_time>0,"skew_hermitian":bool(torch.allclose(a,-a.mH,atol=1e-6)),"identity":bool(torch.equal(torch.linalg.solve(torch.eye(DIM,dtype=torch.complex64),torch.eye(DIM,dtype=torch.complex64)),torch.eye(DIM,dtype=torch.complex64))),"near_identity":float((changed-torch.eye(DIM,dtype=changed.dtype)).abs().max())<1.0,"continuous_under_perturbation":float((changed-reference).abs().max())<1e-3,"unitarity_thresholds":float(unity.mean())<=1e-5 and float(unity.max())<=1e-4,"cpu_xpu_element_parity":element_diff<=1e-4,"cpu_xpu_action_fidelity_parity":fidelity_diff<=1e-5,"initialization_not_saturated":float(cond.max())<1e4}
+  checks={"inputs_xpu0":all(x.device==ACCEL_DEVICE for x in xargs),"A_xpu0":a.device==ACCEL_DEVICE,"solve_inputs_output_xpu0":lhs.device==rhs.device==out.device==ACCEL_DEVICE,"forward":bool(torch.isfinite(out).all()),"backward":finite_grad,"finite_nonzero_gradients":finite_grad and nonzero_grad,"optimizer_update":updated,"no_nan_inf":bool(torch.isfinite(out).all() and torch.isfinite(loss) and torch.isfinite(norm).all()),"no_hidden_cpu_transfer":not fallback,"no_xpu_cpu_fallback":not fallback,"profiler_native_xpu_solve":solve_device_time>0,"skew_hermitian":bool(torch.allclose(a,-a.mH,atol=1e-6)),"identity":bool(torch.equal(torch.linalg.solve(torch.eye(DIM,dtype=torch.complex64),torch.eye(DIM,dtype=torch.complex64)),torch.eye(DIM,dtype=torch.complex64))),"near_identity":float((changed-torch.eye(DIM,dtype=changed.dtype)).abs().max())<1.0,"continuous_under_perturbation":float((changed-reference).abs().max())<1e-3,"unitarity_thresholds":float(unity.mean())<=1e-5 and float(unity.max())<=1e-4,"cpu_xpu_element_parity":element_diff<=1e-4,"cpu_xpu_action_fidelity_parity":fidelity_diff<=1e-5,"initialization_not_saturated":float(cond.max())<1e4}
   status="PASS" if all(checks.values()) else ("B3-NUMERICAL-BLOCKED" if not checks["unitarity_thresholds"] or not checks["cpu_xpu_element_parity"] or not checks["cpu_xpu_action_fidelity_parity"] else "B3-XPU-BLOCKED")
-  result.update(status=status,checks=checks,unitarity_error={"mean":float(unity.mean()),"max":float(unity.max()),"p95":float(torch.quantile(unity,.95))},raw_output_state_norm={"mean":float(norm.mean().detach().cpu()),"max_error_from_one":float((norm-1).abs().max().detach().cpu())},solve_failures=0,finite_status=checks["no_nan_inf"],cpu_xpu_max_element_difference=element_diff,cpu_xpu_action_fidelity_difference=fidelity_diff,conditioning={"min_singular_value":float(singular.min()),"max_condition_estimate":float(cond.max())},profiler={"solve_device_time_total":solve_device_time,"solve_events":[k for k in events if "solve" in k.lower() or "getrf" in k.lower() or "trsm" in k.lower()]},warnings=messages,device_name=torch.xpu.get_device_name(0))
+  result.update(status=status,checks=checks,unitarity_error={"mean":float(unity.mean()),"max":float(unity.max()),"p95":float(torch.quantile(unity,.95))},raw_output_state_norm={"mean":float(norm.mean().detach().cpu()),"max_error_from_one":float((norm-1).abs().max().detach().cpu())},solve_failures=0,finite_status=checks["no_nan_inf"],cpu_xpu_max_element_difference=element_diff,cpu_xpu_action_fidelity_difference=fidelity_diff,conditioning={"min_singular_value":float(singular.min()),"max_condition_estimate":float(cond.max())},profiler={"solve_device_time_total":solve_device_time,"solve_events":[k for k in events if "solve" in k.lower() or "getrf" in k.lower() or "trsm" in k.lower()]},warnings=messages,device_name=accel_device_name())
  except Exception as exc: result["reason"]=f"{type(exc).__name__}: {exc}"; result["stderr"]=stderr.getvalue()
  atomic_json(path,result); return result
 
@@ -167,13 +167,13 @@ def ensure_operator_targets(data:ArmData)->np.ndarray:
 
 def operator_smoke()->dict[str,Any]:
  require_operator_preconditions(); pre=operator_preflight()
- device=torch.device("xpu:0"); batch=_tiny_batch(device); results={}
+ device=ACCEL_DEVICE; batch=_tiny_batch(device); results={}
  for variant in VARIANTS:
-  if variant=="B3" and pre["status"]!="PASS": results[variant]={"status":pre["status"],"reason":"B3 Cayley native-XPU or numerical preflight failed"}; continue
+  if variant=="B3" and pre["status"]!="PASS": results[variant]={"status":pre["status"],"reason":"B3 Cayley native-accelerator or numerical preflight failed"}; continue
   torch.manual_seed(SEED); model=_model(variant,device); opt=torch.optim.AdamW(model.parameters(),3e-4); before=next(model.parameters()).detach().clone(); exact=_exact_for_indices(np.arange(4),device,data=ArmData("A4")) if variant in ("B4","B5") else None; composition=None
   if variant=="B5":
    data=ArmData("A4"); first=[_decode(data.gates[i],data.qubits[i],data.parameters[i],data.masks[i]) for i in range(4)]; second=[_decode(data.gates[i+4],data.qubits[i+4],data.parameters[i+4],data.masks[i+4]) for i in range(4)]; direct=model(*_circuit_tensors([a+b for a,b in zip(first,second)],device)); u2=model(*_circuit_tensors(second,device)); u1=model(*_circuit_tensors(first,device)); exact1=_exact_for_indices(np.arange(4),device,data); exact2=_exact_for_indices(np.arange(4,8),device,data); composition=(direct,u2,u1,exact2@exact1,exact2,exact1)
-  loss,f,norm,operator=_loss(variant,model,batch,exact,composition); opt.zero_grad(); loss.backward(); finite=all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters()); opt.step(); torch.xpu.synchronize(); config=variant_config(variant); results[variant]={"scientific_run":False,"purpose":"implementation_validation","variant":variant,"maximum_updates":1,"config_hash":digest(config),"status":"PASS" if finite and torch.isfinite(loss) and not torch.equal(before,next(model.parameters()).detach()) else "FAIL","loss":float(loss.detach().cpu()),"action_fidelity":float(f.mean().detach().cpu()),"raw_action_norm":float(norm.mean().detach().cpu()),"unitarity_error":float(raw_unitarity_error(operator).mean().detach().cpu()) if operator is not None else None,"finite_gradients":finite,"xpu_residency":next(model.parameters()).device.type=="xpu","optimizer_update":not torch.equal(before,next(model.parameters()).detach())}
+  loss,f,norm,operator=_loss(variant,model,batch,exact,composition); opt.zero_grad(); loss.backward(); finite=all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters()); opt.step(); accel_synchronize(); config=variant_config(variant); results[variant]={"scientific_run":False,"purpose":"implementation_validation","variant":variant,"maximum_updates":1,"config_hash":digest(config),"status":"PASS" if finite and torch.isfinite(loss) and not torch.equal(before,next(model.parameters()).detach()) else "FAIL","loss":float(loss.detach().cpu()),"action_fidelity":float(f.mean().detach().cpu()),"raw_action_norm":float(norm.mean().detach().cpu()),"unitarity_error":float(raw_unitarity_error(operator).mean().detach().cpu()) if operator is not None else None,"finite_gradients":finite,"xpu_residency":next(model.parameters()).device.type==ACCEL,"optimizer_update":not torch.equal(before,next(model.parameters()).detach())}
  config=variant_config("B3"); dataset_hash=_sha(DATA_ROOT/"A4/manifest.json"); buffer=io.BytesIO(); torch.save({"config":config,"config_hash":digest(config),"dataset_manifest_hash":dataset_hash},buffer); buffer.seek(0); validate_operator_checkpoint(torch.load(buffer,weights_only=False),config,dataset_hash)
  result={"schema_version":SCHEMA,"scientific_run":False,"purpose":"implementation_validation","variant":"B0-B5","maximum_updates":1,"config_hash":digest({v:variant_config(v) for v in VARIANTS}),"status":"PASS" if all(x["status"]=="PASS" for x in results.values()) else results.get("B3",{}).get("status","FAIL"),"workload":"one optimizer update, four A4 pairs per variant; correctness only","scientific_runs":"NONE","save_resume":"PASS","metric_pipeline":"PASS","variants":results}; atomic_json(OP_ROOT/"smoke/B0-B5.json",result); return result
 
@@ -227,7 +227,7 @@ def operator_run(variant:str)->dict[str,Any]:
   existing=json.loads(metric_path.read_text())
   if existing.get("state")=="COMPLETED": return existing
  config=variant_config(variant); config["dataset_manifest_hash"]=_sha(DATA_ROOT/"A4/manifest.json"); atomic_json(OP_ROOT/f"configs/{variant}.json",config)
- device=torch.device("xpu:0"); torch.manual_seed(SEED); data=ArmData("A4"); unitary_targets=ensure_operator_targets(data) if variant in ("B4","B5") else None; model=_model(variant,device); opt=torch.optim.AdamW(model.parameters(),3e-4); sched=torch.optim.lr_scheduler.CosineAnnealingLR(opt,RECIPE["maximum_updates"]); rng=np.random.default_rng(SEED); checkpoint=OP_ROOT/f"checkpoints/{variant}-latest.pt"; primary=OP_ROOT/f"checkpoints/{variant}-best-balanced.pt"; step=samples=0; best=-math.inf; best_step=None
+ device=ACCEL_DEVICE; torch.manual_seed(SEED); data=ArmData("A4"); unitary_targets=ensure_operator_targets(data) if variant in ("B4","B5") else None; model=_model(variant,device); opt=torch.optim.AdamW(model.parameters(),3e-4); sched=torch.optim.lr_scheduler.CosineAnnealingLR(opt,RECIPE["maximum_updates"]); rng=np.random.default_rng(SEED); checkpoint=OP_ROOT/f"checkpoints/{variant}-latest.pt"; primary=OP_ROOT/f"checkpoints/{variant}-best-balanced.pt"; step=samples=0; best=-math.inf; best_step=None
  if checkpoint.exists():
   p=torch.load(checkpoint,map_location="cpu",weights_only=False)
   validate_operator_checkpoint(p,config,config["dataset_manifest_hash"])
@@ -240,14 +240,14 @@ def operator_run(variant:str)->dict[str,Any]:
   if not torch.isfinite(loss) or not all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters()): raise FloatingPointError("non-finite operator training")
   opt.step(); sched.step(); step+=1; samples+=len(indices)
   if step%RECIPE["validation_interval"]==0 or step==RECIPE["maximum_updates"]:
-   torch.xpu.synchronize(); latest=evaluate_variant(variant,model,device); score=sum(latest[s]["predicted_operator_state_fidelity" if variant!="B0" else "direct_state_fidelity"] for s in ("iid_validation","composition_ood_validation","depth_ood_validation"))/3
+   accel_synchronize(); latest=evaluate_variant(variant,model,device); score=sum(latest[s]["predicted_operator_state_fidelity" if variant!="B0" else "direct_state_fidelity"] for s in ("iid_validation","composition_ood_validation","depth_ood_validation"))/3
    improved=score>best
    if improved: best,best_step=score,step
    _save_checkpoint(checkpoint,model,opt,sched,config,step,samples,rng,best,best_step)
    if improved: _save_checkpoint(primary,model,opt,sched,config,step,samples,rng,best,best_step)
   if step%50==0 or step%RECIPE["validation_interval"]==0:
    elapsed=time.monotonic()-started; iid=latest.get("iid_validation",{}); comp=latest.get("composition_ood_validation",{}); depth=latest.get("depth_ood_validation",{}); key="predicted_operator_state_fidelity" if variant!="B0" else "direct_state_fidelity"
-   _status(variant=variant,step=f"{step}/{RECIPE['maximum_updates']}",loss=float(loss.detach().cpu()),action_fidelity=float(f.mean().detach().cpu()),process_fidelity=float(process_fidelity(op,exact).mean().detach().cpu()) if op is not None and exact is not None else None,unitarity_error=float(raw_unitarity_error(op).mean().detach().cpu()) if op is not None else None,IID_val=iid.get(key),State_OOD_val=latest.get("state_ood_validation",{}).get(key),Parameter_OOD_val=latest.get("parameter_ood_validation",{}).get(key),Composition_OOD_val=comp.get(key),Depth_OOD_val=depth.get(key),lr=opt.param_groups[0]["lr"],samples_per_second=(step*RECIPE["effective_batch_size"])/max(elapsed,1e-9),elapsed=elapsed,ETA=(RECIPE["maximum_updates"]-step)*elapsed/max(step,1),device="xpu:0",checkpoint=str(checkpoint),state="RUNNING")
+   _status(variant=variant,step=f"{step}/{RECIPE['maximum_updates']}",loss=float(loss.detach().cpu()),action_fidelity=float(f.mean().detach().cpu()),process_fidelity=float(process_fidelity(op,exact).mean().detach().cpu()) if op is not None and exact is not None else None,unitarity_error=float(raw_unitarity_error(op).mean().detach().cpu()) if op is not None else None,IID_val=iid.get(key),State_OOD_val=latest.get("state_ood_validation",{}).get(key),Parameter_OOD_val=latest.get("parameter_ood_validation",{}).get(key),Composition_OOD_val=comp.get(key),Depth_OOD_val=depth.get(key),lr=opt.param_groups[0]["lr"],samples_per_second=(step*RECIPE["effective_batch_size"])/max(elapsed,1e-9),elapsed=elapsed,ETA=(RECIPE["maximum_updates"]-step)*elapsed/max(step,1),device=str(ACCEL_DEVICE),checkpoint=str(checkpoint),state="RUNNING")
  _save_checkpoint(checkpoint,model,opt,sched,config,step,samples,rng,best,best_step)
  state="INTERRUPTED" if _STOP else "COMPLETED"; result={"schema_version":SCHEMA,"variant":variant,"state":state,"step":step,"samples_seen":samples,"best_balanced_validation":best,"best_checkpoint_step":best_step,"latest_validation":latest,"scientific":True}; atomic_json(metric_path,result); return result
 
@@ -271,7 +271,7 @@ def operator_screen()->dict[str,Any]:
 
 
 def operator_status()->dict[str,Any]:
- path=OP_ROOT/"status.json"; latest=json.loads(path.read_text()) if path.exists() else {"schema_version":SCHEMA,"state":"IMPLEMENTED_NOT_SCIENTIFICALLY_RUN","variant":None,"step":None,"device":"xpu:0"}
+ path=OP_ROOT/"status.json"; latest=json.loads(path.read_text()) if path.exists() else {"schema_version":SCHEMA,"state":"IMPLEMENTED_NOT_SCIENTIFICALLY_RUN","variant":None,"step":None,"device":str(ACCEL_DEVICE)}
  latest["scientific_runs"]={v:(json.loads((OP_ROOT/f"metrics/{v}.json").read_text())["state"] if (OP_ROOT/f"metrics/{v}.json").exists() else "NOT_RUN") for v in VARIANTS}; latest["sealed_test_access_count"]=json.loads((ROOT/"test_access_log.json").read_text())["access_count"]; return latest
 
 

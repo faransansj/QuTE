@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 import torch
-from cc_nqe import DIM, Gate, circuit_unitary, generate_state
+from cc_nqe import ACCEL, ACCEL_DEVICE, DIM, Gate, circuit_unitary, generate_state
 from cc_nqe_p4_5 import parameter_count, state_fidelity
 from cc_nqe_p4_6 import *
 from cc_nqe_p4_6_track_a import generate_master_pool, load_validation, ordered_probes, probe_family, probe_seed, track_a_verdict
@@ -187,11 +187,11 @@ def test_track_b_completed_run_returns_frozen_metric(monkeypatch,tmp_path):
     atomic_json(tmp_path/'metrics/B1.json',expected)
     assert track.operator_run('B1')==expected
 
-@pytest.mark.skipif(not torch.xpu.is_available(),reason='native XPU unavailable')
+@pytest.mark.skipif(ACCEL=='cpu',reason='no native accelerator')
 def test_track_b_xpu_cayley_forward_backward_and_residency():
-    model=_model('B3','xpu:0'); args=tuple(x.to('xpu:0') for x in _circuit_batch([Gate('H',(0,)),Gate('CNOT',(0,1))])); out=model(*args); loss=raw_unitarity_error(out).mean()+(1-process_fidelity(out,torch.eye(DIM,dtype=out.dtype,device=out.device)[None])).mean(); loss.backward()
-    assert out.device.type=='xpu' and torch.isfinite(out).all() and all(p.grad is None or torch.isfinite(p.grad).all() for p in model.parameters()) and raw_unitarity_error(out).max()<1e-4
+    model=_model('B3',ACCEL_DEVICE); args=tuple(x.to(ACCEL_DEVICE) for x in _circuit_batch([Gate('H',(0,)),Gate('CNOT',(0,1))])); out=model(*args); loss=raw_unitarity_error(out).mean()+(1-process_fidelity(out,torch.eye(DIM,dtype=out.dtype,device=out.device)[None])).mean(); loss.backward()
+    assert out.device.type==ACCEL and torch.isfinite(out).all() and all(p.grad is None or torch.isfinite(p.grad).all() for p in model.parameters()) and raw_unitarity_error(out).max()<1e-4
 
-@pytest.mark.skipif(not torch.xpu.is_available(),reason='native XPU unavailable')
+@pytest.mark.skipif(ACCEL=='cpu',reason='no native accelerator')
 def test_xpu_residency():
-    model=RecurrentCCNQE(16).to('xpu'); args=tuple(x.to('xpu') for x in _circuit_batch([Gate('H',(0,))])); state=torch.randn(1,2*DIM,device='xpu'); out=model(*args,state); assert out.device.type=='xpu' and torch.isfinite(out).all()
+    model=RecurrentCCNQE(16).to(ACCEL_DEVICE); args=tuple(x.to(ACCEL_DEVICE) for x in _circuit_batch([Gate('H',(0,))])); state=torch.randn(1,2*DIM,device=ACCEL_DEVICE); out=model(*args,state); assert out.device.type==ACCEL and torch.isfinite(out).all()

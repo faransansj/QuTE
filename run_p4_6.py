@@ -4,23 +4,24 @@ import argparse, hashlib, json, os, platform, shutil
 from pathlib import Path
 import numpy as np
 import torch
-from cc_nqe import DIM, circuit_id, circuit_unitary, generate_state, serialize_circuit, simulate, structural_signature
+from cc_nqe import ACCEL, ACCEL_DEVICE, DIM, accel_device_name, accel_synchronize, circuit_id, circuit_unitary, generate_state, serialize_circuit, simulate, structural_signature
 from cc_nqe_p4_5 import ScaledCCNQE, state_fidelity, parameter_count, atomic_json
 from cc_nqe_p4_6 import *
 from cc_nqe_p4_6 import _make_circuits
 
 
 def preflight():
-    env={"schema_version":SCHEMA,"python":platform.python_version(),"torch":torch.__version__,"xpu_available":torch.xpu.is_available(),"xpu_device_count":torch.xpu.device_count() if hasattr(torch,'xpu') else 0,"xpu_device_names":[torch.xpu.get_device_name(i) for i in range(torch.xpu.device_count())] if torch.xpu.is_available() else []}
+    _xpu=getattr(torch,'xpu',None)
+    env={"schema_version":SCHEMA,"python":platform.python_version(),"torch":torch.__version__,"accel_kind":ACCEL,"accel_device":str(ACCEL_DEVICE),"xpu_available":bool(_xpu and _xpu.is_available()),"xpu_device_count":_xpu.device_count() if _xpu else 0,"xpu_device_names":[_xpu.get_device_name(i) for i in range(_xpu.device_count())] if _xpu and _xpu.is_available() else []}
     atomic_json(ROOT/'environment.json',env)
-    result={"schema_version":SCHEMA,"gate":"G1","device":"xpu:0","dtype":"float32","checks":{},"tolerance":{"atol":2e-4,"rtol":2e-4}}
-    if not env['xpu_available'] or not env['xpu_device_names'] or 'B580' not in env['xpu_device_names'][0]:
-        result.update(status='XPU-BLOCKED',reason='Intel Arc B580 unavailable'); atomic_json(ROOT/'xpu_preflight.json',result); return result
+    result={"schema_version":SCHEMA,"gate":"G1","device":str(ACCEL_DEVICE),"dtype":"float32","checks":{},"tolerance":{"atol":2e-4,"rtol":2e-4}}
+    if ACCEL=='cpu':
+        result.update(status='XPU-BLOCKED',reason='No native CUDA/XPU accelerator available'); atomic_json(ROOT/'xpu_preflight.json',result); return result
     torch.manual_seed(2026); cpu=ScaledCCNQE('60k').eval(); gates=torch.tensor([[1,6,0,0]]); qubits=torch.full((1,4,2),4,dtype=torch.long); qubits[0,0,0]=0; qubits[0,1]=torch.tensor([0,1]); params=torch.zeros(1,4,3); mask=gates!=0; state=torch.randn(1,32); target=torch.randn(1,32)
     with torch.no_grad(): reference=cpu(gates,qubits,params,mask,state)
-    model=ScaledCCNQE('60k').to('xpu'); model.load_state_dict(cpu.state_dict()); batch=tuple(x.to('xpu') for x in (gates,qubits,params,mask,state,target)); opt=torch.optim.AdamW(model.parameters(),3e-4); before=next(model.parameters()).detach().clone(); out=model(*batch[:5]); loss=(1-state_fidelity(out,batch[5])).mean(); opt.zero_grad(); loss.backward(); finite_gradients=all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters()); opt.step(); torch.xpu.synchronize(); parameter_updated=not torch.equal(before,next(model.parameters())); model.load_state_dict(cpu.state_dict()); model.eval()
+    model=ScaledCCNQE('60k').to(ACCEL_DEVICE); model.load_state_dict(cpu.state_dict()); batch=tuple(x.to(ACCEL_DEVICE) for x in (gates,qubits,params,mask,state,target)); opt=torch.optim.AdamW(model.parameters(),3e-4); before=next(model.parameters()).detach().clone(); out=model(*batch[:5]); loss=(1-state_fidelity(out,batch[5])).mean(); opt.zero_grad(); loss.backward(); finite_gradients=all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters()); opt.step(); accel_synchronize(); parameter_updated=not torch.equal(before,next(model.parameters())); model.load_state_dict(cpu.state_dict()); model.eval()
     with torch.no_grad(): parity=model(*batch[:5]).cpu()
-    result['checks']={"forward":out.shape==(1,32),"backward":finite_gradients,"optimizer":parameter_updated,"finite_gradients":finite_gradients,"cpu_xpu_parity":bool(torch.allclose(reference,parity,**result['tolerance'])),"tensor_residency":all(x.device.type=='xpu' for x in (*batch,out,loss)),"no_nan_inf":bool(torch.isfinite(out).all() and torch.isfinite(loss))}; result.update(status='PASS' if all(result['checks'].values()) else 'XPU-BLOCKED',device_name=env['xpu_device_names'][0],actual_parameters=parameter_count(model),cpu_xpu_max_difference=float((reference-parity).abs().max())); atomic_json(ROOT/'xpu_preflight.json',result); return result
+    result['checks']={"forward":out.shape==(1,32),"backward":finite_gradients,"optimizer":parameter_updated,"finite_gradients":finite_gradients,"cpu_xpu_parity":bool(torch.allclose(reference,parity,**result['tolerance'])),"tensor_residency":all(x.device.type==ACCEL for x in (*batch,out,loss)),"no_nan_inf":bool(torch.isfinite(out).all() and torch.isfinite(loss))}; result.update(status='PASS' if all(result['checks'].values()) else 'XPU-BLOCKED',device_name=accel_device_name(),actual_parameters=parameter_count(model),cpu_xpu_max_difference=float((reference-parity).abs().max())); atomic_json(ROOT/'xpu_preflight.json',result); return result
 
 def _write_split(root,split,circuits,families,seed):
     rows=[]; inputs=[]; targets=[]

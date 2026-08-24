@@ -102,7 +102,7 @@ def test_atomic_write_replaces_complete_file(tmp_path):
 
 def test_xpu_native_inference_has_no_cpu_fallback():
     result = p48.xpu_preflight()
-    assert result == {"status": "PASS", "device": "xpu:0", "native_cayley": True, "cpu_fallback": False}
+    assert result == {"status": "PASS", "device": str(p48.ACCEL_DEVICE), "native_cayley": True, "cpu_fallback": False}
 
 
 def test_retry_requires_matching_started_transaction(tmp_path, monkeypatch):

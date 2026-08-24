@@ -21,7 +21,8 @@ import psutil
 import torch
 from torch import nn
 
-from cc_nqe import (DIM, GATE_TO_ID, N_QUBITS, PARAM_REGIONS, Gate, circuit_id,
+from cc_nqe import (ACCEL, ACCEL_DEVICE, DIM, GATE_TO_ID, N_QUBITS, PARAM_REGIONS,
+                    Gate, accel_device_name, accel_synchronize, circuit_id,
                     circuit_unitary, generate_circuit, generate_state, git_sha,
                     has_composition_motif, serialize_circuit, sha256, simulate,
                     structural_signature)
@@ -103,6 +104,7 @@ def environment() -> dict[str, Any]:
         "xpu_available": available, "xpu_device_count": xpu.device_count() if xpu else 0,
         "xpu_device_names": [xpu.get_device_name(i) for i in range(xpu.device_count())] if available else [],
         "pci_graphics_devices": _pci_graphics(), "xpu_build": getattr(torch.version, "xpu", None), "cpu": platform.processor() or _cpu_name(),
+        "accel_kind": ACCEL, "accel_device": str(ACCEL_DEVICE), "accel_name": accel_device_name(),
         "ram_bytes": psutil.virtual_memory().total, "torch_threads": torch.get_num_threads(),
         "thread_environment": {k: os.getenv(k) for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS")},
         "supported_training_dtypes": supported, "teacher_dtype": "complex128", "training_reference_dtype": "float32",
@@ -242,12 +244,12 @@ def xpu_preflight() -> dict[str, Any]:
     result: dict[str, Any] = {"schema_version": SCHEMA, "gate": "G1", "torch": torch.__version__, "xpu_available": env["xpu_available"],
                               "xpu_device_count": env["xpu_device_count"], "device": None, "checks": {}, "cpu_xpu_max_difference": None,
                               "tolerance": {"atol": 2e-4, "rtol": 2e-4}, "nan_inf": None}
-    if not env["xpu_available"]:
-        result.update(status="XPU-BLOCKED", reason="Native PyTorch XPU backend unavailable; full scaling is forbidden. CPU fallback was not used.")
+    if ACCEL == "cpu":
+        result.update(status="XPU-BLOCKED", reason="No native CUDA/XPU accelerator available; full scaling is forbidden. CPU fallback was not used.")
         atomic_json(ROOT / "xpu_preflight.json", result)
         return result
     try:
-        device = torch.device("xpu:0")
+        device = ACCEL_DEVICE
         torch.manual_seed(73)
         cpu = ScaledCCNQE("60k", "state").eval()
         gates = torch.tensor([[1, 6, 0, 0]], dtype=torch.long)
@@ -260,13 +262,13 @@ def xpu_preflight() -> dict[str, Any]:
         result["checks"]["fp32_matmul"] = bool(torch.isfinite(torch.randn(8, 8, device=device) @ torch.randn(8, 8, device=device)).all().item())
         before = next(model.parameters()).detach().clone()
         out = model(*batch[:4], batch[4]); loss = (1 - state_fidelity(out, batch[5])).mean()
-        opt.zero_grad(); loss.backward(); opt.step(); torch.xpu.synchronize()
+        opt.zero_grad(); loss.backward(); opt.step(); accel_synchronize()
         result["checks"].update(forward=tuple(out.shape) == (1, 2 * DIM), backward=all(p.grad is None or torch.isfinite(p.grad).all() for p in model.parameters()),
-                                optimizer_step=not torch.equal(before, next(model.parameters())), device_residency=all(x.device.type == "xpu" for x in (*batch, out, loss)))
+                                optimizer_step=not torch.equal(before, next(model.parameters())), device_residency=all(x.device.type == ACCEL for x in (*batch, out, loss)))
         model.eval(); model.load_state_dict(cpu.state_dict())
         with torch.no_grad(): xpu_out = model(*batch[:4], batch[4]).cpu()
         difference = float((cpu_out - xpu_out).abs().max())
-        result.update(device=torch.xpu.get_device_name(0), model_device=str(next(model.parameters()).device), batch_device=str(batch[4].device),
+        result.update(device=accel_device_name(), model_device=str(next(model.parameters()).device), batch_device=str(batch[4].device),
                       output_device=str(out.device), loss_device=str(loss.device), cpu_xpu_max_difference=difference,
                       nan_inf=not bool(torch.isfinite(out).all() and torch.isfinite(loss)))
         result["checks"]["cpu_xpu_parity"] = torch.allclose(cpu_out, xpu_out, **result["tolerance"])

@@ -3,17 +3,7 @@ name = "cc-nqe"
 version = "0.1.0"
 description = "Controlled 4-qubit context-conditioned neural emulator feasibility experiment"
 requires-python = ">=3.12"
-dependencies = ["numpy>=2.0", "torch==2.10.0", "triton-xpu==3.6.0", "psutil>=6", "threadpoolctl>=3.6"]
-
-[tool.uv.sources]
-torch = { index = "pytorch-xpu" }
-# uv 0.11.8 does not select the dual-manylinux-tagged wheel from the index.
-triton-xpu = { url = "https://download.pytorch.org/whl/triton_xpu-3.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl" }
-
-[[tool.uv.index]]
-name = "pytorch-xpu"
-url = "https://download.pytorch.org/whl/xpu"
-explicit = true
+dependencies = ["numpy>=2.0", "torch==2.10.0", "psutil>=6", "threadpoolctl>=3.6"]
 
 [dependency-groups]
 dev = ["pytest>=8"]

@@ -62,7 +62,7 @@ def require_dataset() -> dict[str, Any]:
 
 def blocked(gate: str, reason: str) -> None:
     row = {key: None for key in Progress.FIELDS}
-    row.update(timestamp=time.time(), experiment_id="cc-nqe-p4.5", phase=gate, device="xpu:0", dtype="float32", state="BLOCKED")
+    row.update(timestamp=time.time(), experiment_id="cc-nqe-p4.5", phase=gate, device=str(ACCEL_DEVICE), dtype="float32", state="BLOCKED")
     append_jsonl(ROOT / "progress.jsonl", row); atomic_json(ROOT / "status.json", row)
     atomic_json(ROOT / "final_gate.json", {"schema_version": SCHEMA, "scientific_verdict": "INCONCLUSIVE", "infrastructure_status": "XPU-BLOCKED", "blocked_gate": gate, "reason": reason,
                                                   "resumable_command": "uv run python run_p4_5.py run-all"})
@@ -85,7 +85,7 @@ def _evaluate(model, dataset, device, maximum=2048) -> float:
 
 def train_one(dataset_scale: str, model_scale: str, seed: int, maximum_updates: int | None = None, resume_path: Path | None = None, run_kind: str = "screening", validation_interval: int | None = None) -> dict[str, Any]:
     require_preflight(); require_dataset()
-    torch.manual_seed(seed); device=torch.device("xpu:0"); count={"10k":10_000,"100k":100_000,"1m":1_000_000}[dataset_scale]
+    torch.manual_seed(seed); device=ACCEL_DEVICE; count={"10k":10_000,"100k":100_000,"1m":1_000_000}[dataset_scale]
     train=ShardedDataset(ROOT/"datasets","train",count); validation=ShardedDataset(ROOT/"datasets","validation")
     model=ScaledCCNQE(model_scale,"state").to(device); actual=parameter_count(model); optimizer=torch.optim.AdamW(model.parameters(),lr=RECIPE["learning_rate"])
     total=maximum_updates or RECIPE["maximum_updates"]; interval=validation_interval or min(RECIPE["validation_interval"], total); scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,total); manifest_hash=sha256(ROOT/"datasets/master_manifest.json")
@@ -102,17 +102,17 @@ def train_one(dataset_scale: str, model_scale: str, seed: int, maximum_updates: 
         except StopIteration: iterator=iter(loader); batch=next(iterator)
         gates,qubits,params,mask,state,target=(x.to(device) for x in batch); optimizer.zero_grad(set_to_none=True); pred=model(gates,qubits,params,mask,state); fidelity=state_fidelity(pred,target); loss=(1-fidelity).mean(); loss.backward()
         finite_gradients &= all(p.grad is None or bool(torch.isfinite(p.grad).all()) for p in model.parameters())
-        xpu_residency &= all(x.device.type=="xpu" for x in (gates,qubits,params,mask,state,target,pred,loss))
+        xpu_residency &= all(x.device.type==ACCEL for x in (gates,qubits,params,mask,state,target,pred,loss))
         if not torch.isfinite(loss) or not finite_gradients: raise FloatingPointError("non-finite loss or gradients")
-        optimizer.step(); scheduler.step(); torch.xpu.synchronize(); step+=1; samples+=len(state)
+        optimizer.step(); scheduler.step(); accel_synchronize(); step+=1; samples+=len(state)
         recent.append(time.monotonic()); recent=recent[-20:]; rate=(len(state)*(len(recent)-1)/(recent[-1]-recent[0])) if len(recent)>1 else 0.; eta=(total-step)*len(state)/rate if rate else None
         if step%interval==0 or step==total:
             latest_train=_evaluate(model,train,device); latest_validation=_evaluate(model,validation,device); latest_comp=_evaluate(model,ShardedDataset(ROOT/"datasets","composition_ood"),device); latest_depth=_evaluate(model,ShardedDataset(ROOT/"datasets","depth_ood"),device); best=max(best,latest_validation)
             curve.append({"step":step,"learning_rate":optimizer.param_groups[0]["lr"],"train_fidelity":latest_train,"validation_fidelity":latest_validation,"composition_ood_fidelity":latest_comp,"depth_ood_fidelity":latest_depth})
             save_checkpoint(checkpoint,model,optimizer,scheduler,config,manifest_hash,step,samples,best)
-        progress.update(experiment_id=experiment_id,phase="G3" if total<RECIPE["maximum_updates"] else "G4",task="state",dataset_scale=dataset_scale,model_scale=model_scale,actual_parameters=actual,seed=seed,device="xpu:0",dtype="float32",step=step,maximum_steps=total,samples_seen=samples,training_loss=float(loss.detach()),training_fidelity=float(fidelity.mean().detach()),validation_fidelity=latest_validation,composition_ood_fidelity=latest_comp,depth_ood_fidelity=latest_depth,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=rate,elapsed_seconds=time.monotonic()-started,eta_seconds=eta,best_metric=best,checkpoint=str(checkpoint),state="RUNNING")
+        progress.update(experiment_id=experiment_id,phase="G3" if total<RECIPE["maximum_updates"] else "G4",task="state",dataset_scale=dataset_scale,model_scale=model_scale,actual_parameters=actual,seed=seed,device=str(ACCEL_DEVICE),dtype="float32",step=step,maximum_steps=total,samples_seen=samples,training_loss=float(loss.detach()),training_fidelity=float(fidelity.mean().detach()),validation_fidelity=latest_validation,composition_ood_fidelity=latest_comp,depth_ood_fidelity=latest_depth,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=rate,elapsed_seconds=time.monotonic()-started,eta_seconds=eta,best_metric=best,checkpoint=str(checkpoint),state="RUNNING")
     save_checkpoint(checkpoint,model,optimizer,scheduler,config,manifest_hash,step,samples,best)
-    state="INTERRUPTED" if _INTERRUPTED else "COMPLETED"; progress.update(experiment_id=experiment_id,phase="G4",task="state",dataset_scale=dataset_scale,model_scale=model_scale,actual_parameters=actual,seed=seed,device="xpu:0",dtype="float32",step=step,maximum_steps=total,samples_seen=samples,training_loss=float(loss),training_fidelity=float(fidelity.mean()),validation_fidelity=latest_validation,composition_ood_fidelity=latest_comp,depth_ood_fidelity=latest_depth,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=rate,elapsed_seconds=time.monotonic()-started,eta_seconds=0,best_metric=best,checkpoint=str(checkpoint),state=state)
+    state="INTERRUPTED" if _INTERRUPTED else "COMPLETED"; progress.update(experiment_id=experiment_id,phase="G4",task="state",dataset_scale=dataset_scale,model_scale=model_scale,actual_parameters=actual,seed=seed,device=str(ACCEL_DEVICE),dtype="float32",step=step,maximum_steps=total,samples_seen=samples,training_loss=float(loss),training_fidelity=float(fidelity.mean()),validation_fidelity=latest_validation,composition_ood_fidelity=latest_comp,depth_ood_fidelity=latest_depth,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=rate,elapsed_seconds=time.monotonic()-started,eta_seconds=0,best_metric=best,checkpoint=str(checkpoint),state=state)
     result={"experiment_id":experiment_id,"state":state,"initial_train_fidelity":initial_train,"initial_validation_fidelity":initial_validation,"final_validation_fidelity":latest_validation,"best_validation_fidelity":best,"steps":step,"samples_seen":samples,"wall_seconds":time.monotonic()-started,"checkpoint":str(checkpoint),"config":config,"curve":curve,"finite_loss":bool(torch.isfinite(loss)),"finite_gradients":finite_gradients,"parameter_updated":not torch.equal(initial_parameter,next(model.parameters()).detach()),"xpu_residency":xpu_residency,"no_nan_inf":bool(torch.isfinite(loss) and torch.isfinite(fidelity).all()),"validation_pipeline":bool(np.isfinite(initial_validation) and np.isfinite(latest_validation))}
     atomic_json(ROOT/f"metrics/state/{experiment_id}.json",result); return result
 
@@ -188,7 +188,7 @@ def _composition_diagnostic(model, device, maximum=64) -> dict[str,Any]:
 
 
 def train_operator(circuit_count: int, model_scale: str, seed: int, resume_path: Path | None = None) -> dict[str,Any]:
-    require_preflight(); require_dataset(); device=torch.device("xpu:0"); torch.manual_seed(seed)
+    require_preflight(); require_dataset(); device=ACCEL_DEVICE; torch.manual_seed(seed)
     train=CircuitDataset(ROOT/"datasets","train",circuit_count); validation=CircuitDataset(ROOT/"datasets","validation"); model=ScaledCCNQE(model_scale,"operator").to(device); optimizer=torch.optim.AdamW(model.parameters(),lr=RECIPE["learning_rate"]); scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,RECIPE["maximum_updates"]); manifest_hash=sha256(ROOT/"datasets/master_manifest.json")
     config={"schema_version":SCHEMA,"task":"operator","unique_circuits":len(train),"model_scale":model_scale,"actual_parameters":parameter_count(model),"seed":seed,"dtype":"float32","recipe":RECIPE}; experiment_id=f"operator-{len(train)}-{model_scale}-seed{seed}"; checkpoint=ROOT/f"checkpoints/{experiment_id}.pt"; atomic_json(ROOT/f"configs/{experiment_id}.json",config); loader=torch.utils.data.DataLoader(train,batch_size=min(128,len(train)),shuffle=True,collate_fn=_collate); iterator=iter(loader); initial=_evaluate_operator(model,validation,device); latest=initial; started=time.monotonic(); samples=0; start_step=0; progress=Progress()
     if resume_path:
@@ -201,8 +201,8 @@ def train_operator(circuit_count: int, model_scale: str, seed: int, resume_path:
         gates,qubits,params,mask,target=(x.to(device) for x in batch); exact=torch.complex(target[:,0],target[:,1]); optimizer.zero_grad(set_to_none=True); pred=model(gates,qubits,params,mask); fidelity=operator_fidelity(pred,exact); loss=(1-fidelity).mean(); loss.backward(); optimizer.step(); scheduler.step(); samples+=len(gates)
         if not torch.isfinite(loss): raise FloatingPointError("non-finite operator loss")
         if step%RECIPE["validation_interval"]==0 or step==RECIPE["maximum_updates"]:
-            torch.xpu.synchronize(); latest=_evaluate_operator(model,validation,device); save_checkpoint(checkpoint,model,optimizer,scheduler,config,manifest_hash,step,samples,latest)
-            progress.update(experiment_id=experiment_id,phase="G4",task="operator",dataset_scale=f"{len(train)} circuits",model_scale=model_scale,actual_parameters=parameter_count(model),seed=seed,device="xpu:0",dtype="float32",step=step,maximum_steps=RECIPE["maximum_updates"],samples_seen=samples,training_loss=float(loss),training_fidelity=float(fidelity.mean()),validation_fidelity=latest,composition_ood_fidelity=None,depth_ood_fidelity=None,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=samples/(time.monotonic()-started),elapsed_seconds=time.monotonic()-started,eta_seconds=(RECIPE["maximum_updates"]-step)*(time.monotonic()-started)/step,best_metric=latest,checkpoint=str(checkpoint),state="RUNNING")
+            accel_synchronize(); latest=_evaluate_operator(model,validation,device); save_checkpoint(checkpoint,model,optimizer,scheduler,config,manifest_hash,step,samples,latest)
+            progress.update(experiment_id=experiment_id,phase="G4",task="operator",dataset_scale=f"{len(train)} circuits",model_scale=model_scale,actual_parameters=parameter_count(model),seed=seed,device=str(ACCEL_DEVICE),dtype="float32",step=step,maximum_steps=RECIPE["maximum_updates"],samples_seen=samples,training_loss=float(loss),training_fidelity=float(fidelity.mean()),validation_fidelity=latest,composition_ood_fidelity=None,depth_ood_fidelity=None,learning_rate=optimizer.param_groups[0]["lr"],samples_per_second=samples/(time.monotonic()-started),elapsed_seconds=time.monotonic()-started,eta_seconds=(RECIPE["maximum_updates"]-step)*(time.monotonic()-started)/step,best_metric=latest,checkpoint=str(checkpoint),state="RUNNING")
     diagnostics={split:_operator_diagnostics(model,CircuitDataset(ROOT/"datasets",split),device) for split in ("iid","state_ood","parameter_interpolation","parameter_extrapolation","composition_ood","depth_ood")}; composition=_composition_diagnostic(model,device)
     result={"experiment_id":experiment_id,"state":"INTERRUPTED" if _INTERRUPTED else "COMPLETED","initial_operator_fidelity":initial,"final_operator_fidelity":latest,"unique_circuits":len(train),"model_scale":model_scale,"seed":seed,"checkpoint":str(checkpoint),"split_diagnostics":diagnostics,"composition_consistency":composition}; atomic_json(ROOT/f"metrics/operator/{experiment_id}.json",result); atomic_json(ROOT/f"metrics/composition/{experiment_id}.json",composition); return result
 
@@ -234,7 +234,7 @@ def initialize_blocked_artifacts() -> None:
     atomic_json(ROOT/"datasets/audit.json",{"schema_version":SCHEMA,"gate":"G2","status":"NOT_RUN","reason":"XPU-BLOCKED at G1","checks":{}})
     (ROOT/"datasets/hashes.sha256").write_text("")
     with (ROOT/"scaling_summary.csv").open("w",newline="") as handle: csv.writer(handle).writerow(("task","dataset_scale","model_scale","seed","status","mean_fidelity"))
-    if not (ROOT/"status.json").exists(): blocked("G1","Native PyTorch XPU backend unavailable")
+    if not (ROOT/"status.json").exists(): blocked("G1","No native CUDA/XPU accelerator available")
 
 
 def report() -> str:

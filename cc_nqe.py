@@ -36,6 +36,50 @@ PARAM_REGIONS = {
 }
 COMPOSITION_MOTIF = ("CNOT", 0, 1)
 
+# ponytail: accelerator selection, cuda > xpu > cpu; single source of truth for device strings
+ACCEL = "cuda" if torch.cuda.is_available() else ("xpu" if getattr(torch, "xpu", None) and torch.xpu.is_available() else "cpu")
+ACCEL_DEVICE = torch.device(f"{ACCEL}:0") if ACCEL != "cpu" else torch.device("cpu")
+
+
+def accel_synchronize() -> None:
+    if ACCEL == "cuda":
+        torch.cuda.synchronize()
+    elif ACCEL == "xpu":
+        torch.xpu.synchronize()
+
+
+def accel_device_name(index: int = 0) -> str:
+    if ACCEL == "cuda":
+        return torch.cuda.get_device_name(index)
+    if ACCEL == "xpu":
+        return torch.xpu.get_device_name(index)
+    return platform.processor() or "CPU"
+
+
+def accel_rng_state():
+    if ACCEL == "cuda":
+        return torch.cuda.get_rng_state()
+    if ACCEL == "xpu":
+        return torch.xpu.get_rng_state()
+    return None
+
+
+def accel_set_rng_state(state) -> None:
+    if state is None:
+        return
+    if ACCEL == "cuda":
+        torch.cuda.set_rng_state(state)
+    elif ACCEL == "xpu":
+        torch.xpu.set_rng_state(state)
+
+
+def accel_profiler_activities() -> list:
+    from torch.profiler import ProfilerActivity
+    activities = [ProfilerActivity.CPU]
+    if ACCEL != "cpu":
+        activities.append(getattr(ProfilerActivity, ACCEL.upper()))
+    return activities
+
 
 @dataclass(frozen=True)
 class Gate:

@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import torch
 
-from cc_nqe import Gate, circuit_unitary, generate_circuit, generate_state
+from cc_nqe import ACCEL, ACCEL_DEVICE, Gate, accel_synchronize, circuit_unitary, generate_circuit, generate_state
 from run_p4_5 import _smoke_gate_checks
 from cc_nqe_p4_5 import (CircuitDataset, DIM, Progress, ScaledCCNQE, ShardedDataset,
                          apply_operator, atomic_json, audit_dataset, composition_fidelity,
@@ -152,15 +152,15 @@ def test_xpu_preflight_is_real_or_explicitly_blocked(tmp_path,monkeypatch):
     monkeypatch.setattr("cc_nqe_p4_5.ROOT",tmp_path)
     result=xpu_preflight()
     assert result["status"] in ("PASS","XPU-BLOCKED")
-    if not torch.xpu.is_available():
-        assert result["status"]=="XPU-BLOCKED" and result["xpu_device_count"]==0
+    if ACCEL=="cpu":
+        assert result["status"]=="XPU-BLOCKED"
     else:
-        assert all(result["checks"].values()) and result["model_device"].startswith("xpu") and result["batch_device"].startswith("xpu") and result["loss_device"].startswith("xpu")
+        assert all(result["checks"].values()) and all(result[k].startswith(ACCEL) for k in ("model_device","batch_device","loss_device"))
 
 
-@pytest.mark.skipif(not torch.xpu.is_available(),reason="native XPU unavailable")
+@pytest.mark.skipif(ACCEL=="cpu",reason="no native accelerator")
 def test_xpu_backward_optimizer_and_cpu_parity():
-    torch.manual_seed(3); cpu=ScaledCCNQE("60k"); xpu=ScaledCCNQE("60k").to("xpu"); xpu.load_state_dict(cpu.state_dict()); args=_inputs(); xargs=tuple(x.to("xpu") for x in args); target=torch.randn(1,32,device="xpu"); opt=torch.optim.Adam(xpu.parameters(),1e-4); out=xpu(*xargs[:4],xargs[4]); loss=(1-state_fidelity(out,target)).mean(); loss.backward(); opt.step(); torch.xpu.synchronize()
-    assert out.device.type==loss.device.type=="xpu" and torch.isfinite(loss)
+    torch.manual_seed(3); cpu=ScaledCCNQE("60k"); xpu=ScaledCCNQE("60k").to(ACCEL_DEVICE); xpu.load_state_dict(cpu.state_dict()); args=_inputs(); xargs=tuple(x.to(ACCEL_DEVICE) for x in args); target=torch.randn(1,32,device=ACCEL_DEVICE); opt=torch.optim.Adam(xpu.parameters(),1e-4); out=xpu(*xargs[:4],xargs[4]); loss=(1-state_fidelity(out,target)).mean(); loss.backward(); opt.step(); accel_synchronize()
+    assert out.device.type==loss.device.type==ACCEL and torch.isfinite(loss)
     xpu.load_state_dict(cpu.state_dict()); cpu.eval(); xpu.eval()
     with torch.no_grad(): assert torch.allclose(cpu(*args[:4],args[4]),xpu(*xargs[:4],xargs[4]).cpu(),atol=2e-4,rtol=2e-4)

@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import torch
 
-from cc_nqe import DIM, Gate, circuit_unitary, generate_state
+from cc_nqe import ACCEL, ACCEL_DEVICE, DIM, Gate, accel_synchronize, circuit_unitary, generate_state
 from cc_nqe_p4_5 import _tensorize_circuit, parameter_count
 from cc_nqe_p4_6 import CheckpointSelector, process_fidelity, raw_unitarity_error
 from cc_nqe_p4_7 import (
@@ -309,12 +309,12 @@ def test_confirmatory_status_schema_and_sealed_zero(tmp_path, monkeypatch):
     assert value["state"] == "COMPLETED" and value["step"] == 10000
 
 
-@pytest.mark.skipif(not torch.xpu.is_available(), reason="native XPU unavailable")
+@pytest.mark.skipif(ACCEL == "cpu", reason="no native accelerator")
 def test_xpu_native_cayley_forward_backward_no_cpu_fallback():
-    model = RecursiveOperatorModel(width=24).to("xpu:0")
-    args = tuple(value.to("xpu:0") for value in circuit_batch([[Gate("H", (0,)), Gate("CNOT", (0, 1))]], 2))
+    model = RecursiveOperatorModel(width=24).to(ACCEL_DEVICE)
+    args = tuple(value.to(ACCEL_DEVICE) for value in circuit_batch([[Gate("H", (0,)), Gate("CNOT", (0, 1))]], 2))
     operator = model(*args)
-    loss = raw_unitarity_error(operator).mean() + (1 - process_fidelity(operator, torch.eye(DIM, dtype=operator.dtype, device="xpu:0")[None])).mean()
-    loss.backward(); torch.xpu.synchronize()
-    assert operator.device.type == "xpu" and raw_unitarity_error(operator).max() < 1e-4
+    loss = raw_unitarity_error(operator).mean() + (1 - process_fidelity(operator, torch.eye(DIM, dtype=operator.dtype, device=ACCEL_DEVICE)[None])).mean()
+    loss.backward(); accel_synchronize()
+    assert operator.device.type == ACCEL and raw_unitarity_error(operator).max() < 1e-4
     assert all(p.grad is None or torch.isfinite(p.grad).all() for p in model.parameters())
