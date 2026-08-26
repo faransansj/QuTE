@@ -1,0 +1,40 @@
+{
+  "schema_version": "qute-qpu-validation-v1-closure-v1",
+  "verdict": "MODEL_APPROXIMATION_DOMINANT",
+  "hardware_validation_status": "QPU_SIMULATOR_CLOSE_IN_THIS_FROZEN_SAMPLE",
+  "qpu_role": "SPARSE_EXTERNAL_VALIDATION",
+  "model_improvement_priority": "HIGH",
+  "hardware_adapter_priority": "DEFERRED",
+  "sample_count": 20,
+  "shots_per_circuit": 4096,
+  "formal_significance_claimed": false,
+  "claim_scope": "4Q frozen validation workload on ibm_pittsburgh",
+  "job": {
+    "job_id": "da76r2e0ukec7382tgcg",
+    "backend": "ibm_pittsburgh",
+    "status": "COMPLETED",
+    "qpu_charge_time_seconds": 23,
+    "qpu_charge_time_provenance": "IBM Runtime job metrics retrieved for the completed job; the pre-closure local job_manifest records completion but not charge time"
+  },
+  "overall_mean_tvd": {
+    "model_sim": 0.7234745058689305,
+    "sim_qpu": 0.02195423950168509,
+    "model_qpu": 0.7139088232868614
+  },
+  "composition_ood_mean_tvd": {
+    "model_sim": 0.9342713976676629,
+    "sim_qpu": 0.031479209609962845,
+    "model_qpu": 0.9080239240137165
+  },
+  "hardware_correlations": {
+    "label": "DESCRIPTIVE_ONLY",
+    "sample_count": 20,
+    "formal_or_causal_claim": false,
+    "transpiled_2q_gate_count_vs_tvd_sim_qpu": 0.6947772838744066,
+    "transpiled_depth_vs_tvd_sim_qpu": 0.4839099138069382
+  },
+  "interpretation": "In this frozen 20-circuit four-qubit validation workload on ibm_pittsburgh, the ideal simulator and physical QPU produced similar output distributions relative to the much larger discrepancy between the current CC-NQE/QuTE model and the ideal simulator. The dominant observed error source is therefore the learned model approximation, not hardware noise, within this limited experiment.",
+  "r1_implication": "QPU Validation v1 provides empirical motivation for R1 because Composition-OOD model error greatly exceeded Sim-QPU discrepancy. It does not demonstrate an R1 solution or change the R1 protocol.",
+  "new_qpu_jobs_submitted_during_closure": 0,
+  "model_training_runs_during_closure": 0
+}

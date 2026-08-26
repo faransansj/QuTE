@@ -1,0 +1,97 @@
+{
+  "schema_version": "qute-research-priority-update-2026-08-26-v1",
+  "evidence_source": "QPU Validation v1",
+  "north_star_version": "1.0.0",
+  "north_star_changed": false,
+  "qpu_role": "SPARSE_EXTERNAL_VALIDATION",
+  "qpu_uses_now": [
+    "simulator-to-hardware sanity checks",
+    "hardware realism validation",
+    "final external validation of improved QuTE models",
+    "hardware-noise characterization",
+    "later hardware-adapter research",
+    "checking whether simulator-trained models transfer to real hardware"
+  ],
+  "qpu_not_primary_strategy_for": "fixing current QuTE model approximation error",
+  "preferred_teacher_pipeline": {
+    "ideal_simulator": "large-scale training and development data",
+    "physical_qpu": "sparse validation and calibration",
+    "later_runtime": "simulator-trained QuTE plus hardware-specific adapter/calibration, after model approximation error becomes sufficiently small"
+  },
+  "priorities": [
+    {
+      "rank": 1,
+      "name": "QuTE model representation and semantic generalization",
+      "priority": "HIGH",
+      "includes": [
+        "reusable operator/channel representations",
+        "operator equivalence",
+        "cross-decomposition semantics",
+        "physical constraints by construction",
+        "compressed/query-based representations",
+        "OOD detection"
+      ]
+    },
+    {
+      "rank": 2,
+      "name": "R1 Operator-Semantic Benchmark",
+      "purpose": "Measure whether QuTE learns quantum transformation semantics rather than circuit syntax."
+    },
+    {
+      "rank": 3,
+      "name": "M1 Workload Emulator MVP",
+      "purpose": "Demonstrate practical latency, memory, and teacher-call reduction on a restricted repeated quantum workload."
+    },
+    {
+      "rank": 4,
+      "name": "QPU Validation v2",
+      "condition": "Only after a materially improved QuTE candidate exists."
+    },
+    {
+      "rank": 5,
+      "name": "hardware-specific digital twin / noise adapter",
+      "priority": "DEFERRED",
+      "condition": "Only after model approximation error becomes comparable to hardware discrepancy or a product workload explicitly requires hardware behavior."
+    }
+  ],
+  "model_improvement_priority": "HIGH",
+  "hardware_adapter_priority": "DEFERRED",
+  "r1_relationship": {
+    "motivation": "Composition-OOD model error greatly exceeded Sim-QPU discrepancy.",
+    "protocol_changes_authorized": false,
+    "rewrite_rules_changed": false,
+    "thresholds_changed": false,
+    "splits_changed": false,
+    "model_selection_changed": false,
+    "r1_marked_frozen": false,
+    "r1_data_generated": false
+  },
+  "qpu_validation_v2": {
+    "scheduled": false,
+    "final_numerical_threshold_selected": false,
+    "entry_criteria": [
+      "substantial reduction in Model-Sim error relative to QPU Validation v1",
+      "R1 semantic benchmark improvement",
+      "no severe regression on IID, Parameter-OOD, or Depth-OOD axes",
+      "candidate selected before QPU evaluation",
+      "QPU evaluation protocol frozen before job submission"
+    ],
+    "future_protocol_must_predeclare": [
+      "materially more than 20 circuits",
+      "circuit sampling",
+      "OOD strata",
+      "backend",
+      "shots",
+      "transpilation policy",
+      "calibration metadata",
+      "statistical reporting",
+      "test-access policy"
+    ]
+  },
+  "closure_actions": {
+    "new_qpu_jobs_submitted": 0,
+    "model_training_executed": 0,
+    "r1_scientific_design_altered": false,
+    "m1_implementation_started": false
+  }
+}

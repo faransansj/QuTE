@@ -1,0 +1,74 @@
+{
+  "schema_version": "qute-qpu-validation-v1-error-budget-v1",
+  "verdict": "MODEL_APPROXIMATION_DOMINANT",
+  "scope": {
+    "qubits": 4,
+    "circuits": 20,
+    "shots_per_circuit": 4096,
+    "backend": "ibm_pittsburgh",
+    "job_id": "da76r2e0ukec7382tgcg"
+  },
+  "observed_overall_mean_tvd": {
+    "model_approximation_error_model_sim": 0.7234745058689305,
+    "hardware_discrepancy_sim_qpu": 0.02195423950168509,
+    "combined_discrepancy_model_qpu": 0.7139088232868614
+  },
+  "comparison": {
+    "model_sim_to_sim_qpu_ratio": 32.95374935731208,
+    "model_sim_minus_sim_qpu": 0.7015202663672454,
+    "relation": "MODEL_APPROXIMATION_ERROR_MUCH_GREATER_THAN_QPU_VS_IDEAL_DISCREPANCY"
+  },
+  "conservative_interpretation": "In this frozen 20-circuit four-qubit validation workload on ibm_pittsburgh, the ideal simulator and physical QPU produced similar output distributions relative to the much larger discrepancy between the current CC-NQE/QuTE model and the ideal simulator. The dominant observed error source is therefore the learned model approximation, not hardware noise, within this limited experiment.",
+  "composition_ood_diagnostic": {
+    "model_sim_mean_tvd": 0.9342713976676629,
+    "sim_qpu_mean_tvd": 0.031479209609962845,
+    "interpretation": "The severe Composition-OOD failure observed in the current model cannot be primarily attributed to the hardware discrepancy measured in this experiment.",
+    "r1_motivation": [
+      "equivalent-circuit semantics",
+      "cross-decomposition OOD",
+      "rewrite-family OOD",
+      "nonlocal operator semantics",
+      "semantic representation",
+      "architecture-level physical structure"
+    ],
+    "r1_solution_demonstrated": false
+  },
+  "hardware_correlations": {
+    "label": "DESCRIPTIVE_ONLY",
+    "sample_count": 20,
+    "formal_significance_claimed": false,
+    "causality_claimed": false,
+    "hypotheses": {
+      "H_HW1": "More two-qubit gates may increase physical hardware discrepancy.",
+      "H_HW2": "Greater transpiled depth may increase physical hardware discrepancy."
+    },
+    "values": {
+      "transpiled_2q_gate_count_vs_tvd_sim_qpu": 0.6947772838744066,
+      "transpiled_depth_vs_tvd_sim_qpu": 0.4839099138069382
+    }
+  },
+  "allowed_claims": [
+    "Current model error is much larger than measured QPU-vs-simulator discrepancy in this experiment.",
+    "The simulator remains a reasonable large-scale teacher for the current restricted workload.",
+    "Sparse QPU validation is justified.",
+    "Composition-OOD remains primarily a model/generalization problem in this experiment.",
+    "The observed two-qubit-gate and depth correlations are hypotheses for later hardware studies."
+  ],
+  "prohibited_claims": [
+    "IBM hardware noise is negligible in general.",
+    "An ideal simulator always predicts physical QPUs accurately.",
+    "QPU validation is no longer necessary.",
+    "Twenty circuits establish universal hardware behavior.",
+    "The observed correlations prove causality.",
+    "QuTE currently approximates the QPU well.",
+    "QuTE can replace physical QPUs in its current form."
+  ],
+  "not_generalized_to": [
+    "all IBM backends",
+    "all QPU architectures",
+    "all circuit families",
+    "large qubit counts",
+    "deep circuits",
+    "all hardware noise regimes"
+  ]
+}
