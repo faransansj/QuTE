@@ -31,6 +31,7 @@ def test_write_corpus_verifies_regeneration_checksums_and_final_guard(tmp_path):
     manifest = write_corpus(output, PROTOCOL)
 
     assert manifest["deterministic_regeneration"] is True
+    assert manifest["generator_sha256"] == hashlib.sha256((ROOT / "r1_corpus.py").read_bytes()).hexdigest()
     for line in (output / "checksums.sha256").read_text().splitlines():
         expected, name = line.split("  ", 1)
         assert hashlib.sha256((output / name).read_bytes()).hexdigest() == expected
