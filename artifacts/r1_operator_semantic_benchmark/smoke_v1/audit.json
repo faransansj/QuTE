@@ -1,0 +1,47 @@
+{
+  "counts": {
+    "development": {
+      "equivalent": 3,
+      "non_equivalent": 3
+    },
+    "final_test": {
+      "equivalent": 21,
+      "non_equivalent": 21
+    },
+    "train": {
+      "equivalent": 3,
+      "non_equivalent": 3
+    }
+  },
+  "deterministic_regeneration": true,
+  "duplicate_pair_ids": 0,
+  "expected_counts": {
+    "development": {
+      "equivalent": 3,
+      "non_equivalent": 3
+    },
+    "final_test": {
+      "equivalent": 21,
+      "non_equivalent": 21
+    },
+    "train": {
+      "equivalent": 3,
+      "non_equivalent": 3
+    }
+  },
+  "final_test_access_count": 0,
+  "final_test_scientific": false,
+  "maximum_positive_errors": {
+    "maximum_probability_tvd": 3.8163916471489756e-16,
+    "maximum_probe_l2": 4.0418684730288697e-16,
+    "phase_aligned_relative_frobenius": 3.736592562561985e-16
+  },
+  "minimum_negative_distance": 0.765366864730179,
+  "mode": "smoke",
+  "negative_oracle_failures": 0,
+  "partition_leakage": [],
+  "positive_oracle_failures": 0,
+  "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+  "schema_version": "qute-r1-corpus-audit-v1",
+  "status": "PASS"
+}

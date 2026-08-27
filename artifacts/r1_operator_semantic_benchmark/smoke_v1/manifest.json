@@ -1,0 +1,29 @@
+{
+  "counts": {
+    "development": {
+      "equivalent": 3,
+      "non_equivalent": 3
+    },
+    "final_test": {
+      "equivalent": 21,
+      "non_equivalent": 21
+    },
+    "train": {
+      "equivalent": 3,
+      "non_equivalent": 3
+    }
+  },
+  "deterministic_regeneration": true,
+  "file_hashes": {
+    "audit.json": "c0dc7b20380915d6f0091d229d3733dde1814501e2c11f288b88ef870144e3fe",
+    "development.jsonl": "e53ee436a02092fe7cbd9c3014b66c9e4856b8c09240ca5a7d79199943736730",
+    "final_test.smoke.jsonl": "9c2a3d8008ae0e2b459bfc99d908fd163d62a2436c0f039f4d4a2b11182e1d1f",
+    "train.jsonl": "a49323378be5b4522a684b4deff3df96c1693b1052b092c6756b0beae10126ec"
+  },
+  "final_test_access_count": 0,
+  "generator_sha256": "137453cada928b57054103c86f86cc1952f06623137694056e0e493610fc0cd6",
+  "mode": "smoke",
+  "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+  "schema_version": "qute-r1-corpus-manifest-v1",
+  "scientific_final_test_generated": false
+}
