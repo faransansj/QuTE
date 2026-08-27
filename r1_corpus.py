@@ -395,6 +395,10 @@ def write_corpus(
     if output_dir.exists() and any(output_dir.iterdir()):
         raise FileExistsError(f"refusing to overwrite non-empty corpus directory: {output_dir}")
     corpus = build_corpus(protocol_path, mode=mode, authorize_full=authorize_full)
+    regenerated = build_corpus(protocol_path, mode=mode, authorize_full=authorize_full)
+    if _json(corpus) != _json(regenerated):
+        raise RuntimeError("corpus regeneration was not byte-deterministic")
+    corpus["audit"]["deterministic_regeneration"] = True
     output_dir.mkdir(parents=True, exist_ok=True)
 
     file_hashes: dict[str, str] = {}
@@ -416,6 +420,7 @@ def write_corpus(
         "file_hashes": dict(sorted(file_hashes.items())),
         "scientific_final_test_generated": mode == "full",
         "final_test_access_count": 0,
+        "deterministic_regeneration": True,
     }
     manifest_path = output_dir / "manifest.json"
     manifest_path.write_text(_json(manifest, pretty=True) + "\n")
