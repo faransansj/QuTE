@@ -112,8 +112,12 @@ def test_committed_smoke_artifact_passes_hash_and_oracle_audit():
 def test_explicit_full_test_access_requires_reason_and_is_logged(tmp_path):
     root = tmp_path / "full"
     root.mkdir()
-    (root / "manifest.json").write_text('{"mode":"full"}\n')
-    (root / "final_test.sealed.jsonl").write_text('{"pair_id":"sealed-example"}\n')
+    sealed = root / "final_test.sealed.jsonl"
+    sealed.write_text('{"pair_id":"sealed-example"}\n')
+    digest = hashlib.sha256(sealed.read_bytes()).hexdigest()
+    (root / "manifest.json").write_text(
+        json.dumps({"mode": "full", "file_hashes": {sealed.name: digest}}) + "\n"
+    )
     (root / "FINAL_TEST_ACCESS_LOG.jsonl").write_text("")
 
     with pytest.raises(ValueError, match="access_reason"):

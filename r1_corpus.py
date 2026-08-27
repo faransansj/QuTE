@@ -93,7 +93,13 @@ def _insert(base: list[Gate], gates: list[Gate], seed: int) -> list[Gate]:
 
 
 def _equivalent_pair(
-    base: list[Gate], family: str, protocol: dict[str, Any], seed: int, *, instance_ood: bool = False, parameter_region: str = "train"
+    base: list[Gate],
+    family: str,
+    protocol: dict[str, Any],
+    seed: int,
+    *,
+    instance_ood: bool = False,
+    parameter_region: str = "train",
 ) -> tuple[list[Gate], list[Gate], str]:
     q0, q1, q2, _ = _qubits(seed)
     angle_a = _parameter_angle(protocol, parameter_region, seed)
@@ -132,7 +138,9 @@ def _equivalent_pair(
         position = seed % (len(base) + 1)
         prefix, suffix = base[:position], base[position:]
         split, compact = [*prefix, first, second, *suffix], [*prefix, fused, *suffix]
-        return (compact, split, "rotation_split_heldout_direction") if instance_ood else (split, compact, "rotation_fusion")
+        if instance_ood:
+            return compact, split, "rotation_split_heldout_direction"
+        return split, compact, "rotation_fusion"
 
     if family == "identity_insertion_removal":
         identity = [Gate("H", (q0,)), Gate("X", (q0,)), Gate("X", (q0,)), Gate("H", (q0,))]
@@ -178,7 +186,16 @@ def _negative_right(left_unitary: np.ndarray, right: list[Gate]) -> tuple[list[G
 def _plans(protocol: dict[str, Any], mode: str) -> list[dict[str, Any]]:
     plans: list[dict[str, Any]] = []
 
-    def add(partition: str, split: str, family: str, depth: int, count: int, *, region: str = "train", instance_ood: bool = False) -> None:
+    def add(
+        partition: str,
+        split: str,
+        family: str,
+        depth: int,
+        count: int,
+        *,
+        region: str = "train",
+        instance_ood: bool = False,
+    ) -> None:
         for local_index in range(count):
             plans.append({
                 "partition": partition,
@@ -221,14 +238,28 @@ def _plans(protocol: dict[str, Any], mode: str) -> list[dict[str, Any]]:
     for family in SEEN_FAMILIES:
         for depth in (2, 4, 6):
             add("final_test", "semantic_iid", family, depth, final["semantic_iid"]["pairs_per_family_depth"])
-            add("final_test", "rewrite_instance_ood", family, depth, final["rewrite_instance_ood"]["pairs_per_family_depth"], instance_ood=True)
+            add(
+                "final_test",
+                "rewrite_instance_ood",
+                family,
+                depth,
+                final["rewrite_instance_ood"]["pairs_per_family_depth"],
+                instance_ood=True,
+            )
     for split, family in HELD_OUT_SPLITS.items():
         for depth in (2, 4, 6):
             add("final_test", split, family, depth, final[split]["pairs_per_family_depth"])
     for region in ("interpolation_ood", "extrapolation_ood"):
         for family in SEEN_FAMILIES:
             for depth in (2, 4, 6):
-                add("final_test", "parameter_ood", family, depth, final["parameter_ood"]["pairs_per_stratum"], region=region)
+                add(
+                    "final_test",
+                    "parameter_ood",
+                    family,
+                    depth,
+                    final["parameter_ood"]["pairs_per_stratum"],
+                    region=region,
+                )
     for family in SEEN_FAMILIES:
         for depth in (8, 10):
             add("final_test", "depth_ood", family, depth, final["depth_ood"]["pairs_per_family_depth"])
@@ -260,8 +291,21 @@ def _probe(protocol_hash: str, partition: str, base_id: str, index: int) -> dict
 def _record_pair(
     protocol: dict[str, Any], protocol_hash: str, plan: dict[str, Any], global_index: int, attempt: int
 ) -> tuple[dict[str, Any], dict[str, Any], str, str, str]:
-    item_seed = _seed(protocol_hash, plan["partition"], plan["split"], plan["family"], plan["base_depth"], plan["parameter_region"], plan["local_index"], attempt)
-    regime = {"train": "train", "interpolation_ood": "interpolation", "extrapolation_ood": "extrapolation"}[plan["parameter_region"]]
+    item_seed = _seed(
+        protocol_hash,
+        plan["partition"],
+        plan["split"],
+        plan["family"],
+        plan["base_depth"],
+        plan["parameter_region"],
+        plan["local_index"],
+        attempt,
+    )
+    regime = {
+        "train": "train",
+        "interpolation_ood": "interpolation",
+        "extrapolation_ood": "extrapolation",
+    }[plan["parameter_region"]]
     base = generate_circuit(item_seed, plan["base_depth"], regime=regime)
     base_id = circuit_id(base)
     left, right, template_id = _equivalent_pair(
@@ -289,7 +333,8 @@ def _record_pair(
 
     negative_right, control_type, negative_distance, negative_unitary = _negative_right(left_unitary, right)
     negative_hash = _operator_hash(negative_unitary)
-    pair_root = _sha256_bytes(f"{protocol_hash}|{plan['partition']}|{plan['split']}|{global_index}|{item_seed}".encode())[:20]
+    pair_key = f"{protocol_hash}|{plan['partition']}|{plan['split']}|{global_index}|{item_seed}"
+    pair_root = _sha256_bytes(pair_key.encode())[:20]
     common = {
         "schema_version": SCHEMA_VERSION,
         "partition": plan["partition"],
@@ -333,7 +378,11 @@ def _record_pair(
         "expanded_depth": {"left": len(left), "right": len(negative_right)},
         "left_operator_hash": left_hash,
         "right_operator_hash": negative_hash,
-        "oracle": {"phase_aligned_relative_frobenius": negative_distance, "minimum_required": 0.1, "pass": negative_distance >= 0.1},
+        "oracle": {
+            "phase_aligned_relative_frobenius": negative_distance,
+            "minimum_required": 0.1,
+            "pass": negative_distance >= 0.1,
+        },
     }
     return positive, negative, base_id, left_hash, negative_hash
 
@@ -357,7 +406,9 @@ def build_corpus(protocol_path: str | Path, *, mode: str = "smoke", authorize_fu
 
     for global_index, plan in enumerate(plans):
         for attempt in range(10_000):
-            positive, negative, base_id, positive_hash, negative_hash = _record_pair(protocol, protocol_hash, plan, global_index, attempt)
+            positive, negative, base_id, positive_hash, negative_hash = _record_pair(
+                protocol, protocol_hash, plan, global_index, attempt
+            )
             partition = plan["partition"]
             if base_id in base_ids:
                 continue
@@ -372,21 +423,35 @@ def build_corpus(protocol_path: str | Path, *, mode: str = "smoke", authorize_fu
         records[partition].extend((positive, negative))
         for key in maxima:
             maxima[key] = max(maxima[key], positive["oracle"][key])
-        minimum_negative_distance = min(minimum_negative_distance, negative["oracle"]["phase_aligned_relative_frobenius"])
+        minimum_negative_distance = min(
+            minimum_negative_distance,
+            negative["oracle"]["phase_aligned_relative_frobenius"],
+        )
 
     counts = {
         partition: dict(sorted(Counter(record["label"] for record in values).items()))
         for partition, values in records.items()
     }
     expected = {
-        partition: {"equivalent": sum(plan["partition"] == partition for plan in plans), "non_equivalent": sum(plan["partition"] == partition for plan in plans)}
+        partition: {
+            "equivalent": sum(plan["partition"] == partition for plan in plans),
+            "non_equivalent": sum(plan["partition"] == partition for plan in plans),
+        }
         for partition in records
     }
-    partition_leakage = sorted(operator_hash for operator_hash, partitions in operator_partitions.items() if len(partitions) > 1)
+    partition_leakage = sorted(
+        operator_hash
+        for operator_hash, partitions in operator_partitions.items()
+        if len(partitions) > 1
+    )
     pair_ids = [record["pair_id"] for values in records.values() for record in values]
     audit = {
         "schema_version": "qute-r1-corpus-audit-v1",
-        "status": "PASS" if counts == expected and not partition_leakage and len(pair_ids) == len(set(pair_ids)) else "FAIL",
+        "status": (
+            "PASS"
+            if counts == expected and not partition_leakage and len(pair_ids) == len(set(pair_ids))
+            else "FAIL"
+        ),
         "mode": mode,
         "protocol_sha256": protocol_hash,
         "counts": counts,
@@ -402,7 +467,13 @@ def build_corpus(protocol_path: str | Path, *, mode: str = "smoke", authorize_fu
     }
     if audit["status"] != "PASS":
         raise RuntimeError(f"R1 corpus audit failed: {audit}")
-    return {"schema_version": SCHEMA_VERSION, "mode": mode, "protocol_sha256": protocol_hash, "records": records, "audit": audit}
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "mode": mode,
+        "protocol_sha256": protocol_hash,
+        "records": records,
+        "audit": audit,
+    }
 
 
 def write_corpus(
@@ -419,7 +490,13 @@ def write_corpus(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     file_hashes: dict[str, str] = {}
-    names = {"train": "train.jsonl", "development": "development.jsonl", "final_test": "final_test.smoke.jsonl" if mode == "smoke" else "final_test.sealed.jsonl"}
+    names = {
+        "train": "train.jsonl",
+        "development": "development.jsonl",
+        "final_test": (
+            "final_test.smoke.jsonl" if mode == "smoke" else "final_test.sealed.jsonl"
+        ),
+    }
     for partition, filename in names.items():
         payload = "".join(_json(record) + "\n" for record in corpus["records"][partition])
         path = output_dir / filename
@@ -459,12 +536,23 @@ def load_partition(
 ) -> list[dict[str, Any]]:
     root = Path(root)
     manifest = json.loads((root / "manifest.json").read_text())
-    names = {"train": "train.jsonl", "development": "development.jsonl", "final_test": "final_test.smoke.jsonl" if manifest["mode"] == "smoke" else "final_test.sealed.jsonl"}
+    names = {
+        "train": "train.jsonl",
+        "development": "development.jsonl",
+        "final_test": (
+            "final_test.smoke.jsonl"
+            if manifest["mode"] == "smoke"
+            else "final_test.sealed.jsonl"
+        ),
+    }
     if partition not in names:
         raise ValueError(f"unknown partition: {partition}")
     if partition == "final_test" and not allow_final:
         raise PermissionError("ordinary development access to final_test is prohibited")
     path = root / names[partition]
+    expected_hash = manifest.get("file_hashes", {}).get(path.name)
+    if expected_hash is None or _sha256_file(path) != expected_hash:
+        raise RuntimeError(f"corpus partition checksum failed: {path.name}")
     if partition == "final_test" and manifest["mode"] == "full":
         if not access_reason or not access_reason.strip():
             raise ValueError("access_reason is required for full final_test access")
