@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 from collections import Counter, defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -432,15 +433,33 @@ def write_corpus(
     return manifest
 
 
-def load_partition(root: str | Path, partition: str, *, allow_final: bool = False) -> list[dict[str, Any]]:
+def load_partition(
+    root: str | Path,
+    partition: str,
+    *,
+    allow_final: bool = False,
+    access_reason: str | None = None,
+) -> list[dict[str, Any]]:
     root = Path(root)
-    if partition == "final_test" and not allow_final:
-        raise PermissionError("ordinary development access to final_test is prohibited")
     manifest = json.loads((root / "manifest.json").read_text())
     names = {"train": "train.jsonl", "development": "development.jsonl", "final_test": "final_test.smoke.jsonl" if manifest["mode"] == "smoke" else "final_test.sealed.jsonl"}
     if partition not in names:
         raise ValueError(f"unknown partition: {partition}")
-    return [json.loads(line) for line in (root / names[partition]).read_text().splitlines()]
+    if partition == "final_test" and not allow_final:
+        raise PermissionError("ordinary development access to final_test is prohibited")
+    path = root / names[partition]
+    if partition == "final_test" and manifest["mode"] == "full":
+        if not access_reason or not access_reason.strip():
+            raise ValueError("access_reason is required for full final_test access")
+        event = {
+            "accessed_utc": datetime.now(timezone.utc).isoformat(),
+            "reason": access_reason.strip(),
+            "file": path.name,
+            "sha256": _sha256_file(path),
+        }
+        with (root / "FINAL_TEST_ACCESS_LOG.jsonl").open("a") as handle:
+            handle.write(_json(event) + "\n")
+    return [json.loads(line) for line in path.read_text().splitlines()]
 
 
 def main() -> None:
