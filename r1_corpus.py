@@ -433,6 +433,7 @@ def write_corpus(
         "schema_version": "qute-r1-corpus-manifest-v1",
         "mode": mode,
         "protocol_sha256": corpus["protocol_sha256"],
+        "generator_sha256": _sha256_file(Path(__file__).resolve()),
         "counts": corpus["audit"]["counts"],
         "file_hashes": dict(sorted(file_hashes.items())),
         "scientific_final_test_generated": mode == "full",
