@@ -1,0 +1,284 @@
+{
+  "schema_version": "qute-r1-operator-semantic-benchmark-v1",
+  "status": "FROZEN_NOT_RUN",
+  "frozen": true,
+  "execution_authorized": false,
+  "classification": "ALIGNED_BENCHMARK",
+  "scientific_question": "Can QuTE learn quantum transformation semantics that remain correct across syntactically different but physically equivalent circuit representations?",
+  "primary_failure_addressed": "semantic and Composition-OOD model error, not hardware noise",
+  "source_provenance": {
+    "north_star_version": "1.0.0",
+    "qpu_validation_v1": {
+      "job_id": "da76r2e0ukec7382tgcg",
+      "artifact": "artifacts/qute_qpu_validation/20260826T043718Z-ibm_pittsburgh/QPU_VALIDATION_V1_REPORT.md",
+      "composition_ood_model_sim_mean_tvd": 0.9342713976676629,
+      "composition_ood_sim_qpu_mean_tvd": 0.031479209609962845,
+      "role": "supporting motivation only"
+    }
+  },
+  "scope": {
+    "initial_qubits": 4,
+    "base_gate_alphabet": ["H", "X", "RX", "RY", "RZ", "CNOT"],
+    "base_depths": {
+      "train_and_development": [2, 4, 6],
+      "depth_ood_final_test": [8, 10],
+      "definition": "canonical base-circuit depth before rewrite; expanded depth is also reported"
+    },
+    "parameter_regions_radians": {
+      "train": [[0.0, 2.0943951023931953], [3.141592653589793, 5.235987755982989]],
+      "interpolation_ood": [[2.0943951023931953, 3.141592653589793]],
+      "extrapolation_ood": [[5.235987755982989, 6.283185307179586]]
+    },
+    "full_unitary_policy": "oracle-only four-qubit diagnostic; not a required candidate output or scale path",
+    "candidate_contract": [
+      "circuit or transformation context",
+      "operator/action representation or query-conditioned equivalent",
+      "state/probe action or requested measurement statistics",
+      "semantic confidence",
+      "OOD confidence",
+      "fallback decision",
+      "model/data/protocol provenance"
+    ]
+  },
+  "rewrite_catalog": {
+    "seen_families": {
+      "inverse_cancellation": {
+        "templates": [
+          "H(q) H(q)",
+          "X(q) X(q)",
+          "CNOT(c,t) CNOT(c,t)",
+          "R_axis(q,theta) R_axis(q,-theta)"
+        ],
+        "semantic_relation": "equivalent up to global phase"
+      },
+      "commuting_reorder": {
+        "templates": [
+          "swap adjacent gates with disjoint qubit supports",
+          "swap adjacent reviewed RZ gates on distinct qubits"
+        ],
+        "semantic_relation": "same operator"
+      },
+      "rotation_fusion_split": {
+        "templates": [
+          "R_axis(q,a) R_axis(q,b) <-> R_axis(q,(a+b) mod 2pi)"
+        ],
+        "semantic_relation": "equivalent up to global phase"
+      }
+    },
+    "held_out_families": {
+      "identity_insertion_removal": {
+        "templates": [
+          "insert or remove H(q) X(q) X(q) H(q)",
+          "insert or remove CNOT(c,t) H(q) H(q) CNOT(c,t) when H support is disjoint from both CNOT qubits"
+        ],
+        "semantic_relation": "same operator"
+      },
+      "cross_decomposition": {
+        "templates": [
+          "CNOT(c,t) <-> H(c) H(t) CNOT(t,c) H(c) H(t)"
+        ],
+        "semantic_relation": "equivalent up to global phase"
+      },
+      "nonlocal_operator_semantics": {
+        "templates": [
+          "CNOT(a,b) CNOT(b,a) CNOT(a,b) <-> CNOT(b,a) CNOT(a,b) CNOT(b,a)"
+        ],
+        "semantic_relation": "same SWAP operator on qubits a and b"
+      }
+    }
+  },
+  "non_equivalent_controls": {
+    "required_ratio": "one matched negative per positive pair",
+    "purpose": "prevent a trivial syntax-invariant or constant-output model from appearing semantically correct",
+    "construction": [
+      "single parameter perturbation with oracle operator distance at least 0.1",
+      "control-target reversal without compensating decomposition",
+      "operator-changing gate deletion or insertion",
+      "match base depth and token count where possible"
+    ]
+  },
+  "oracle": {
+    "primary": "exact four-qubit unitary equivalence up to global phase",
+    "independent_checks": [
+      "action agreement on all 16 computational-basis probes",
+      "Z-basis measurement-distribution agreement on 16 computational-basis probes",
+      "rewrite-rule symbolic precondition validation"
+    ],
+    "tolerances": {
+      "phase_aligned_relative_frobenius": 1e-10,
+      "maximum_probe_l2": 1e-10,
+      "maximum_probability_tvd": 1e-10,
+      "state_norm": 1e-12
+    },
+    "reject_on_oracle_disagreement": true
+  },
+  "split_axes": {
+    "semantic_iid": "unseen base circuits and rewrite instances from the three seen rewrite families",
+    "rewrite_instance_ood": "held-out templates or parameterizations within the three seen families",
+    "rewrite_family_ood": "identity-insertion/removal family absent from training and development",
+    "cross_decomposition_ood": "reverse-direction CNOT decomposition absent from training and development",
+    "nonlocal_semantics_ood": "held-out equivalent SWAP decompositions",
+    "parameter_ood": "frozen interpolation and extrapolation regions crossed with seen semantic families",
+    "depth_ood": "canonical base depths 8 and 10 crossed with seen semantic families",
+    "state_probe_ood": "held-out entangled and Haar probes used to query frozen transformations",
+    "non_equivalent_control": "one matched negative evaluated alongside every positive pair"
+  },
+  "corpus_allocation": {
+    "unit": "positive equivalent pair; every positive has one matched negative",
+    "train": {
+      "families": ["inverse_cancellation", "commuting_reorder", "rotation_fusion_split"],
+      "pairs_per_family_depth": 1024,
+      "depths": [2, 4, 6],
+      "positive_pairs": 9216,
+      "negative_pairs": 9216
+    },
+    "development": {
+      "families": ["inverse_cancellation", "commuting_reorder", "rotation_fusion_split"],
+      "pairs_per_family_depth": 256,
+      "depths": [2, 4, 6],
+      "positive_pairs": 2304,
+      "negative_pairs": 2304
+    },
+    "final_test": {
+      "semantic_iid": {"families": 3, "depths": 3, "pairs_per_family_depth": 512, "positive_pairs": 4608},
+      "rewrite_instance_ood": {"families": 3, "depths": 3, "pairs_per_family_depth": 512, "positive_pairs": 4608},
+      "rewrite_family_ood": {"families": 1, "depths": 3, "pairs_per_family_depth": 512, "positive_pairs": 1536},
+      "cross_decomposition_ood": {"families": 1, "depths": 3, "pairs_per_family_depth": 512, "positive_pairs": 1536},
+      "nonlocal_semantics_ood": {"families": 1, "depths": 3, "pairs_per_family_depth": 512, "positive_pairs": 1536},
+      "parameter_ood": {"regions": 2, "families": 3, "depths": 3, "pairs_per_stratum": 256, "positive_pairs": 4608},
+      "depth_ood": {"families": 3, "depths": 2, "pairs_per_family_depth": 512, "positive_pairs": 3072},
+      "positive_pairs_total": 21504,
+      "negative_pairs_total": 21504
+    },
+    "base_circuit_identity_disjoint_between_all_partitions": true
+  },
+  "probe_policy": {
+    "oracle_identification": "all 16 computational-basis states",
+    "train_and_development": "product states from the frozen generator family",
+    "final_state_probe_ood": ["entangled states", "Haar-random states"],
+    "probe_seed_derivation": "SHA-256(protocol_hash || partition || circuit_id || probe_index), reduced to uint64"
+  },
+  "leakage_rules": [
+    "base-circuit identity disjoint across train, development, and final test",
+    "canonical operator hash must not cross partitions except within an explicitly linked equivalent pair",
+    "rewrite instance identity disjoint across partitions",
+    "held-out rewrite and decomposition families absent from training and development",
+    "probe/state IDs disjoint where state/probe OOD is claimed",
+    "non-equivalent controls cannot share their perturbed target operator with a positive pair",
+    "opened final-test examples never become development data"
+  ],
+  "metrics": {
+    "primary": [
+      "mean semantic action fidelity against the ideal oracle",
+      "mean equivalent-pair action consistency",
+      "non-equivalent-control rejection rate"
+    ],
+    "selection_score": "harmonic mean of the three development primary metrics, macro-averaged first by family then split",
+    "required_aggregations": [
+      "example-level",
+      "rewrite-family macro",
+      "split macro",
+      "worst rewrite family",
+      "depth and parameter strata"
+    ],
+    "physical_validity": [
+      "norm preservation",
+      "linearity diagnostic",
+      "unitarity or candidate-appropriate structural validity"
+    ],
+    "ood_and_fallback": [
+      "OOD AUROC",
+      "risk-coverage curve",
+      "fallback recall on semantic failures",
+      "accepted-set semantic error"
+    ],
+    "systems": [
+      "latency",
+      "peak memory",
+      "teacher calls avoided on repeated equivalent workloads",
+      "fallback rate",
+      "break-even query count when applicable"
+    ],
+    "existing_metrics_preserved": [
+      "state/action fidelity",
+      "Z-basis TVD where applicable"
+    ]
+  },
+  "thresholds": {
+    "semantic_action_fidelity_macro_minimum": 0.99,
+    "equivalent_pair_consistency_macro_minimum": 0.995,
+    "non_equivalent_control_rejection_minimum": 0.95,
+    "worst_family_semantic_action_fidelity_minimum": 0.97,
+    "accepted_set_semantic_failure_rate_maximum": 0.01,
+    "physical_validity_error_maximum": 0.0001,
+    "ood_auroc_minimum": 0.8,
+    "regression_vs_current_baseline_maximum": 0.01,
+    "interpretation": "absolute benchmark support floors; candidate comparisons are also reported without converting nonsignificant deltas into wins"
+  },
+  "statistics": {
+    "confidence_level": 0.95,
+    "method": "paired stratified bootstrap over base-circuit identities",
+    "resamples": 10000,
+    "seed": 47011,
+    "formal_significance": false,
+    "family_macro_required": true,
+    "negative_results_preserved": true,
+    "no_single_aggregate_only": true
+  },
+  "candidate_policy": {
+    "architecture_agnostic": true,
+    "candidates_and_hyperparameters_frozen_before_final_test": true,
+    "seeds": [2026, 2027, 2028],
+    "selection_metric": "development selection_score",
+    "tie_policy": "within 0.001 select lower measured latency; if still tied select fewer trainable parameters; if still tied retain both without test-based selection",
+    "no_post_test_selection": true,
+    "current_model_is_baseline_not_privileged_candidate": true,
+    "verdict_rule": "SUPPORTED only if all absolute floors pass and candidate-minus-baseline development-selected deltas are positive for every seed; QUALIFIED if floors pass and mean deltas are positive with mixed seed signs; otherwise NOT_SUPPORTED"
+  },
+  "test_access_policy": {
+    "final_test_generated": false,
+    "final_test_access_count": 0,
+    "ordinary_development_loader_rejects_final_test": true,
+    "access_log_required": true,
+    "hash_manifest_required_before_candidate_evaluation": true,
+    "one_untouched_final_evaluation": true
+  },
+  "claim_boundaries": {
+    "allowed_if_supported": [
+      "a candidate generalizes across the frozen reviewed semantic families and splits",
+      "a representation improves semantic consistency relative to predeclared baselines",
+      "OOD/fallback detects a measured fraction of semantic failures"
+    ],
+    "prohibited": [
+      "universal quantum-circuit understanding",
+      "arbitrary-qubit semantic generalization",
+      "QPU replacement",
+      "hardware-noise learning from this simulator-teacher benchmark",
+      "causal architecture claims from descriptive comparisons"
+    ]
+  },
+  "out_of_scope": [
+    "model training or candidate selection during protocol freeze",
+    "QPU execution",
+    "M1 implementation",
+    "hardware adapter or digital twin",
+    "changes to QuTE North Star v1.0",
+    "post-hoc changes driven by final-test outcomes"
+  ],
+  "freeze_gate": {
+    "all_protocol_decisions_resolved": true,
+    "proposal_gate_approved": true,
+    "rewrite_catalog_approved": true,
+    "split_and_leakage_contract_approved": true,
+    "oracle_spec_approved": true,
+    "candidate_and_statistics_policy_approved": true,
+    "data_generation_authorized": false,
+    "reason_execution_not_authorized": "protocol-only task; generation requires a separate explicit run"
+  },
+  "execution_record": {
+    "data_generated": false,
+    "models_trained": false,
+    "qpu_jobs_submitted": false,
+    "final_test_accessed": false
+  }
+}

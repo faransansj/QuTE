@@ -1,0 +1,14 @@
+{
+  "schema_version": "qute-r1-protocol-hashes-v1",
+  "created_utc": "2026-08-27T04:10:01Z",
+  "hash_algorithm": "sha256",
+  "files": {
+    "artifacts/r1_operator_semantic_benchmark/protocol.json": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+    "docs/R1_OPERATOR_SEMANTIC_BENCHMARK_PROTOCOL.md": "5b214c2212b5812f00ceb0c78d9b60e3556a9e6e4c9b3ecd85e0c7c8bfc2d84d",
+    "docs/R1_RESEARCH_PROPOSAL_GATE.md": "83c0aa3b26cd5e66125e6e95f616d2f515373ac2b59632db701def308c66ce8b",
+    "docs/QU_TE_NORTH_STAR.md": "39e65c7eb5078ff9a9898ef5543f1726508384cdd3e43bf1f36f846fee1d79c6",
+    "PROJECT_ANCHOR.md": "c6a07a52c2429a174d282b58edc62e4788caf3670659073138b51dbd3f020faf",
+    "governance/qute_project_anchor_v1.json": "055842bfddecb43b352468ade52b7733f64626fad5cfa90970005888fdde0aec",
+    "tests/test_r1_operator_semantic_protocol.py": "a1d6b7e5200f57d263b681526a6d01935dacbf40c7a7eacd80846c4c11484469"
+  }
+}
