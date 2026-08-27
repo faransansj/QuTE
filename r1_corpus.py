@@ -235,6 +235,22 @@ def _plans(protocol: dict[str, Any], mode: str) -> list[dict[str, Any]]:
     return plans
 
 
+def planned_counts(protocol_path: str | Path, *, mode: str = "full") -> dict[str, Any]:
+    """Return the frozen allocation without generating or accessing corpus records."""
+    protocol = json.loads(Path(protocol_path).read_text())
+    plans = _plans(protocol, mode)
+    partitions = dict(Counter(plan["partition"] for plan in plans))
+    splits = dict(Counter(plan["split"] for plan in plans))
+    positive_pairs = len(plans)
+    return {
+        "partitions": partitions,
+        "splits": splits,
+        "positive_pairs": positive_pairs,
+        "matched_negative_pairs": positive_pairs,
+        "records": positive_pairs * 2,
+    }
+
+
 def _probe(protocol_hash: str, partition: str, base_id: str, index: int) -> dict[str, Any]:
     probe_seed = _seed(protocol_hash, partition, base_id, index)
     family = "product" if partition != "final_test" else ("entangled" if probe_seed % 2 == 0 else "haar")
@@ -465,10 +481,16 @@ def load_partition(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--protocol", type=Path, default=Path("artifacts/r1_operator_semantic_benchmark/protocol.json"))
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--output", type=Path)
     parser.add_argument("--mode", choices=("smoke", "full"), default="smoke")
+    parser.add_argument("--plan-only", action="store_true")
     parser.add_argument("--authorize-full-protocol-run", action="store_true")
     args = parser.parse_args()
+    if args.plan_only:
+        print(_json(planned_counts(args.protocol, mode=args.mode), pretty=True))
+        return
+    if args.output is None:
+        parser.error("--output is required unless --plan-only is used")
     manifest = write_corpus(args.output, args.protocol, mode=args.mode, authorize_full=args.authorize_full_protocol_run)
     print(_json(manifest, pretty=True))
 
