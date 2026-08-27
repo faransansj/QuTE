@@ -1,0 +1,40 @@
+{
+  "basis_probe_count": 16,
+  "corpus_role": "SMOKE_DEVELOPMENT",
+  "counts": {
+    "circuits": 45,
+    "equivalence_classes": 15,
+    "pairs": 30
+  },
+  "file_hashes": {
+    "audit.json": "5ad7cd8ed98fe96e92620aee4eb39950826af24bd797d0c9a7d83391aef6542e",
+    "circuits.jsonl": "68e210b66c0eb705ed89e66e6140083dbae911ac07b93b183e32efb3e2f8a2ba",
+    "equivalence_classes.jsonl": "f2f6e8029e08612979226c0ac20907aed6c9a1f054631d61adc834f2abefbbba",
+    "indices/base_circuit_content_hashes.txt": "8eeec06913a22d6ad4659ef55071c4782be7af93cc4bb6a98f445ccc8677a1dd",
+    "indices/circuit_content_hashes.txt": "3b6c23430c0d88daf5ce1563b5c62be798b3e92bf1a3b1b657a05261fd0650dd",
+    "indices/equivalence_class_ids.txt": "738213366bcb9f0a96bbc64eae7b18f85b93fddaf56591348f040763d237a1f8",
+    "indices/model_probe_content_hashes.txt": "0a9302cb08b18db86b20599793fe50678d0af92a0e7f80e7a6a5819a6069256a",
+    "indices/ordered_pair_content_hashes.txt": "1ca21dab0bb9359f7d78f7850ac3ee2a299fe8a9da38ec827c7be501f6b98707",
+    "indices/record_ids.txt": "773599d9859344f3ec2542a3c21fbd57a5fbfef7fa75ecb27f17c4e6d43860cd",
+    "indices/rewrite_instance_hashes.txt": "f4421421e26269cdc3d1ca3be7b17006d5f24081ed748b0ed39bd38c6d269ad9",
+    "indices/semantic_class_hashes.txt": "7d30b2cb10f853552c4b84e4dd14571058732bd93b9fc5db0f46e2bf6577c570",
+    "indices/unordered_pair_content_hashes.txt": "5080e3e576bdf3d7cd840067b871f43b14f55aa62e35927142b92885f93e0e34",
+    "pairs.jsonl": "7612af1287c23a4ed8a5ff228cb79318e03d3672dd6a0316a27ce6aca5a1d977"
+  },
+  "full_generation_authorized": false,
+  "generation_namespace": "qute:r1:smoke:v2",
+  "generator_commit": "76b8978a9366b15e6db1c467235ec67973220268",
+  "generator_source_sha256": "dab94a9f985b496b80d864f1ead5f63da0b59f9c7cc05c351e3e976930d29262",
+  "oracle_probe_set_id": "qute-r1-oracle-basis-4q-v1",
+  "partition_role": "SMOKE_COVERAGE",
+  "promotion_allowed": false,
+  "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+  "reuse_allowed": false,
+  "schema_version": "qute-r1-corpus-manifest-v2",
+  "scientific_development_payload_generated": false,
+  "scientific_sealed_payload_generated": false,
+  "scientific_use": "FORBIDDEN",
+  "sealable": false,
+  "seed_schema": "qute-r1-seed-v1",
+  "status": "VALIDATED_SMOKE_EVIDENCE"
+}

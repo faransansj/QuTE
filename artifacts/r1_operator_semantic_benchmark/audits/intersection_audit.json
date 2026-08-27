@@ -1,0 +1,82 @@
+{
+  "failure_fields": [],
+  "oracle_probe_set_id_exempt": "qute-r1-oracle-basis-4q-v1",
+  "prohibited_role_intersections": [
+    {
+      "left_role": "SMOKE_DEVELOPMENT",
+      "overlap_counts": {
+        "base_circuit_content_sha256": 0,
+        "circuit_content_sha256": 0,
+        "model_probe_content_sha256": 0,
+        "ordered_pair_content_sha256": 0,
+        "rewrite_instance_content_sha256": 0,
+        "semantic_class_sha256": 0,
+        "unordered_pair_content_sha256": 0
+      },
+      "payload_state": "RIGHT_OR_BOTH_NOT_GENERATED",
+      "right_role": "SCIENTIFIC_DEVELOPMENT"
+    },
+    {
+      "left_role": "SMOKE_DEVELOPMENT",
+      "overlap_counts": {
+        "base_circuit_content_sha256": 0,
+        "circuit_content_sha256": 0,
+        "model_probe_content_sha256": 0,
+        "ordered_pair_content_sha256": 0,
+        "rewrite_instance_content_sha256": 0,
+        "semantic_class_sha256": 0,
+        "unordered_pair_content_sha256": 0
+      },
+      "payload_state": "RIGHT_OR_BOTH_NOT_GENERATED",
+      "right_role": "SCIENTIFIC_SEALED_FINAL"
+    },
+    {
+      "left_role": "SCIENTIFIC_DEVELOPMENT",
+      "overlap_counts": {
+        "base_circuit_content_sha256": 0,
+        "circuit_content_sha256": 0,
+        "model_probe_content_sha256": 0,
+        "ordered_pair_content_sha256": 0,
+        "rewrite_instance_content_sha256": 0,
+        "semantic_class_sha256": 0,
+        "unordered_pair_content_sha256": 0
+      },
+      "payload_state": "RIGHT_OR_BOTH_NOT_GENERATED",
+      "right_role": "SCIENTIFIC_SEALED_FINAL"
+    }
+  ],
+  "schema_version": "qute-r1-intersection-audit-v1",
+  "scientific_development_payload_generated": false,
+  "scientific_sealed_payload_generated": false,
+  "smoke_v1_vs_smoke_v2": {
+    "base_circuit_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "circuit_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "model_probe_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "ordered_pair_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "rewrite_instance_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "semantic_class_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "unordered_pair_content_sha256": {
+      "count": 0,
+      "examples": []
+    }
+  },
+  "status": "PASS"
+}

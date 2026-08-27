@@ -1,0 +1,15 @@
+{
+  "collision_examples": [],
+  "coordinates_per_namespace": 15,
+  "derived_seed_collision_count": 0,
+  "derived_seed_count": 45,
+  "namespaces": [
+    "qute:r1:scientific-development:v1",
+    "qute:r1:scientific-sealed:v1",
+    "qute:r1:smoke:v2"
+  ],
+  "schema_version": "qute-r1-namespace-isolation-audit-v1",
+  "scientific_payloads_generated": false,
+  "seed_schema": "qute-r1-seed-v1",
+  "status": "PASS"
+}

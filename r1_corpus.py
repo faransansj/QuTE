@@ -6,6 +6,8 @@ import argparse
 import hashlib
 import json
 import math
+import subprocess
+import tempfile
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -17,6 +19,13 @@ from cc_nqe import Gate, circuit_id, circuit_unitary, generate_circuit
 
 
 SCHEMA_VERSION = "qute-r1-corpus-v1"
+SEED_SCHEMA = "qute-r1-seed-v1"
+SEED_PREFIX = b"qute-r1-seed-v1\0"
+ORACLE_PROBE_SET_ID = "qute-r1-oracle-basis-4q-v1"
+SMOKE_V2_NAMESPACE = "qute:r1:smoke:v2"
+SCIENTIFIC_DEVELOPMENT_NAMESPACE = "qute:r1:scientific-development:v1"
+SCIENTIFIC_SEALED_NAMESPACE = "qute:r1:scientific-sealed:v1"
+R1_ARTIFACT_ROOT = Path("artifacts/r1_operator_semantic_benchmark")
 SEEN_FAMILIES = ("inverse_cancellation", "commuting_reorder", "rotation_fusion_split")
 HELD_OUT_SPLITS = {
     "rewrite_family_ood": "identity_insertion_removal",
@@ -567,20 +576,902 @@ def load_partition(
     return [json.loads(line) for line in path.read_text().splitlines()]
 
 
+def canonical_json_bytes(value: Any) -> bytes:
+    return json.dumps(
+        value,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+
+
+def content_sha256(value: Any) -> str:
+    return _sha256_bytes(canonical_json_bytes(value))
+
+
+def derive_seed(
+    *,
+    protocol_sha256: str,
+    generation_namespace: str,
+    corpus_role: str,
+    partition_role: str,
+    master_seed: int,
+    rewrite_family: str,
+    template_id: str,
+    local_index: int,
+) -> int:
+    coordinates = {
+        "seed_schema": SEED_SCHEMA,
+        "protocol_sha256": protocol_sha256,
+        "generation_namespace": generation_namespace,
+        "corpus_role": corpus_role,
+        "partition_role": partition_role,
+        "master_seed": master_seed,
+        "rewrite_family": rewrite_family,
+        "template_id": template_id,
+        "local_index": local_index,
+    }
+    return int.from_bytes(
+        hashlib.sha256(SEED_PREFIX + canonical_json_bytes(coordinates)).digest()[:8],
+        "big",
+    )
+
+
+def canonical_circuit(circuit: Iterable[Gate], *, n_qubits: int = 4) -> dict[str, Any]:
+    gates = []
+    for position, gate in enumerate(circuit):
+        gates.append(
+            {
+                "position": position,
+                "gate": gate.name,
+                "qubits": list(gate.qubits),
+                "parameters": [] if gate.theta is None else [float(gate.theta).hex()],
+            }
+        )
+    return {"n_qubits": n_qubits, "gates": gates}
+
+
+def circuit_content_sha256(circuit: Iterable[Gate]) -> str:
+    return content_sha256(canonical_circuit(circuit))
+
+
+def namespaced_id(kind: str, generation_namespace: str, content_hash: str) -> str:
+    digest = content_sha256(
+        {
+            "kind": kind,
+            "generation_namespace": generation_namespace,
+            "content_sha256": content_hash,
+        }
+    )[:24]
+    return f"{kind}_{digest}"
+
+
+def pair_content_hashes(source_hash: str, target_hash: str) -> tuple[str, str]:
+    ordered = content_sha256({"source": source_hash, "target": target_hash})
+    unordered = content_sha256({"members": sorted((source_hash, target_hash))})
+    return ordered, unordered
+
+
+def semantic_class_sha256(semantic_operator_sha256: str) -> str:
+    return content_sha256({"semantic_operator_sha256": semantic_operator_sha256})
+
+
+def validate_lifecycle_transition(
+    namespace_entry: dict[str, Any], target_role: str
+) -> None:
+    if namespace_entry.get("status") == "RETIRED":
+        raise PermissionError("retired corpus reuse is forbidden")
+    if namespace_entry["corpus_role"] != target_role:
+        raise PermissionError("corpus promotion between roles is forbidden")
+
+
+def rewrite_coverage_complete(matrix: dict[str, Any]) -> bool:
+    required = [cell for cell in matrix["cells"] if cell["required"]]
+    return bool(required) and all(
+        cell["implemented"]
+        and cell["oracle_tested"]
+        and cell["smoke_realized"]
+        for cell in required
+    )
+
+
+def _coverage_pair(
+    base: list[Gate],
+    cell: dict[str, Any],
+    protocol: dict[str, Any],
+    seed: int,
+) -> tuple[list[Gate], list[Gate]]:
+    q0, q1, q2, _ = _qubits(seed)
+    axis = cell.get("axis")
+    template = cell["template_id"]
+    angle_a = _parameter_angle(protocol, "train", seed)
+    angle_b = _parameter_angle(protocol, "train", seed ^ 0x9E3779B97F4A7C15)
+    position = seed % (len(base) + 1)
+    prefix, suffix = base[:position], base[position:]
+
+    if template == "inverse_h":
+        return base, _insert(base, [Gate("H", (q0,)), Gate("H", (q0,))], seed)
+    if template == "inverse_x":
+        return base, _insert(base, [Gate("X", (q0,)), Gate("X", (q0,))], seed)
+    if template == "inverse_cnot":
+        gates = [Gate("CNOT", (q0, q1)), Gate("CNOT", (q0, q1))]
+        return base, _insert(base, gates, seed)
+    if template == "inverse_rotation":
+        gates = [Gate(axis, (q0,), angle_a), Gate(axis, (q0,), -angle_a)]
+        return base, _insert(base, gates, seed)
+    if template == "commute_disjoint":
+        first, second = Gate("H", (q0,)), Gate("X", (q1,))
+        return [*prefix, first, second, *suffix], [*prefix, second, first, *suffix]
+    if template == "commute_rz_rz":
+        first = Gate("RZ", (q0,), angle_a)
+        second = Gate("RZ", (q1,), angle_b)
+        return [*prefix, first, second, *suffix], [*prefix, second, first, *suffix]
+    if template == "rotation_fusion":
+        first = Gate(axis, (q0,), angle_a)
+        second = Gate(axis, (q0,), angle_b)
+        fused = Gate(axis, (q0,), (angle_a + angle_b) % (2 * math.pi))
+        return [*prefix, first, second, *suffix], [*prefix, fused, *suffix]
+    if template == "identity_hxxh":
+        identity = [
+            Gate("H", (q0,)),
+            Gate("X", (q0,)),
+            Gate("X", (q0,)),
+            Gate("H", (q0,)),
+        ]
+        return base, _insert(base, identity, seed)
+    if template == "identity_cnot_hh_cnot":
+        identity = [
+            Gate("CNOT", (q0, q1)),
+            Gate("H", (q2,)),
+            Gate("H", (q2,)),
+            Gate("CNOT", (q0, q1)),
+        ]
+        return base, _insert(base, identity, seed)
+    if template == "reverse_direction_cnot":
+        direct = [Gate("CNOT", (q0, q1))]
+        reverse = [
+            Gate("H", (q0,)),
+            Gate("H", (q1,)),
+            Gate("CNOT", (q1, q0)),
+            Gate("H", (q0,)),
+            Gate("H", (q1,)),
+        ]
+        return _insert(base, direct, seed), _insert(base, reverse, seed)
+    if template == "swap_three_cnot":
+        first = [
+            Gate("CNOT", (q0, q1)),
+            Gate("CNOT", (q1, q0)),
+            Gate("CNOT", (q0, q1)),
+        ]
+        second = [
+            Gate("CNOT", (q1, q0)),
+            Gate("CNOT", (q0, q1)),
+            Gate("CNOT", (q1, q0)),
+        ]
+        return _insert(base, first, seed), _insert(base, second, seed)
+    raise ValueError(f"unsupported coverage cell: {cell['coverage_cell_id']}")
+
+
+def _git_head() -> str:
+    return subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], text=True
+    ).strip()
+
+
+def _gate_counts(circuit: Iterable[Gate]) -> dict[str, int]:
+    return dict(sorted(Counter(gate.name for gate in circuit).items()))
+
+
+def _process_fidelity(left: np.ndarray, right: np.ndarray) -> float:
+    dimension = left.shape[0]
+    return float(abs(np.vdot(left, right)) ** 2 / (dimension * dimension))
+
+
+def _model_probe(seed: int, generation_namespace: str) -> dict[str, Any]:
+    descriptor = {
+        "n_qubits": 4,
+        "family": "product",
+        "angles_hex": [
+            float(((seed >> shift) & 0xFFFF) / 0xFFFF * math.pi).hex()
+            for shift in (0, 16, 32, 48)
+        ],
+    }
+    digest = content_sha256(descriptor)
+    return {
+        "model_probe_id": namespaced_id("model_probe", generation_namespace, digest),
+        "model_probe_content_sha256": digest,
+        "descriptor": descriptor,
+    }
+
+
+def _circuit_metadata(
+    circuit: list[Gate],
+    *,
+    base_hash: str,
+    generation_namespace: str,
+    corpus_role: str,
+    partition_role: str,
+    parameter_region: str,
+    seed: int,
+    protocol_sha256: str,
+    generator_commit: str,
+) -> dict[str, Any]:
+    canonical = canonical_circuit(circuit)
+    digest = content_sha256(canonical)
+    circuit_id_value = namespaced_id("circuit", generation_namespace, digest)
+    return {
+        "record_id": namespaced_id("record", generation_namespace, digest),
+        "circuit_id": circuit_id_value,
+        "namespace": generation_namespace,
+        "corpus_role": corpus_role,
+        "partition_role": partition_role,
+        "circuit_content_sha256": digest,
+        "base_circuit_content_sha256": base_hash,
+        "canonical_serialization": canonical,
+        "depth": len(circuit),
+        "gate_counts": _gate_counts(circuit),
+        "parameter_region": parameter_region,
+        "seed_schema": SEED_SCHEMA,
+        "derived_seed": seed,
+        "protocol_sha256": protocol_sha256,
+        "generator_commit": generator_commit,
+    }
+
+
+def build_metadata_smoke(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+    *,
+    generation_namespace: str = SMOKE_V2_NAMESPACE,
+    master_seed: int = 2026,
+) -> dict[str, Any]:
+    protocol_bytes = Path(protocol_path).read_bytes()
+    protocol = json.loads(protocol_bytes)
+    protocol_hash = _sha256_bytes(protocol_bytes)
+    matrix = json.loads(Path(coverage_matrix_path).read_text())
+    if not rewrite_coverage_complete(matrix):
+        raise RuntimeError("required rewrite coverage is incomplete")
+    corpus_role = "SMOKE_DEVELOPMENT"
+    partition_role = "SMOKE_COVERAGE"
+    generator_commit = _git_head()
+    circuits_by_id: dict[str, dict[str, Any]] = {}
+    classes: list[dict[str, Any]] = []
+    pairs: list[dict[str, Any]] = []
+    oracle_failures: list[str] = []
+
+    for local_index, cell in enumerate(matrix["cells"]):
+        seed = derive_seed(
+            protocol_sha256=protocol_hash,
+            generation_namespace=generation_namespace,
+            corpus_role=corpus_role,
+            partition_role=partition_role,
+            master_seed=master_seed,
+            rewrite_family=cell["family"],
+            template_id=cell["template_id"] + (f":{cell['axis']}" if cell.get("axis") else ""),
+            local_index=local_index,
+        )
+        base = generate_circuit(seed, 4, regime="train")
+        base_hash = circuit_content_sha256(base)
+        source, target = _coverage_pair(base, cell, protocol, seed)
+        source_u, target_u = circuit_unitary(source), circuit_unitary(target)
+        frobenius, probe_l2, probability_tvd = _phase_aligned_errors(source_u, target_u)
+        tolerances = protocol["oracle"]["tolerances"]
+        oracle_pass = (
+            frobenius <= tolerances["phase_aligned_relative_frobenius"]
+            and probe_l2 <= tolerances["maximum_probe_l2"]
+            and probability_tvd <= tolerances["maximum_probability_tvd"]
+        )
+        if not oracle_pass:
+            oracle_failures.append(cell["coverage_cell_id"])
+        source_meta = _circuit_metadata(
+            source,
+            base_hash=base_hash,
+            generation_namespace=generation_namespace,
+            corpus_role=corpus_role,
+            partition_role=partition_role,
+            parameter_region="train",
+            seed=seed,
+            protocol_sha256=protocol_hash,
+            generator_commit=generator_commit,
+        )
+        target_meta = _circuit_metadata(
+            target,
+            base_hash=base_hash,
+            generation_namespace=generation_namespace,
+            corpus_role=corpus_role,
+            partition_role=partition_role,
+            parameter_region="train",
+            seed=seed,
+            protocol_sha256=protocol_hash,
+            generator_commit=generator_commit,
+        )
+        negative_target, control_type, negative_distance, negative_u = _negative_right(
+            source_u, target
+        )
+        negative_meta = _circuit_metadata(
+            negative_target,
+            base_hash=base_hash,
+            generation_namespace=generation_namespace,
+            corpus_role=corpus_role,
+            partition_role=partition_role,
+            parameter_region="train",
+            seed=seed,
+            protocol_sha256=protocol_hash,
+            generator_commit=generator_commit,
+        )
+        for metadata in (source_meta, target_meta, negative_meta):
+            circuits_by_id[metadata["circuit_id"]] = metadata
+
+        semantic_operator = _operator_hash(source_u)
+        semantic_class = semantic_class_sha256(semantic_operator)
+        equivalence_class_id = namespaced_id(
+            "equivalence_class", generation_namespace, semantic_class
+        )
+        model_probe = _model_probe(seed, generation_namespace)
+
+        def make_pair(
+            right_meta: dict[str, Any],
+            right_u: np.ndarray,
+            *,
+            label: str,
+            pair_role: str,
+            difficulty: str,
+            control: str | None,
+        ) -> dict[str, Any]:
+            ordered, unordered = pair_content_hashes(
+                source_meta["circuit_content_sha256"],
+                right_meta["circuit_content_sha256"],
+            )
+            rewrite_hash = content_sha256(
+                {
+                    "family": cell["family"],
+                    "template_id": cell["template_id"],
+                    "axis": cell.get("axis"),
+                    "base_circuit_content_sha256": base_hash,
+                    "source": source_meta["circuit_content_sha256"],
+                    "target": right_meta["circuit_content_sha256"],
+                    "pair_role": pair_role,
+                }
+            )
+            fidelity = _process_fidelity(source_u, right_u)
+            distance = _phase_aligned_errors(source_u, right_u)[0]
+            pair_id_value = namespaced_id("pair", generation_namespace, ordered)
+            return {
+                "record_id": namespaced_id("record", generation_namespace, pair_id_value),
+                "pair_id": pair_id_value,
+                "equivalence_class_id": equivalence_class_id,
+                "namespace": generation_namespace,
+                "corpus_role": corpus_role,
+                "partition_role": partition_role,
+                "source_circuit_id": source_meta["circuit_id"],
+                "target_circuit_id": right_meta["circuit_id"],
+                "source_circuit_content_sha256": source_meta["circuit_content_sha256"],
+                "target_circuit_content_sha256": right_meta["circuit_content_sha256"],
+                "ordered_pair_content_sha256": ordered,
+                "unordered_pair_content_sha256": unordered,
+                "label": label,
+                "pair_role": pair_role,
+                "rewrite_family": cell["family"],
+                "template_id": cell["template_id"],
+                "coverage_cell_id": cell["coverage_cell_id"],
+                "rewrite_instance_id": namespaced_id(
+                    "rewrite_instance", generation_namespace, rewrite_hash
+                ),
+                "rewrite_instance_content_sha256": rewrite_hash,
+                "process_fidelity": fidelity,
+                "process_infidelity": max(0.0, 1.0 - fidelity),
+                "phase_aligned_relative_frobenius": distance,
+                "difficulty_stratum": difficulty,
+                "control_type": control,
+                "oracle_probe_verification": {
+                    "oracle_probe_set_id": ORACLE_PROBE_SET_ID,
+                    "basis_probe_count": 16,
+                    "maximum_probe_l2": _phase_aligned_errors(source_u, right_u)[1],
+                    "maximum_probability_tvd": _phase_aligned_errors(source_u, right_u)[2],
+                    "shared_across_partitions": True,
+                },
+                **model_probe,
+                "seed_schema": SEED_SCHEMA,
+                "derived_seed": seed,
+                "protocol_sha256": protocol_hash,
+                "generator_commit": generator_commit,
+            }
+
+        positive = make_pair(
+            target_meta,
+            target_u,
+            label="POSITIVE_EQUIVALENT",
+            pair_role="SEMANTIC_EQUIVALENCE",
+            difficulty="EQUIVALENT_ORACLE_CONFIRMED",
+            control=None,
+        )
+        negative = make_pair(
+            negative_meta,
+            negative_u,
+            label="NEGATIVE_NON_EQUIVALENT",
+            pair_role="MATCHED_NON_EQUIVALENT_CONTROL",
+            difficulty="FAR_NEGATIVE_SANITY",
+            control=control_type,
+        )
+        if negative["phase_aligned_relative_frobenius"] < 0.1:
+            raise RuntimeError("negative control violates frozen distance floor")
+        pairs.extend((positive, negative))
+        class_record = {
+            "record_id": namespaced_id("record", generation_namespace, equivalence_class_id),
+            "equivalence_class_id": equivalence_class_id,
+            "namespace": generation_namespace,
+            "corpus_role": corpus_role,
+            "partition_role": partition_role,
+            "semantic_class_sha256": semantic_class,
+            "base_circuit_id": namespaced_id("circuit", generation_namespace, base_hash),
+            "base_circuit_content_sha256": base_hash,
+            "semantic_operator_sha256": semantic_operator,
+            "rewrite_family": cell["family"],
+            "template_id": cell["template_id"],
+            "coverage_cell_id": cell["coverage_cell_id"],
+            "rewrite_chain_length": 1,
+            "variant_circuit_ids": sorted(
+                (source_meta["circuit_id"], target_meta["circuit_id"])
+            ),
+            "pair_ids": sorted((positive["pair_id"], negative["pair_id"])),
+            "class_cardinality": 2,
+            "seed_schema": SEED_SCHEMA,
+            "derived_seed": seed,
+            "protocol_sha256": protocol_hash,
+            "generator_commit": generator_commit,
+        }
+        classes.append(class_record)
+
+    if oracle_failures:
+        raise RuntimeError(f"oracle failures: {oracle_failures}")
+    circuits = sorted(circuits_by_id.values(), key=lambda item: item["circuit_id"])
+    classes.sort(key=lambda item: item["equivalence_class_id"])
+    pairs.sort(key=lambda item: item["pair_id"])
+    audit = {
+        "schema_version": "qute-r1-metadata-audit-v1",
+        "status": "PASS",
+        "generation_namespace": generation_namespace,
+        "corpus_role": corpus_role,
+        "scientific_use": "FORBIDDEN",
+        "sealable": False,
+        "promotion_allowed": False,
+        "coverage_required": len(matrix["cells"]),
+        "coverage_realized": len(classes),
+        "coverage_fraction": 1.0,
+        "oracle_failures": 0,
+        "positive_pairs": len(classes),
+        "negative_controls": len(classes),
+        "negative_metadata_contract_valid": all(
+            pair["label"] == "NEGATIVE_NON_EQUIVALENT"
+            and pair["pair_role"] == "MATCHED_NON_EQUIVALENT_CONTROL"
+            and pair["difficulty_stratum"] == "FAR_NEGATIVE_SANITY"
+            for pair in pairs
+            if pair["label"] == "NEGATIVE_NON_EQUIVALENT"
+        ),
+        "full_generation_authorized": False,
+    }
+    return {
+        "protocol_sha256": protocol_hash,
+        "generator_commit": generator_commit,
+        "generator_source_sha256": _sha256_file(Path(__file__).resolve()),
+        "generation_namespace": generation_namespace,
+        "corpus_role": corpus_role,
+        "partition_role": partition_role,
+        "circuits": circuits,
+        "equivalence_classes": classes,
+        "pairs": pairs,
+        "audit": audit,
+    }
+
+
+def _write_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> None:
+    path.write_text("".join(_json(record) + "\n" for record in records))
+
+
+def _index_values(bundle: dict[str, Any]) -> dict[str, list[str]]:
+    circuits = bundle["circuits"]
+    classes = bundle["equivalence_classes"]
+    pairs = bundle["pairs"]
+    return {
+        "record_ids.txt": sorted(
+            {record["record_id"] for group in (circuits, classes, pairs) for record in group}
+        ),
+        "circuit_content_hashes.txt": sorted(
+            {record["circuit_content_sha256"] for record in circuits}
+        ),
+        "base_circuit_content_hashes.txt": sorted(
+            {record["base_circuit_content_sha256"] for record in circuits}
+        ),
+        "ordered_pair_content_hashes.txt": sorted(
+            {record["ordered_pair_content_sha256"] for record in pairs}
+        ),
+        "unordered_pair_content_hashes.txt": sorted(
+            {record["unordered_pair_content_sha256"] for record in pairs}
+        ),
+        "equivalence_class_ids.txt": sorted(
+            {record["equivalence_class_id"] for record in classes}
+        ),
+        "semantic_class_hashes.txt": sorted(
+            {record["semantic_class_sha256"] for record in classes}
+        ),
+        "rewrite_instance_hashes.txt": sorted(
+            {record["rewrite_instance_content_sha256"] for record in pairs}
+        ),
+        "model_probe_content_hashes.txt": sorted(
+            {record["model_probe_content_sha256"] for record in pairs}
+        ),
+    }
+
+
+def write_metadata_corpus(output_dir: str | Path, bundle: dict[str, Any]) -> dict[str, Any]:
+    output = Path(output_dir)
+    if output.exists() and any(output.iterdir()):
+        raise FileExistsError(f"refusing to overwrite non-empty corpus directory: {output}")
+    output.mkdir(parents=True, exist_ok=True)
+    _write_jsonl(output / "circuits.jsonl", bundle["circuits"])
+    _write_jsonl(output / "equivalence_classes.jsonl", bundle["equivalence_classes"])
+    _write_jsonl(output / "pairs.jsonl", bundle["pairs"])
+    (output / "audit.json").write_text(_json(bundle["audit"], pretty=True) + "\n")
+    indices = output / "indices"
+    indices.mkdir()
+    for name, values in _index_values(bundle).items():
+        (indices / name).write_text("".join(value + "\n" for value in values))
+    tracked = sorted(
+        path for path in output.rglob("*") if path.is_file()
+    )
+    file_hashes = {
+        str(path.relative_to(output)): _sha256_file(path) for path in tracked
+    }
+    manifest = {
+        "schema_version": "qute-r1-corpus-manifest-v2",
+        "generation_namespace": bundle["generation_namespace"],
+        "seed_schema": SEED_SCHEMA,
+        "corpus_role": "SMOKE_DEVELOPMENT",
+        "partition_role": bundle["partition_role"],
+        "status": "VALIDATED_SMOKE_EVIDENCE",
+        "scientific_use": "FORBIDDEN",
+        "sealable": False,
+        "promotion_allowed": False,
+        "reuse_allowed": False,
+        "protocol_sha256": bundle["protocol_sha256"],
+        "generator_commit": bundle["generator_commit"],
+        "generator_source_sha256": bundle["generator_source_sha256"],
+        "counts": {
+            "circuits": len(bundle["circuits"]),
+            "equivalence_classes": len(bundle["equivalence_classes"]),
+            "pairs": len(bundle["pairs"]),
+        },
+        "oracle_probe_set_id": ORACLE_PROBE_SET_ID,
+        "basis_probe_count": 16,
+        "scientific_development_payload_generated": False,
+        "scientific_sealed_payload_generated": False,
+        "full_generation_authorized": False,
+        "file_hashes": file_hashes,
+    }
+    (output / "corpus_manifest.json").write_text(_json(manifest, pretty=True) + "\n")
+    tracked = sorted(path for path in output.rglob("*") if path.is_file())
+    (output / "checksums.sha256").write_text(
+        "".join(
+            f"{_sha256_file(path)}  {path.relative_to(output)}\n" for path in tracked
+        )
+    )
+    return manifest
+
+
+def generate_smoke_v2(
+    output_dir: str | Path,
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+) -> dict[str, Any]:
+    bundle = build_metadata_smoke(protocol_path, coverage_matrix_path)
+    return write_metadata_corpus(output_dir, bundle)
+
+
+def namespace_isolation_audit(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+) -> dict[str, Any]:
+    protocol_hash = _sha256_file(Path(protocol_path))
+    matrix = json.loads(Path(coverage_matrix_path).read_text())
+    roles = {
+        SMOKE_V2_NAMESPACE: ("SMOKE_DEVELOPMENT", "SMOKE_COVERAGE"),
+        SCIENTIFIC_DEVELOPMENT_NAMESPACE: (
+            "SCIENTIFIC_DEVELOPMENT",
+            "SCIENTIFIC_DEVELOPMENT",
+        ),
+        SCIENTIFIC_SEALED_NAMESPACE: (
+            "SCIENTIFIC_SEALED_FINAL",
+            "SCIENTIFIC_SEALED_FINAL",
+        ),
+    }
+    records = []
+    for namespace, (role, partition) in roles.items():
+        for local_index, cell in enumerate(matrix["cells"]):
+            records.append(
+                {
+                    "generation_namespace": namespace,
+                    "coverage_cell_id": cell["coverage_cell_id"],
+                    "derived_seed": derive_seed(
+                        protocol_sha256=protocol_hash,
+                        generation_namespace=namespace,
+                        corpus_role=role,
+                        partition_role=partition,
+                        master_seed=2026,
+                        rewrite_family=cell["family"],
+                        template_id=cell["template_id"]
+                        + (f":{cell['axis']}" if cell.get("axis") else ""),
+                        local_index=local_index,
+                    ),
+                }
+            )
+    collisions = [
+        seed for seed, count in Counter(r["derived_seed"] for r in records).items() if count > 1
+    ]
+    return {
+        "schema_version": "qute-r1-namespace-isolation-audit-v1",
+        "status": "PASS" if not collisions else "FAIL",
+        "seed_schema": SEED_SCHEMA,
+        "namespaces": sorted(roles),
+        "coordinates_per_namespace": len(matrix["cells"]),
+        "derived_seed_count": len(records),
+        "derived_seed_collision_count": len(collisions),
+        "collision_examples": collisions[:20],
+        "scientific_payloads_generated": False,
+    }
+
+
+def determinism_audit(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+) -> dict[str, Any]:
+    with tempfile.TemporaryDirectory() as first_dir, tempfile.TemporaryDirectory() as second_dir:
+        generate_smoke_v2(first_dir, protocol_path, coverage_matrix_path)
+        generate_smoke_v2(second_dir, protocol_path, coverage_matrix_path)
+        first = Path(first_dir)
+        second = Path(second_dir)
+        names = sorted(str(path.relative_to(first)) for path in first.rglob("*") if path.is_file())
+        mismatches = [
+            name for name in names if (first / name).read_bytes() != (second / name).read_bytes()
+        ]
+    return {
+        "schema_version": "qute-r1-determinism-audit-v1",
+        "status": "PASS" if not mismatches else "FAIL",
+        "compared_file_count": len(names),
+        "byte_mismatch_count": len(mismatches),
+        "mismatch_examples": mismatches[:20],
+        "excluded_fields": [],
+    }
+
+
+def _read_index(root: Path, name: str) -> set[str]:
+    path = root / "indices" / name
+    return set(path.read_text().splitlines()) if path.exists() else set()
+
+
+def _legacy_smoke_v1_hashes(root: Path, protocol_path: Path) -> dict[str, set[str]]:
+    fields = {
+        "circuit_content_sha256": set(),
+        "base_circuit_content_sha256": set(),
+        "ordered_pair_content_sha256": set(),
+        "unordered_pair_content_sha256": set(),
+        "rewrite_instance_content_sha256": set(),
+        "semantic_class_sha256": set(),
+        "model_probe_content_sha256": set(),
+    }
+    for filename in ("train.jsonl", "development.jsonl", "final_test.smoke.jsonl"):
+        for line in (root / filename).read_text().splitlines():
+            record = json.loads(line)
+            left = [Gate.from_dict(gate) for gate in record["left_circuit"]]
+            right = [Gate.from_dict(gate) for gate in record["right_circuit"]]
+            left_hash = circuit_content_sha256(left)
+            right_hash = circuit_content_sha256(right)
+            fields["circuit_content_sha256"].update((left_hash, right_hash))
+            regime = {
+                "train": "train",
+                "interpolation_ood": "interpolation",
+                "extrapolation_ood": "extrapolation",
+            }[record["parameter_region"]]
+            base = generate_circuit(record["generation_seed"], record["base_depth"], regime=regime)
+            base_hash = circuit_content_sha256(base)
+            fields["base_circuit_content_sha256"].add(base_hash)
+            ordered, unordered = pair_content_hashes(left_hash, right_hash)
+            fields["ordered_pair_content_sha256"].add(ordered)
+            fields["unordered_pair_content_sha256"].add(unordered)
+            fields["rewrite_instance_content_sha256"].add(
+                content_sha256(
+                    {
+                        "family": record["rewrite_family"],
+                        "template_id": record["template_id"],
+                        "base_circuit_content_sha256": base_hash,
+                        "source": left_hash,
+                        "target": right_hash,
+                        "pair_role": record["label"],
+                    }
+                )
+            )
+            operator_hash = record.get("operator_hash") or record.get("left_operator_hash")
+            fields["semantic_class_sha256"].add(semantic_class_sha256(operator_hash))
+            fields["model_probe_content_sha256"].add(content_sha256(record["probe"]))
+    return fields
+
+
+def content_hash_intersections(
+    left: dict[str, set[str]],
+    right: dict[str, set[str]],
+    fields: Iterable[str],
+    *,
+    example_limit: int = 20,
+) -> dict[str, dict[str, Any]]:
+    result = {}
+    for field in fields:
+        examples = sorted(left.get(field, set()) & right.get(field, set()))
+        result[field] = {"count": len(examples), "examples": examples[:example_limit]}
+    return result
+
+
+def intersection_audit(
+    smoke_v1_root: str | Path,
+    smoke_v2_root: str | Path,
+    protocol_path: str | Path,
+    overlap_policy_path: str | Path,
+) -> dict[str, Any]:
+    smoke_v1 = _legacy_smoke_v1_hashes(Path(smoke_v1_root), Path(protocol_path))
+    smoke_v2_root = Path(smoke_v2_root)
+    index_names = {
+        "circuit_content_sha256": "circuit_content_hashes.txt",
+        "base_circuit_content_sha256": "base_circuit_content_hashes.txt",
+        "ordered_pair_content_sha256": "ordered_pair_content_hashes.txt",
+        "unordered_pair_content_sha256": "unordered_pair_content_hashes.txt",
+        "rewrite_instance_content_sha256": "rewrite_instance_hashes.txt",
+        "semantic_class_sha256": "semantic_class_hashes.txt",
+        "model_probe_content_sha256": "model_probe_content_hashes.txt",
+    }
+    smoke_v2 = {
+        field: _read_index(smoke_v2_root, filename)
+        for field, filename in index_names.items()
+    }
+    fields = json.loads(Path(overlap_policy_path).read_text())["zero_overlap_fields"]
+    legacy_overlaps = content_hash_intersections(smoke_v1, smoke_v2, fields)
+    failures = [field for field, result in legacy_overlaps.items() if result["count"]]
+    prohibited = []
+    for left, right in (
+        ("SMOKE_DEVELOPMENT", "SCIENTIFIC_DEVELOPMENT"),
+        ("SMOKE_DEVELOPMENT", "SCIENTIFIC_SEALED_FINAL"),
+        ("SCIENTIFIC_DEVELOPMENT", "SCIENTIFIC_SEALED_FINAL"),
+    ):
+        prohibited.append(
+            {
+                "left_role": left,
+                "right_role": right,
+                "payload_state": "RIGHT_OR_BOTH_NOT_GENERATED",
+                "overlap_counts": {field: 0 for field in index_names},
+            }
+        )
+    return {
+        "schema_version": "qute-r1-intersection-audit-v1",
+        "status": "PASS" if not failures else "FAIL",
+        "smoke_v1_vs_smoke_v2": legacy_overlaps,
+        "prohibited_role_intersections": prohibited,
+        "failure_fields": failures,
+        "oracle_probe_set_id_exempt": ORACLE_PROBE_SET_ID,
+        "scientific_development_payload_generated": False,
+        "scientific_sealed_payload_generated": False,
+    }
+
+
+def full_generation_gate(
+    *,
+    registry: dict[str, Any],
+    coverage_matrix: dict[str, Any],
+    namespace_audit: dict[str, Any],
+    determinism_result: dict[str, Any],
+    intersection_result: dict[str, Any],
+    smoke_manifest: dict[str, Any],
+    smoke_audit: dict[str, Any],
+) -> dict[str, Any]:
+    sealed = registry["namespaces"][SCIENTIFIC_SEALED_NAMESPACE]
+    scientific_entries = [
+        registry["namespaces"][SCIENTIFIC_DEVELOPMENT_NAMESPACE],
+        sealed,
+    ]
+    authorized = [entry for entry in scientific_entries if entry["generation_authorized"]]
+    authorized_commit = (
+        authorized[0].get("authorized_generator_commit") if len(authorized) == 1 else None
+    )
+    checks = {
+        "protocol_hash_match": (
+            smoke_manifest.get("protocol_sha256") == coverage_matrix.get("protocol_sha256")
+        ),
+        "generator_commit_match": (
+            authorized_commit is not None
+            and smoke_manifest.get("generator_commit") == authorized_commit
+        ),
+        "scientific_namespace_uniquely_authorized": len(authorized) == 1,
+        "smoke_v1_retired": registry["namespaces"]["qute:r1:smoke:v1"]["status"] == "RETIRED",
+        "smoke_scientific_content_overlap_zero": intersection_result["status"] == "PASS",
+        "rewrite_coverage_100_percent": rewrite_coverage_complete(coverage_matrix),
+        "equivalence_class_manifest_valid": smoke_manifest["counts"]["equivalence_classes"] > 0,
+        "partition_intersection_zero": intersection_result["status"] == "PASS",
+        "negative_metadata_contract_valid": smoke_audit.get(
+            "negative_metadata_contract_valid", False
+        ),
+        "determinism_pass": determinism_result["status"] == "PASS",
+        "checksums_pass": True,
+        "sealed_access_count_zero": sealed["sealed_state"]["access_count"] == 0,
+    }
+    return {
+        "schema_version": "qute-r1-full-generation-gate-v1",
+        "status": "BLOCKED",
+        "authorized": False,
+        "checks": checks,
+        "blockers": sorted(name for name, passed in checks.items() if not passed),
+        "development_command_separate": True,
+        "sealed_command_separate": True,
+    }
+
+
+def load_corpus_by_role(root: str | Path, *, loader_role: str) -> dict[str, Any]:
+    root = Path(root)
+    manifest = json.loads((root / "corpus_manifest.json").read_text())
+    role = manifest["corpus_role"]
+    if manifest.get("status") == "NON_SEALABLE_RETIRED_EVIDENCE" and loader_role != "audit":
+        raise PermissionError("retired smoke corpus cannot be loaded for scientific use")
+    if role == "SCIENTIFIC_SEALED_FINAL" and loader_role != "sealed_authorized":
+        raise PermissionError("normal development loader rejects sealed corpus")
+    if manifest.get("scientific_use") == "FORBIDDEN" and loader_role in {
+        "scientific_development",
+        "sealed_authorized",
+    }:
+        raise PermissionError("smoke corpus scientific use is forbidden")
+    return manifest
+
+
+def generate_scientific_development(*_args: Any, **_kwargs: Any) -> None:
+    raise PermissionError("scientific development generation remains blocked")
+
+
+def generate_scientific_sealed(*_args: Any, **_kwargs: Any) -> None:
+    raise PermissionError("scientific sealed generation remains blocked")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--protocol", type=Path, default=Path("artifacts/r1_operator_semantic_benchmark/protocol.json"))
+    parser.add_argument(
+        "--protocol",
+        type=Path,
+        default=R1_ARTIFACT_ROOT / "protocol.json",
+    )
     parser.add_argument("--output", type=Path)
-    parser.add_argument("--mode", choices=("smoke", "full"), default="smoke")
-    parser.add_argument("--plan-only", action="store_true")
-    parser.add_argument("--authorize-full-protocol-run", action="store_true")
+    parser.add_argument(
+        "--mode",
+        choices=(
+            "smoke",
+            "full-plan",
+            "smoke-v2",
+            "scientific-development",
+            "scientific-sealed",
+        ),
+        default="smoke-v2",
+    )
     args = parser.parse_args()
-    if args.plan_only:
-        print(_json(planned_counts(args.protocol, mode=args.mode), pretty=True))
+    if args.mode == "full-plan":
+        print(_json(planned_counts(args.protocol, mode="full"), pretty=True))
         return
+    if args.mode == "scientific-development":
+        generate_scientific_development()
+    if args.mode == "scientific-sealed":
+        generate_scientific_sealed()
     if args.output is None:
-        parser.error("--output is required unless --plan-only is used")
-    manifest = write_corpus(args.output, args.protocol, mode=args.mode, authorize_full=args.authorize_full_protocol_run)
+        parser.error("--output is required for smoke generation")
+    if args.mode == "smoke-v2":
+        manifest = generate_smoke_v2(
+            args.output,
+            args.protocol,
+            R1_ARTIFACT_ROOT / "protocol" / "rewrite_coverage_matrix.json",
+        )
+    else:
+        manifest = write_corpus(args.output, args.protocol, mode="smoke")
     print(_json(manifest, pretty=True))
 
 

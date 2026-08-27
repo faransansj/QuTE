@@ -1,0 +1,15 @@
+{
+  "schema_version": "qute-r1-corpus-retirement-v1",
+  "generation_namespace": "qute:r1:smoke:v1",
+  "status": "NON_SEALABLE_RETIRED_EVIDENCE",
+  "corpus_role": "SMOKE_DEVELOPMENT",
+  "scientific_use": "FORBIDDEN",
+  "sealable": false,
+  "promotion_allowed": false,
+  "reuse_allowed": false,
+  "retirement_reason": "FUTURE_SCIENTIFIC_OVERLAP_RISK",
+  "future_plan_overlap_count": 21,
+  "future_plan_compared_count": 21,
+  "compliance_audit": "docs/R1_CORPUS_PROTOCOL_COMPLIANCE_AUDIT.md",
+  "historical_files_deleted": false
+}

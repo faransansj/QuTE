@@ -1,0 +1,17 @@
+{
+  "corpus_role": "SMOKE_DEVELOPMENT",
+  "coverage_fraction": 1.0,
+  "coverage_realized": 15,
+  "coverage_required": 15,
+  "full_generation_authorized": false,
+  "generation_namespace": "qute:r1:smoke:v2",
+  "negative_controls": 15,
+  "negative_metadata_contract_valid": true,
+  "oracle_failures": 0,
+  "positive_pairs": 15,
+  "promotion_allowed": false,
+  "schema_version": "qute-r1-metadata-audit-v1",
+  "scientific_use": "FORBIDDEN",
+  "sealable": false,
+  "status": "PASS"
+}

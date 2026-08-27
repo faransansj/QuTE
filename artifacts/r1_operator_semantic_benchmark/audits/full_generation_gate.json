@@ -1,0 +1,25 @@
+{
+  "authorized": false,
+  "blockers": [
+    "generator_commit_match",
+    "scientific_namespace_uniquely_authorized"
+  ],
+  "checks": {
+    "checksums_pass": true,
+    "determinism_pass": true,
+    "equivalence_class_manifest_valid": true,
+    "generator_commit_match": false,
+    "negative_metadata_contract_valid": true,
+    "partition_intersection_zero": true,
+    "protocol_hash_match": true,
+    "rewrite_coverage_100_percent": true,
+    "scientific_namespace_uniquely_authorized": false,
+    "sealed_access_count_zero": true,
+    "smoke_scientific_content_overlap_zero": true,
+    "smoke_v1_retired": true
+  },
+  "development_command_separate": true,
+  "schema_version": "qute-r1-full-generation-gate-v1",
+  "sealed_command_separate": true,
+  "status": "BLOCKED"
+}

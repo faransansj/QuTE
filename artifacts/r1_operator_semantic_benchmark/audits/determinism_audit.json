@@ -1,0 +1,8 @@
+{
+  "byte_mismatch_count": 0,
+  "compared_file_count": 15,
+  "excluded_fields": [],
+  "mismatch_examples": [],
+  "schema_version": "qute-r1-determinism-audit-v1",
+  "status": "PASS"
+}

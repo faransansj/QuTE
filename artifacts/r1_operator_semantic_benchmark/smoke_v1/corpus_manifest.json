@@ -1,0 +1,13 @@
+{
+  "schema_version": "qute-r1-corpus-lifecycle-v1",
+  "generation_namespace": "qute:r1:smoke:v1",
+  "status": "NON_SEALABLE_RETIRED_EVIDENCE",
+  "corpus_role": "SMOKE_DEVELOPMENT",
+  "scientific_use": "FORBIDDEN",
+  "sealable": false,
+  "promotion_allowed": false,
+  "reuse_allowed": false,
+  "historical_payload_preserved": true,
+  "payload_regeneration_forbidden": true,
+  "retirement_manifest": "retirement_manifest.json"
+}

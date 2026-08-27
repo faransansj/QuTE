@@ -1,0 +1,22 @@
+{
+  "schema_version": "qute-r1-rewrite-coverage-v1",
+  "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+  "full_generation_required_coverage": 1.0,
+  "cells": [
+    {"coverage_cell_id":"inverse-h","family":"inverse_cancellation","template_id":"inverse_h","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"inverse-x","family":"inverse_cancellation","template_id":"inverse_x","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"inverse-cnot","family":"inverse_cancellation","template_id":"inverse_cnot","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"inverse-rx","family":"inverse_cancellation","template_id":"inverse_rotation","axis":"RX","required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"inverse-ry","family":"inverse_cancellation","template_id":"inverse_rotation","axis":"RY","required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"inverse-rz","family":"inverse_cancellation","template_id":"inverse_rotation","axis":"RZ","required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"commute-disjoint","family":"commuting_reorder","template_id":"commute_disjoint","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"commute-rz-rz","family":"commuting_reorder","template_id":"commute_rz_rz","axis":"RZ","required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"fusion-rx","family":"rotation_fusion_split","template_id":"rotation_fusion","axis":"RX","required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"fusion-ry","family":"rotation_fusion_split","template_id":"rotation_fusion","axis":"RY","required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"fusion-rz","family":"rotation_fusion_split","template_id":"rotation_fusion","axis":"RZ","required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"identity-hxxh","family":"identity_insertion_removal","template_id":"identity_hxxh","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"identity-cnot-hh-cnot","family":"identity_insertion_removal","template_id":"identity_cnot_hh_cnot","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"cross-reverse-cnot","family":"cross_decomposition","template_id":"reverse_direction_cnot","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true},
+    {"coverage_cell_id":"nonlocal-swap","family":"nonlocal_operator_semantics","template_id":"swap_three_cnot","axis":null,"required":true,"implemented":true,"oracle_tested":true,"smoke_realized":true,"scientific_required":true}
+  ]
+}

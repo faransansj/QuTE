@@ -1,0 +1,23 @@
+{
+  "schema_version": "qute-r1-overlap-policy-v1",
+  "prohibited_role_pairs": [
+    ["SMOKE_DEVELOPMENT", "SCIENTIFIC_DEVELOPMENT"],
+    ["SMOKE_DEVELOPMENT", "SCIENTIFIC_SEALED_FINAL"],
+    ["SCIENTIFIC_DEVELOPMENT", "SCIENTIFIC_SEALED_FINAL"]
+  ],
+  "zero_overlap_fields": [
+    "circuit_content_sha256",
+    "base_circuit_content_sha256",
+    "ordered_pair_content_sha256",
+    "unordered_pair_content_sha256",
+    "rewrite_instance_content_sha256",
+    "semantic_class_sha256",
+    "model_probe_content_sha256"
+  ],
+  "namespaced_id_fields": ["record_id","circuit_id","pair_id","equivalence_class_id","rewrite_instance_id"],
+  "namespaced_id_uniqueness_required": true,
+  "namespaced_id_uniqueness_is_sufficient": false,
+  "exempt_fields": ["oracle_probe_set_id"],
+  "oracle_probe_set_id": "qute-r1-oracle-basis-4q-v1",
+  "failure_example_limit": 20
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "qute-r1-namespace-registry-v1",
+  "seed_schema": "qute-r1-seed-v1",
+  "roles": {
+    "SMOKE_DEVELOPMENT": {"scientific_use":"FORBIDDEN","sealable":false,"promotion_allowed":false},
+    "SCIENTIFIC_DEVELOPMENT": {"scientific_use":"TRAIN_AND_DEVELOPMENT","sealable":false,"promotion_allowed":false},
+    "SCIENTIFIC_SEALED_FINAL": {"scientific_use":"FINAL_EVALUATION_ONLY","sealable":true,"promotion_allowed":false}
+  },
+  "namespaces": {
+    "qute:r1:smoke:v1": {"corpus_role":"SMOKE_DEVELOPMENT","status":"RETIRED","scientific_use":"FORBIDDEN","sealable":false,"promotion_allowed":false,"reuse_allowed":false},
+    "qute:r1:smoke:v2": {"corpus_role":"SMOKE_DEVELOPMENT","status":"GENERATED_VALIDATED","scientific_use":"FORBIDDEN","sealable":false,"promotion_allowed":false,"reuse_allowed":false},
+    "qute:r1:scientific-development:v1": {"corpus_role":"SCIENTIFIC_DEVELOPMENT","status":"PLANNED","scientific_use":"TRAIN_AND_DEVELOPMENT","sealable":false,"promotion_allowed":false,"reuse_allowed":false,"payload_generated":false,"authorized_generator_commit":null,"generation_authorized":false},
+    "qute:r1:scientific-sealed:v1": {"corpus_role":"SCIENTIFIC_SEALED_FINAL","status":"PLANNED","scientific_use":"FINAL_EVALUATION_ONLY","sealable":true,"promotion_allowed":false,"reuse_allowed":false,"payload_generated":false,"authorized_generator_commit":null,"generation_authorized":false,"access_policy":{"default_loader_allowed":false,"development_loader_allowed":false,"sealed_loader_required":true,"authorization_required":true,"one_time_access":true},"sealed_state":{"state":"PLANNED","access_count":0,"evaluated":false}}
+  },
+  "lifecycle_rules": {
+    "promotion_between_roles":"FORBIDDEN",
+    "retired_reuse":"FORBIDDEN",
+    "smoke_to_scientific_promotion":"FORBIDDEN",
+    "development_and_sealed_generation":"SEPARATE_COMMANDS_REQUIRED"
+  }
+}
