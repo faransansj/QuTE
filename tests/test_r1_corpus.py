@@ -1,4 +1,5 @@
 import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -8,6 +9,7 @@ from r1_corpus import build_corpus, load_partition, planned_counts, write_corpus
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "artifacts" / "r1_operator_semantic_benchmark" / "protocol.json"
+SMOKE = ROOT / "artifacts" / "r1_operator_semantic_benchmark" / "smoke_v1"
 
 
 def test_smoke_corpus_is_deterministic_and_oracle_valid():
@@ -40,6 +42,9 @@ def test_write_corpus_verifies_regeneration_checksums_and_final_guard(tmp_path):
         load_partition(output, "final_test")
     with pytest.raises(FileExistsError, match="overwrite"):
         write_corpus(output, PROTOCOL)
+    (output / "train.jsonl").write_text("{}\n")
+    with pytest.raises(RuntimeError, match="checksum"):
+        load_partition(output, "train")
 
 
 def test_smoke_covers_frozen_rewrite_families_and_probe_boundary():
@@ -87,6 +92,21 @@ def test_full_plan_matches_frozen_allocation_without_generating_data():
         "matched_negative_pairs": 33_024,
         "records": 66_048,
     }
+
+
+def test_committed_smoke_artifact_passes_hash_and_oracle_audit():
+    manifest = json.loads((SMOKE / "manifest.json").read_text())
+    audit = json.loads((SMOKE / "audit.json").read_text())
+
+    assert manifest["protocol_sha256"] == hashlib.sha256(PROTOCOL.read_bytes()).hexdigest()
+    assert manifest["generator_sha256"] == hashlib.sha256((ROOT / "r1_corpus.py").read_bytes()).hexdigest()
+    assert manifest["scientific_final_test_generated"] is False
+    assert audit["status"] == "PASS"
+    assert audit["partition_leakage"] == []
+    assert audit["deterministic_regeneration"] is True
+    for line in (SMOKE / "checksums.sha256").read_text().splitlines():
+        expected, name = line.split("  ", 1)
+        assert hashlib.sha256((SMOKE / name).read_bytes()).hexdigest() == expected
 
 
 def test_explicit_full_test_access_requires_reason_and_is_logged(tmp_path):
