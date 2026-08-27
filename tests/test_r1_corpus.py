@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from r1_corpus import build_corpus, load_partition, write_corpus
+from r1_corpus import build_corpus, load_partition, planned_counts, write_corpus
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,6 +66,26 @@ def test_smoke_covers_frozen_rewrite_families_and_probe_boundary():
 def test_full_generation_requires_explicit_authorization():
     with pytest.raises(PermissionError, match="authorize_full"):
         build_corpus(PROTOCOL, mode="full")
+
+
+def test_full_plan_matches_frozen_allocation_without_generating_data():
+    assert planned_counts(PROTOCOL, mode="full") == {
+        "partitions": {"train": 9_216, "development": 2_304, "final_test": 21_504},
+        "splits": {
+            "train": 9_216,
+            "development": 2_304,
+            "semantic_iid": 4_608,
+            "rewrite_instance_ood": 4_608,
+            "rewrite_family_ood": 1_536,
+            "cross_decomposition_ood": 1_536,
+            "nonlocal_semantics_ood": 1_536,
+            "parameter_ood": 4_608,
+            "depth_ood": 3_072,
+        },
+        "positive_pairs": 33_024,
+        "matched_negative_pairs": 33_024,
+        "records": 66_048,
+    }
 
 
 def test_explicit_full_test_access_requires_reason_and_is_logged(tmp_path):
