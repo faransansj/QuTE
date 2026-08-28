@@ -1,0 +1,14 @@
+{
+  "intersection_matrix": {
+    "PILOT_SINGLE_PARTITION": {
+      "PILOT_SINGLE_PARTITION": "SELF_EXEMPT"
+    }
+  },
+  "partition_policy": "SINGLE_PARTITION",
+  "partitions": [
+    "PILOT_SINGLE_PARTITION"
+  ],
+  "prohibited_cross_partition_intersections": 0,
+  "schema_version": "qute-r1-pilot-partition-audit-v1",
+  "status": "PASS"
+}

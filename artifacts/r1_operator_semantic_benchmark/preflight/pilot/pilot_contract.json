@@ -1,0 +1,23 @@
+{
+  "PAYLOAD_GENERATED": false,
+  "claim_boundary": "equivalent-circuit consistency and basic far-control discrimination; no near-operator or hard-negative certification",
+  "corpus_role": "SCIENTIFIC_PILOT",
+  "depth_buckets": [
+    2,
+    4,
+    6
+  ],
+  "generation_namespace": "qute:r1:scientific-pilot:v1",
+  "negative_control_labels": [
+    "NEGATIVE_NON_EQUIVALENT",
+    "MATCHED_NON_EQUIVALENT_CONTROL",
+    "FAR_NEGATIVE_SANITY"
+  ],
+  "parameter_region": "train",
+  "pilot_class_count": 1000,
+  "positive_control_ratio": "1:1",
+  "rewrite_cell_count": 15,
+  "schema_version": "qute-r1-pilot-contract-v1",
+  "scientific_use": "PILOT_EVALUATION_ONLY",
+  "status": "FROZEN"
+}

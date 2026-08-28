@@ -1,0 +1,33 @@
+{
+  "canonicalization_version": "canonical-json-sort-keys-compact-v1",
+  "content_hashes_identical": true,
+  "coordinate_ledger_byte_identical": true,
+  "cross_machine_check": "NOT_RUN_OPTIONAL",
+  "environment_contract": {
+    "byteorder": "little",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.5"
+  },
+  "environment_contract_match": true,
+  "generator_source_sha256": "931950c47905173067d9e9093df322df129b16c983d97933e88c76e3f10c68d9",
+  "ledger_sha256": "1ef35f075eb2a2ddf412dea59269356ab16871f7cd53b4b3ea701d38a6d0b36f",
+  "oracle_metrics_tolerance_pass": true,
+  "process_count": 2,
+  "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+  "pythonhashseeds": [
+    1,
+    987654
+  ],
+  "rng_implementation": "numpy-PCG64-via-default_rng",
+  "schema_version": "qute-r1-reproducibility-report-v1",
+  "status": "PASS",
+  "thread_policy": {
+    "PYTHONHASHSEED": [
+      1,
+      987654
+    ]
+  },
+  "uv_lock_sha256": "86b2d4f0e13f259662d173de459360452bc990d4d96fdef19f9290ce53d5ef31",
+  "verdict": "R1-CROSS-PROCESS-REPRODUCIBLE"
+}

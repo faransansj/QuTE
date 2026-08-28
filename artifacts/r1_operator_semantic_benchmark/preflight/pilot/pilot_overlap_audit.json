@@ -1,0 +1,65 @@
+{
+  "PAYLOAD_GENERATED": false,
+  "pilot_vs_smoke_v1": {
+    "base_circuit_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "circuit_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "model_probe_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "ordered_pair_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "rewrite_instance_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "semantic_class_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "unordered_pair_content_sha256": {
+      "count": 0,
+      "examples": []
+    }
+  },
+  "pilot_vs_smoke_v2": {
+    "base_circuit_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "circuit_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "model_probe_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "ordered_pair_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "rewrite_instance_content_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "semantic_class_sha256": {
+      "count": 0,
+      "examples": []
+    },
+    "unordered_pair_content_sha256": {
+      "count": 0,
+      "examples": []
+    }
+  },
+  "schema_version": "qute-r1-pilot-overlap-audit-v1",
+  "status": "PASS"
+}
