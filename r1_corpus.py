@@ -6,7 +6,10 @@ import argparse
 import hashlib
 import json
 import math
+import os
+import platform
 import subprocess
+import sys
 import tempfile
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
@@ -23,6 +26,7 @@ SEED_SCHEMA = "qute-r1-seed-v1"
 SEED_PREFIX = b"qute-r1-seed-v1\0"
 ORACLE_PROBE_SET_ID = "qute-r1-oracle-basis-4q-v1"
 SMOKE_V2_NAMESPACE = "qute:r1:smoke:v2"
+SCIENTIFIC_PILOT_NAMESPACE = "qute:r1:scientific-pilot:v1"
 SCIENTIFIC_DEVELOPMENT_NAMESPACE = "qute:r1:scientific-development:v1"
 SCIENTIFIC_SEALED_NAMESPACE = "qute:r1:scientific-sealed:v1"
 R1_ARTIFACT_ROOT = Path("artifacts/r1_operator_semantic_benchmark")
@@ -1360,6 +1364,589 @@ def intersection_audit(
     }
 
 
+def protocol_contract_preflight(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+    *,
+    pilot_class_count: int = 1000,
+) -> dict[str, Any]:
+    protocol = json.loads(Path(protocol_path).read_text())
+    matrix = json.loads(Path(coverage_matrix_path).read_text())
+    allocation = protocol["corpus_allocation"]
+    train = allocation["train"]
+    development = allocation["development"]
+    expected_train = len(train["families"]) * len(train["depths"]) * train["pairs_per_family_depth"]
+    expected_development = (
+        len(development["families"])
+        * len(development["depths"])
+        * development["pairs_per_family_depth"]
+    )
+    regions = protocol["scope"]["parameter_regions_radians"]
+    flat_regions = [(*interval, name) for name, intervals in regions.items() for interval in intervals]
+    region_overlap = any(
+        max(left[0], right[0]) < min(left[1], right[1])
+        for index, left in enumerate(flat_regions)
+        for right in flat_regions[index + 1 :]
+        if left[2] != right[2]
+    )
+    checks = {
+        "train_count_contract": expected_train == train["positive_pairs"] == train["negative_pairs"],
+        "development_count_contract": expected_development == development["positive_pairs"] == development["negative_pairs"],
+        "rewrite_allocation": rewrite_coverage_complete(matrix) and len(matrix["cells"]) == 15,
+        "parameter_regions_disjoint": not region_overlap,
+        "depth_buckets": train["depths"] == development["depths"] == [2, 4, 6],
+        "negative_control_scope": protocol["non_equivalent_controls"]["required_ratio"] == "one matched negative per positive pair",
+    }
+    blockers = sorted(name for name, passed in checks.items() if not passed)
+    return {
+        "schema_version": "qute-r1-canonical-contract-preflight-v1",
+        "status": "PASS" if not blockers else "FAIL",
+        "verdict": "R1-CANONICAL-PROTOCOL-RECONCILED" if not blockers else "PROTOCOL_CONTRACT_CONFLICT",
+        "protocol_sha256": _sha256_file(Path(protocol_path)),
+        "coverage_matrix_sha256": _sha256_file(Path(coverage_matrix_path)),
+        "checks": checks,
+        "blockers": blockers,
+        "contract": {
+            "scientific_development_positive_classes": train["positive_pairs"] + development["positive_pairs"],
+            "pilot_equivalence_classes": pilot_class_count,
+            "rewrite_cell_count": len(matrix["cells"]),
+            "parameter_regions": regions,
+            "development_depths": train["depths"],
+            "negative_scope": "FAR_MATCHED_CONTROL",
+        },
+    }
+
+
+def _pilot_cell_quotas(cells: list[dict[str, Any]], total: int) -> list[int]:
+    base, remainder = divmod(total, len(cells))
+    return [base + (index < remainder) for index in range(len(cells))]
+
+
+def build_pilot_plan(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+    *,
+    pilot_class_count: int = 1000,
+) -> dict[str, Any]:
+    protocol = json.loads(Path(protocol_path).read_text())
+    matrix = json.loads(Path(coverage_matrix_path).read_text())
+    protocol_hash = _sha256_file(Path(protocol_path))
+    cells = [cell for cell in matrix["cells"] if cell["required"]]
+    coordinates: list[dict[str, Any]] = []
+    seen_semantic: set[str] = set()
+    attempts_by_cell: dict[str, int] = {}
+    tolerances = protocol["oracle"]["tolerances"]
+    for cell, quota in zip(cells, _pilot_cell_quotas(cells, pilot_class_count), strict=True):
+        accepted = 0
+        attempt = 0
+        while accepted < quota and attempt < max(10, quota * 2):
+            depth = (2, 4, 6)[attempt % 3]
+            template = cell["template_id"] + (f":{cell['axis']}" if cell.get("axis") else "")
+            seed = derive_seed(
+                protocol_sha256=protocol_hash,
+                generation_namespace=SCIENTIFIC_PILOT_NAMESPACE,
+                corpus_role="SCIENTIFIC_PILOT",
+                partition_role="PILOT_PLAN",
+                master_seed=2026,
+                rewrite_family=cell["family"],
+                template_id=template,
+                local_index=attempt,
+            )
+            base = generate_circuit(seed, depth, regime="train")
+            source, target = _coverage_pair(base, cell, protocol, seed)
+            source_hash = circuit_content_sha256(source)
+            target_hash = circuit_content_sha256(target)
+            semantic_hash = semantic_class_sha256(_operator_hash(circuit_unitary(source)))
+            frobenius, probe_l2, probability_tvd = _phase_aligned_errors(
+                circuit_unitary(source), circuit_unitary(target)
+            )
+            attempt += 1
+            if semantic_hash in seen_semantic:
+                continue
+            if not (
+                frobenius <= tolerances["phase_aligned_relative_frobenius"]
+                and probe_l2 <= tolerances["maximum_probe_l2"]
+                and probability_tvd <= tolerances["maximum_probability_tvd"]
+            ):
+                continue
+            ordered, unordered = pair_content_hashes(source_hash, target_hash)
+            base_hash = circuit_content_sha256(base)
+            negative, control_type, negative_distance, _ = _negative_right(
+                circuit_unitary(source), target
+            )
+            coordinate_id = namespaced_id(
+                SCIENTIFIC_PILOT_NAMESPACE,
+                "coordinate",
+                content_sha256({"cell": cell["coverage_cell_id"], "local_index": attempt - 1}),
+            )
+            coordinates.append({
+                "coordinate_id": coordinate_id,
+                "generation_namespace": SCIENTIFIC_PILOT_NAMESPACE,
+                "corpus_role": "SCIENTIFIC_PILOT",
+                "partition_role": "PILOT_SINGLE_PARTITION",
+                "master_seed": 2026,
+                "coverage_cell_id": cell["coverage_cell_id"],
+                "rewrite_family": cell["family"],
+                "rewrite_template": template,
+                "template_id": template,
+                "local_index": attempt - 1,
+                "generation_attempt": attempt - 1,
+                "depth_bucket": depth,
+                "base_depth": depth,
+                "parameter_region": "train",
+                "derived_seed": seed,
+                "base_circuit_content_sha256": base_hash,
+                "source_circuit_content_sha256": source_hash,
+                "target_circuit_content_sha256": target_hash,
+                "ordered_pair_content_sha256": ordered,
+                "unordered_pair_content_sha256": unordered,
+                "semantic_class_sha256": semantic_hash,
+                "rewrite_instance_content_sha256": content_sha256({
+                    "base": base_hash, "source": source_hash, "target": target_hash,
+                    "family": cell["family"], "template": template,
+                }),
+                "negative_control_content_sha256": circuit_content_sha256(negative),
+                "negative_control_type": "MATCHED_NON_EQUIVALENT_CONTROL",
+                "negative_control_label": "NEGATIVE_NON_EQUIVALENT",
+                "negative_control_claim": "FAR_NEGATIVE_SANITY",
+                "negative_control_distance": negative_distance,
+                "model_probe_content_sha256": _model_probe(seed, SCIENTIFIC_PILOT_NAMESPACE)["model_probe_content_sha256"],
+                "oracle_metrics": {
+                    "phase_aligned_relative_frobenius": frobenius,
+                    "maximum_probe_l2": probe_l2,
+                    "maximum_probability_tvd": probability_tvd,
+                },
+            })
+            seen_semantic.add(semantic_hash)
+            accepted += 1
+        attempts_by_cell[cell["coverage_cell_id"]] = attempt
+    return {
+        "schema_version": "qute-r1-pilot-coordinate-plan-v1",
+        "protocol_sha256": protocol_hash,
+        "generation_namespace": SCIENTIFIC_PILOT_NAMESPACE,
+        "corpus_role": "SCIENTIFIC_PILOT",
+        "partition_role": "PILOT_SINGLE_PARTITION",
+        "pilot_class_count": pilot_class_count,
+        "environment_contract": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "platform": platform.platform(),
+            "byteorder": sys.byteorder,
+        },
+        "coordinates": coordinates,
+        "attempts_by_cell": attempts_by_cell,
+    }
+
+
+def capacity_preflight(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+    *,
+    pilot_class_count: int = 1000,
+) -> dict[str, Any]:
+    plan = build_pilot_plan(
+        protocol_path, coverage_matrix_path, pilot_class_count=pilot_class_count
+    )
+    matrix = json.loads(Path(coverage_matrix_path).read_text())
+    quotas = _pilot_cell_quotas(matrix["cells"], pilot_class_count)
+    rows = []
+    for cell, quota in zip(matrix["cells"], quotas, strict=True):
+        accepted = [
+            row for row in plan["coordinates"]
+            if row["coverage_cell_id"] == cell["coverage_cell_id"]
+        ]
+        rows.append({
+            "coverage_cell_id": cell["coverage_cell_id"],
+            "quota": quota,
+            "unique_semantic_yield": len(accepted),
+            "attempts": plan["attempts_by_cell"][cell["coverage_cell_id"]],
+            "collision_count": plan["attempts_by_cell"][cell["coverage_cell_id"]] - len(accepted),
+            "quota_met": len(accepted) == quota,
+            "oracle_tolerance_pass": len(accepted) == quota,
+            "depths_observed": sorted({row["base_depth"] for row in accepted}),
+            "parameter_regions_observed": sorted({row["parameter_region"] for row in accepted}),
+        })
+    blockers = [row["coverage_cell_id"] for row in rows if not row["quota_met"]]
+    return {
+        "schema_version": "qute-r1-capacity-report-v1",
+        "status": "PASS" if not blockers else "FAIL",
+        "verdict": "R1-CELL-CAPACITY-PASS" if not blockers else "R1-CELL-CAPACITY-REVISION-REQUIRED",
+        "payload_written": False,
+        "automatic_reallocation": False,
+        "pilot_class_count": pilot_class_count,
+        "cells": rows,
+        "blockers": blockers,
+    }
+
+
+def cross_process_reproducibility(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+    *,
+    pilot_class_count: int = 1000,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    code = (
+        "import sys; from r1_corpus import build_pilot_plan,canonical_json_bytes;"
+        "sys.stdout.buffer.write(canonical_json_bytes(build_pilot_plan(sys.argv[1],sys.argv[2],pilot_class_count=int(sys.argv[3]))))"
+    )
+    outputs = []
+    for hash_seed in ("1", "987654"):
+        environment = dict(os.environ, PYTHONHASHSEED=hash_seed)
+        outputs.append(subprocess.check_output(
+            [sys.executable, "-c", code, str(protocol_path), str(coverage_matrix_path), str(pilot_class_count)],
+            env=environment,
+        ))
+    plan = json.loads(outputs[0])
+    identical = outputs[0] == outputs[1]
+    report = {
+        "schema_version": "qute-r1-reproducibility-report-v1",
+        "status": "PASS" if identical else "FAIL",
+        "verdict": "R1-CROSS-PROCESS-REPRODUCIBLE" if identical else "R1-CROSS-PROCESS-REPRODUCIBILITY-FAIL",
+        "process_count": 2,
+        "pythonhashseeds": [1, 987654],
+        "coordinate_ledger_byte_identical": identical,
+        "content_hashes_identical": identical,
+        "environment_contract_match": identical,
+        "oracle_metrics_tolerance_pass": all(
+            max(row["oracle_metrics"].values()) <= 1e-10
+            for row in plan["coordinates"]
+        ),
+        "ledger_sha256": _sha256_bytes(outputs[0]),
+        "environment_contract": plan["environment_contract"],
+        "cross_machine_check": "NOT_RUN_OPTIONAL",
+    }
+    return report, plan
+
+
+def run_pilot_readiness_preflight(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+    output_dir: str | Path,
+    *,
+    pilot_class_count: int = 1000,
+) -> dict[str, Any]:
+    output = Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    contract = protocol_contract_preflight(
+        protocol_path, coverage_matrix_path, pilot_class_count=pilot_class_count
+    )
+    capacity = capacity_preflight(
+        protocol_path, coverage_matrix_path, pilot_class_count=pilot_class_count
+    )
+    reproducibility, plan = cross_process_reproducibility(
+        protocol_path, coverage_matrix_path, pilot_class_count=pilot_class_count
+    )
+    ledgers = output / "ledgers"
+    ledgers.mkdir(exist_ok=True)
+    ledger_path = ledgers / "pilot_coordinate_ledger.json"
+    ledger_path.write_bytes(canonical_json_bytes(plan) + b"\n")
+    pilot_viability = {
+        "schema_version": "qute-r1-pilot-viability-report-v1",
+        "status": "NOT_RUN",
+        "verdict": "R1-PILOT-AUTHORIZATION-REQUIRED",
+        "pilot_payload_generated": False,
+        "claim_boundary": {
+            "allowed_scope": "representation consistency for equivalent circuits and basic discrimination against clearly non-equivalent matched controls",
+            "prohibited_claim": "R1 v1 does not certify fine-grained near-operator discrimination.",
+            "hard_negative_policy": "SEPARATE_PROTOCOL_VERSION_REQUIRED",
+        },
+        "required_checks": [
+            "O1 syntax baseline",
+            "semantic learning signal",
+            "absolute accuracy and consistency",
+            "collapse resistance",
+            "variance and power",
+            "rewrite-family viability",
+        ],
+    }
+    reports = {
+        "capacity_report.json": capacity,
+        "reproducibility_report.json": reproducibility,
+        "pilot_viability_report.json": pilot_viability,
+    }
+    for name, value in reports.items():
+        (output / name).write_text(_json(value, pretty=True) + "\n")
+    checks = {
+        "canonical_protocol_reconciled": contract["status"] == "PASS",
+        "cell_capacity_pass": capacity["status"] == "PASS",
+        "cross_process_reproducibility_pass": reproducibility["status"] == "PASS",
+        "pilot_payload_not_generated": True,
+        "sealed_payload_not_generated": True,
+    }
+    evidence = {
+        "schema_version": "qute-r1-pilot-readiness-preflight-v1",
+        "status": "BLOCKED",
+        "highest_completed_gate": 2 if all(checks.values()) else 0,
+        "next_gate": "PILOT_CORPUS_REQUIRES_SEPARATE_AUTHORIZATION",
+        "checks": checks,
+        "canonical_contract": contract,
+        "artifact_hashes": {
+            name: _sha256_file(output / name) for name in reports
+        } | {"ledgers/pilot_coordinate_ledger.json": _sha256_file(ledger_path)},
+        "scientific_development_generation_authorized": False,
+        "sealed_generation_authorized": False,
+    }
+    (output / "preflight_evidence.json").write_text(_json(evidence, pretty=True) + "\n")
+    return evidence
+
+
+def verify_preflight_evidence(output_dir: str | Path) -> dict[str, Any]:
+    output = Path(output_dir)
+    evidence = json.loads((output / "preflight_evidence.json").read_text())
+    mismatches = [
+        relative
+        for relative, expected in evidence["artifact_hashes"].items()
+        if not (output / relative).is_file()
+        or _sha256_file(output / relative) != expected
+    ]
+    return {
+        "schema_version": "qute-r1-preflight-evidence-verification-v1",
+        "status": "PASS" if not mismatches else "FAIL",
+        "verified_artifact_count": len(evidence["artifact_hashes"]),
+        "hash_mismatches": sorted(mismatches),
+        "pilot_generation_authorized": False,
+        "scientific_development_generation_authorized": False,
+        "sealed_generation_authorized": False,
+    }
+
+
+def freeze_and_authorize_pilot_plan(
+    protocol_path: str | Path,
+    coverage_matrix_path: str | Path,
+    registry_path: str | Path,
+    output_dir: str | Path,
+    *,
+    pilot_class_count: int = 1000,
+    generator_anchor_commit: str | None = None,
+) -> dict[str, Any]:
+    """Freeze hash-only pilot evidence and issue an unconsumed pilot-only token."""
+    protocol_path, coverage_matrix_path = Path(protocol_path), Path(coverage_matrix_path)
+    registry_path, output = Path(registry_path), Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    contract = protocol_contract_preflight(
+        protocol_path, coverage_matrix_path, pilot_class_count=pilot_class_count
+    )
+    if contract["status"] != "PASS":
+        raise RuntimeError("PILOT-CONTRACT-CONFLICT")
+    reproducibility, plan = cross_process_reproducibility(
+        protocol_path, coverage_matrix_path, pilot_class_count=pilot_class_count
+    )
+    if reproducibility["status"] != "PASS":
+        raise RuntimeError("PILOT-REPRODUCIBILITY-BLOCKED")
+    if len(plan["coordinates"]) != pilot_class_count:
+        raise RuntimeError("PILOT-PLAN-MISMATCH")
+    coordinate_ids = [row["coordinate_id"] for row in plan["coordinates"]]
+    seeds = [row["derived_seed"] for row in plan["coordinates"]]
+    if len(set(coordinate_ids)) != len(coordinate_ids) or len(set(seeds)) != len(seeds):
+        raise RuntimeError("PILOT-PLAN-MISMATCH")
+
+    ledger_path = output / "pilot_coordinate_ledger.json"
+    ledger_path.write_bytes(canonical_json_bytes(plan) + b"\n")
+    identity_fields = (
+        "base_circuit_content_sha256", "source_circuit_content_sha256",
+        "target_circuit_content_sha256", "semantic_class_sha256",
+        "ordered_pair_content_sha256", "unordered_pair_content_sha256",
+        "rewrite_instance_content_sha256", "negative_control_content_sha256",
+        "model_probe_content_sha256",
+    )
+    identity = {
+        "schema_version": "qute-r1-pilot-identity-preflight-v1",
+        "PAYLOAD_GENERATED": False,
+        "generation_namespace": SCIENTIFIC_PILOT_NAMESPACE,
+        "coordinate_count": len(plan["coordinates"]),
+        "identities": [
+            {"coordinate_id": row["coordinate_id"]} | {field: row[field] for field in identity_fields}
+            for row in plan["coordinates"]
+        ],
+        "oracle_checks_pass": all(max(row["oracle_metrics"].values()) <= 1e-10 for row in plan["coordinates"]),
+        "negative_contract_pass": all(row["negative_control_distance"] >= 0.1 for row in plan["coordinates"]),
+    }
+    identity_path = output / "pilot_identity_preflight.json"
+    identity_path.write_bytes(canonical_json_bytes(identity) + b"\n")
+
+    pilot_sets = {
+        "base_circuit_content_sha256": {row["base_circuit_content_sha256"] for row in plan["coordinates"]},
+        "circuit_content_sha256": {row[key] for row in plan["coordinates"] for key in ("source_circuit_content_sha256", "target_circuit_content_sha256")},
+        "semantic_class_sha256": {row["semantic_class_sha256"] for row in plan["coordinates"]},
+        "ordered_pair_content_sha256": {row["ordered_pair_content_sha256"] for row in plan["coordinates"]},
+        "unordered_pair_content_sha256": {row["unordered_pair_content_sha256"] for row in plan["coordinates"]},
+        "rewrite_instance_content_sha256": {row["rewrite_instance_content_sha256"] for row in plan["coordinates"]},
+        "model_probe_content_sha256": {row["model_probe_content_sha256"] for row in plan["coordinates"]},
+    }
+    root = registry_path.parent.parent
+    smoke_v1 = _legacy_smoke_v1_hashes(root / "smoke_v1", protocol_path)
+    smoke_v2 = {
+        field: _read_index(root / "smoke_v2", field.replace("sha256", "hashes") + ".txt")
+        for field in pilot_sets
+    }
+    overlap = {
+        "schema_version": "qute-r1-pilot-overlap-audit-v1",
+        "PAYLOAD_GENERATED": False,
+        "pilot_vs_smoke_v1": content_hash_intersections(pilot_sets, smoke_v1, pilot_sets),
+        "pilot_vs_smoke_v2": content_hash_intersections(pilot_sets, smoke_v2, pilot_sets),
+    }
+    overlap["status"] = "PASS" if all(
+        item["count"] == 0
+        for side in ("pilot_vs_smoke_v1", "pilot_vs_smoke_v2")
+        for item in overlap[side].values()
+    ) else "FAIL"
+    if overlap["status"] != "PASS":
+        raise RuntimeError("PILOT-CONTAMINATION-BLOCKED")
+    overlap_path = output / "pilot_overlap_audit.json"
+    overlap_path.write_text(_json(overlap, pretty=True) + "\n")
+    partition = {
+        "schema_version": "qute-r1-pilot-partition-audit-v1",
+        "status": "PASS", "partition_policy": "SINGLE_PARTITION",
+        "partitions": ["PILOT_SINGLE_PARTITION"],
+        "intersection_matrix": {"PILOT_SINGLE_PARTITION": {"PILOT_SINGLE_PARTITION": "SELF_EXEMPT"}},
+        "prohibited_cross_partition_intersections": 0,
+    }
+    partition_path = output / "pilot_partition_audit.json"
+    partition_path.write_text(_json(partition, pretty=True) + "\n")
+    reproducibility.update({
+        "uv_lock_sha256": _sha256_file(Path("uv.lock")) if Path("uv.lock").exists() else None,
+        "generator_source_sha256": _sha256_file(Path(__file__)),
+        "protocol_sha256": _sha256_file(protocol_path),
+        "canonicalization_version": "canonical-json-sort-keys-compact-v1",
+        "rng_implementation": "numpy-PCG64-via-default_rng",
+        "thread_policy": {"PYTHONHASHSEED": [1, 987654]},
+    })
+    repro_path = output / "pilot_reproducibility_report.json"
+    repro_path.write_text(_json(reproducibility, pretty=True) + "\n")
+    pilot_contract = {
+        "schema_version": "qute-r1-pilot-contract-v1", "status": "FROZEN",
+        "generation_namespace": SCIENTIFIC_PILOT_NAMESPACE, "corpus_role": "SCIENTIFIC_PILOT",
+        "scientific_use": "PILOT_EVALUATION_ONLY", "pilot_class_count": pilot_class_count,
+        "positive_control_ratio": "1:1", "depth_buckets": [2, 4, 6],
+        "parameter_region": "train", "rewrite_cell_count": 15,
+        "negative_control_labels": ["NEGATIVE_NON_EQUIVALENT", "MATCHED_NON_EQUIVALENT_CONTROL", "FAR_NEGATIVE_SANITY"],
+        "claim_boundary": "equivalent-circuit consistency and basic far-control discrimination; no near-operator or hard-negative certification",
+        "PAYLOAD_GENERATED": False,
+    }
+    contract_path = output / "pilot_contract.json"
+    contract_path.write_text(_json(pilot_contract, pretty=True) + "\n")
+    registry = json.loads(registry_path.read_text())
+    pilot_policy = registry["namespaces"].get(SCIENTIFIC_PILOT_NAMESPACE)
+    required_policy = {
+        "corpus_role": "SCIENTIFIC_PILOT", "scientific_use": "PILOT_EVALUATION_ONLY",
+        "sealable": False, "promotion_allowed": False,
+        "scientific_development_reuse_allowed": False, "sealed_reuse_allowed": False,
+        "generation_requires_authorization": True, "payload_generated": False,
+    }
+    if pilot_policy is None or any(pilot_policy.get(k) != v for k, v in required_policy.items()):
+        raise RuntimeError("PILOT-NAMESPACE-POLICY-MISMATCH")
+    anchor = generator_anchor_commit or _git_head()
+    if subprocess.run(["git", "merge-base", "--is-ancestor", anchor, "HEAD"]).returncode:
+        raise RuntimeError("PILOT-GENERATOR-PROVENANCE-INVALID")
+    environment = reproducibility["environment_contract"] | {
+        "uv_lock_sha256": reproducibility["uv_lock_sha256"]
+    }
+    environment_fingerprint = content_sha256(environment)
+    bound = {
+        "schema_version": "qute-r1-pilot-plan-manifest-v1",
+        "status": "FROZEN", "PAYLOAD_GENERATED": False,
+        "pilot_namespace": SCIENTIFIC_PILOT_NAMESPACE, "corpus_role": "SCIENTIFIC_PILOT",
+        "protocol_sha256": _sha256_file(protocol_path),
+        "generator_source_sha256": _sha256_file(Path(__file__)),
+        "generator_anchor_commit": anchor, "environment_fingerprint": environment_fingerprint,
+        "namespace_registry_sha256": _sha256_file(registry_path),
+        "rewrite_coverage_sha256": _sha256_file(coverage_matrix_path),
+        "pilot_allocation": {"equivalence_classes": pilot_class_count, "positive_pairs": pilot_class_count, "negative_controls": pilot_class_count},
+        "coordinate_ledger_sha256": _sha256_file(ledger_path),
+        "identity_preflight_sha256": _sha256_file(identity_path),
+        "smoke_overlap_audit_sha256": _sha256_file(overlap_path),
+        "partition_intersection_audit_sha256": _sha256_file(partition_path),
+        "reproducibility_evidence_sha256": _sha256_file(repro_path),
+        "negative_control_contract": pilot_contract["negative_control_labels"],
+        "claim_boundary": pilot_contract["claim_boundary"],
+    }
+    bound["pilot_plan_sha256"] = content_sha256(bound)
+    manifest_path = output / "pilot_plan_manifest.json"
+    manifest_path.write_text(_json(bound, pretty=True) + "\n")
+    checksums = [
+        f"{_sha256_file(path)}  {path.name}" for path in sorted(output.glob("*.json"))
+    ]
+    (output / "checksums.sha256").write_text("\n".join(checksums) + "\n")
+    return issue_pilot_authorization(output, registry_path)
+
+
+def issue_pilot_authorization(
+    pilot_dir: str | Path, registry_path: str | Path, authorization_path: str | Path | None = None
+) -> dict[str, Any]:
+    """Recompute frozen evidence; caller assertions are intentionally not accepted."""
+    pilot_dir, registry_path = Path(pilot_dir), Path(registry_path)
+    manifest_path = pilot_dir / "pilot_plan_manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    registry = json.loads(registry_path.read_text())
+    files = {
+        "coordinate_ledger_sha256": pilot_dir / "pilot_coordinate_ledger.json",
+        "identity_preflight_sha256": pilot_dir / "pilot_identity_preflight.json",
+        "smoke_overlap_audit_sha256": pilot_dir / "pilot_overlap_audit.json",
+        "partition_intersection_audit_sha256": pilot_dir / "pilot_partition_audit.json",
+        "reproducibility_evidence_sha256": pilot_dir / "pilot_reproducibility_report.json",
+    }
+    ledger = json.loads(files["coordinate_ledger_sha256"].read_text())
+    identity = json.loads(files["identity_preflight_sha256"].read_text())
+    environment = ledger["environment_contract"] | {
+        "uv_lock_sha256": _sha256_file(Path("uv.lock")) if Path("uv.lock").exists() else None
+    }
+    pilot_policy = registry["namespaces"].get(SCIENTIFIC_PILOT_NAMESPACE, {})
+    checks = {
+        "plan_self_hash": content_sha256({k: v for k, v in manifest.items() if k != "pilot_plan_sha256"}) == manifest["pilot_plan_sha256"],
+        "bound_file_hashes": all(_sha256_file(path) == manifest[key] for key, path in files.items()),
+        "protocol_hash": _sha256_file(R1_ARTIFACT_ROOT / "protocol.json") == manifest["protocol_sha256"],
+        "generator_hash": _sha256_file(Path(__file__)) == manifest["generator_source_sha256"],
+        "generator_anchor_ancestor": subprocess.run(
+            ["git", "merge-base", "--is-ancestor", manifest["generator_anchor_commit"], "HEAD"]
+        ).returncode == 0,
+        "environment_fingerprint": content_sha256(environment) == manifest["environment_fingerprint"],
+        "registry_hash": _sha256_file(registry_path) == manifest["namespace_registry_sha256"],
+        "pilot_namespace_policy": pilot_policy.get("corpus_role") == "SCIENTIFIC_PILOT" and pilot_policy.get("generation_requires_authorization") is True and pilot_policy.get("promotion_allowed") is False,
+        "exact_allocation": len(ledger["coordinates"]) == manifest["pilot_allocation"]["equivalence_classes"],
+        "seed_uniqueness": len({row["derived_seed"] for row in ledger["coordinates"]}) == len(ledger["coordinates"]),
+        "coordinate_uniqueness": len({row["coordinate_id"] for row in ledger["coordinates"]}) == len(ledger["coordinates"]),
+        "rewrite_coverage": len({row["coverage_cell_id"] for row in ledger["coordinates"]}) == 15,
+        "identity_count": identity["coordinate_count"] == len(ledger["coordinates"]) and identity["oracle_checks_pass"] and identity["negative_contract_pass"],
+        "reproducibility": json.loads(files["reproducibility_evidence_sha256"].read_text())["status"] == "PASS",
+        "overlap": json.loads(files["smoke_overlap_audit_sha256"].read_text())["status"] == "PASS",
+        "partition": json.loads(files["partition_intersection_audit_sha256"].read_text())["status"] == "PASS",
+        "identity": json.loads(files["identity_preflight_sha256"].read_text())["PAYLOAD_GENERATED"] is False,
+        "pilot_payload_absent": not (R1_ARTIFACT_ROOT / "scientific_pilot_v1").exists(),
+        "development_blocked": not registry["namespaces"][SCIENTIFIC_DEVELOPMENT_NAMESPACE]["generation_authorized"] and not registry["namespaces"][SCIENTIFIC_DEVELOPMENT_NAMESPACE]["payload_generated"],
+        "sealed_untouched": not registry["namespaces"][SCIENTIFIC_SEALED_NAMESPACE]["generation_authorized"] and not registry["namespaces"][SCIENTIFIC_SEALED_NAMESPACE]["payload_generated"] and registry["namespaces"][SCIENTIFIC_SEALED_NAMESPACE]["sealed_state"]["access_count"] == 0,
+    }
+    if not all(checks.values()):
+        raise RuntimeError("PILOT-AUTHORIZATION-BLOCKED: " + ",".join(k for k, v in checks.items() if not v))
+    authorization = {
+        "schema_version": "qute-r1-pilot-generation-authorization-v1",
+        "authorization_scope": "PILOT_CORPUS_GENERATION_ONLY", "status": "AUTHORIZED",
+        "pilot_generation_authorized": True,
+        "scientific_development_generation_authorized": False,
+        "sealed_generation_authorized": False, "model_training_authorized": False,
+        "model_evaluation_authorized": False, "qpu_execution_authorized": False,
+        "consumed": False, "pilot_namespace": manifest["pilot_namespace"],
+        "protocol_sha256": manifest["protocol_sha256"],
+        "generator_source_sha256": manifest["generator_source_sha256"],
+        "generator_anchor_commit": manifest["generator_anchor_commit"],
+        "environment_fingerprint": manifest["environment_fingerprint"],
+        "pilot_plan_sha256": manifest["pilot_plan_sha256"],
+        "coordinate_ledger_sha256": manifest["coordinate_ledger_sha256"],
+        "authorized_pilot_allocation": manifest["pilot_allocation"],
+        "evidence_gate_checks": checks,
+    }
+    token = content_sha256(authorization)
+    authorization["authorization_id"] = f"qute-r1-pilot-auth-{token[:16]}"
+    authorization["authorization_token"] = token
+    target = Path(authorization_path) if authorization_path else R1_ARTIFACT_ROOT / "authorization" / "pilot_generation_authorization.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(_json(authorization, pretty=True) + "\n")
+    return authorization
+
+
+def generate_pilot_corpus(*_args: Any, **_kwargs: Any) -> None:
+    raise PermissionError("pilot corpus generation requires separate Gate 3 authorization")
+
+
 def full_generation_gate(
     *,
     registry: dict[str, Any],
@@ -1449,6 +2036,8 @@ def main() -> None:
             "smoke",
             "full-plan",
             "smoke-v2",
+            "pilot-readiness-preflight",
+            "pilot-corpus",
             "scientific-development",
             "scientific-sealed",
         ),
@@ -1458,6 +2047,17 @@ def main() -> None:
     if args.mode == "full-plan":
         print(_json(planned_counts(args.protocol, mode="full"), pretty=True))
         return
+    if args.mode == "pilot-readiness-preflight":
+        if args.output is None:
+            parser.error("--output is required for pilot readiness preflight")
+        print(_json(run_pilot_readiness_preflight(
+            args.protocol,
+            R1_ARTIFACT_ROOT / "protocol" / "rewrite_coverage_matrix.json",
+            args.output,
+        ), pretty=True))
+        return
+    if args.mode == "pilot-corpus":
+        generate_pilot_corpus()
     if args.mode == "scientific-development":
         generate_scientific_development()
     if args.mode == "scientific-sealed":

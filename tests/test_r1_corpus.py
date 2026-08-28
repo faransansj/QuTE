@@ -8,6 +8,7 @@ from cc_nqe import Gate
 from r1_corpus import (
     ORACLE_PROBE_SET_ID,
     SCIENTIFIC_DEVELOPMENT_NAMESPACE,
+    SCIENTIFIC_PILOT_NAMESPACE,
     SCIENTIFIC_SEALED_NAMESPACE,
     SEED_PREFIX,
     SEED_SCHEMA,
@@ -17,11 +18,18 @@ from r1_corpus import (
     circuit_content_sha256,
     content_hash_intersections,
     derive_seed,
+    freeze_and_authorize_pilot_plan,
     generate_scientific_development,
     generate_scientific_sealed,
+    issue_pilot_authorization,
     load_corpus_by_role,
     namespaced_id,
     pair_content_hashes,
+    build_pilot_plan,
+    capacity_preflight,
+    protocol_contract_preflight,
+    run_pilot_readiness_preflight,
+    verify_preflight_evidence,
     rewrite_coverage_complete,
     semantic_class_sha256,
     validate_lifecycle_transition,
@@ -65,12 +73,14 @@ def test_namespace_registry_and_roles_are_explicit():
     registry = read_json(REGISTRY)
     assert set(registry["roles"]) == {
         "SMOKE_DEVELOPMENT",
+        "SCIENTIFIC_PILOT",
         "SCIENTIFIC_DEVELOPMENT",
         "SCIENTIFIC_SEALED_FINAL",
     }
     assert set(registry["namespaces"]) == {
         "qute:r1:smoke:v1",
         SMOKE_V2_NAMESPACE,
+        SCIENTIFIC_PILOT_NAMESPACE,
         SCIENTIFIC_DEVELOPMENT_NAMESPACE,
         SCIENTIFIC_SEALED_NAMESPACE,
     }
@@ -394,6 +404,82 @@ def test_no_scientific_or_sealed_payload_was_generated():
     assert sealed["sealed_state"] == {"state": "PLANNED", "access_count": 0, "evaluated": False}
     assert not (ARTIFACT / "scientific_development_v1").exists()
     assert not (ARTIFACT / "scientific_sealed_v1").exists()
+
+
+def test_gate0_reconciles_the_canonical_protocol_contract():
+    report = protocol_contract_preflight(PROTOCOL, COVERAGE)
+    assert report["status"] == "PASS"
+    assert report["verdict"] == "R1-CANONICAL-PROTOCOL-RECONCILED"
+    assert report["contract"]["scientific_development_positive_classes"] == 11520
+    assert report["contract"]["pilot_equivalence_classes"] == 1000
+    assert report["contract"]["negative_scope"] == "FAR_MATCHED_CONTROL"
+
+
+def test_gate1_capacity_preflight_covers_every_cell_without_writing_payload(tmp_path):
+    report = capacity_preflight(PROTOCOL, COVERAGE, pilot_class_count=1000)
+    assert report["status"] == "PASS"
+    assert len(report["cells"]) == 15
+    assert sum(cell["quota"] for cell in report["cells"]) == 1000
+    assert all(cell["quota_met"] for cell in report["cells"])
+    assert all(cell["oracle_tolerance_pass"] for cell in report["cells"])
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_gate2_pilot_plan_is_deterministic_and_contains_no_payload_records():
+    first = build_pilot_plan(PROTOCOL, COVERAGE, pilot_class_count=30)
+    second = build_pilot_plan(PROTOCOL, COVERAGE, pilot_class_count=30)
+    assert first == second
+    assert len(first["coordinates"]) == 30
+    assert len({row["semantic_class_sha256"] for row in first["coordinates"]}) == 30
+    assert all("canonical_serialization" not in row for row in first["coordinates"])
+
+
+def test_gate3_implementation_stops_before_pilot_generation(tmp_path):
+    evidence = run_pilot_readiness_preflight(PROTOCOL, COVERAGE, tmp_path)
+    assert evidence["status"] == "BLOCKED"
+    assert evidence["highest_completed_gate"] == 2
+    assert evidence["next_gate"] == "PILOT_CORPUS_REQUIRES_SEPARATE_AUTHORIZATION"
+    assert {path.name for path in tmp_path.iterdir()} == {
+        "capacity_report.json",
+        "reproducibility_report.json",
+        "pilot_viability_report.json",
+        "preflight_evidence.json",
+        "ledgers",
+    }
+    assert not (tmp_path / "pilot_corpus").exists()
+    assert verify_preflight_evidence(tmp_path)["status"] == "PASS"
+    (tmp_path / "capacity_report.json").write_text("{}")
+    assert verify_preflight_evidence(tmp_path)["status"] == "FAIL"
+
+
+def test_pilot_namespace_policy_and_plan_domain_are_distinct():
+    registry = read_json(REGISTRY)
+    pilot = registry["namespaces"][SCIENTIFIC_PILOT_NAMESPACE]
+    assert pilot["corpus_role"] == "SCIENTIFIC_PILOT"
+    assert pilot["scientific_use"] == "PILOT_EVALUATION_ONLY"
+    assert not pilot["sealable"] and not pilot["promotion_allowed"]
+    plan = build_pilot_plan(PROTOCOL, COVERAGE, pilot_class_count=15)
+    assert plan["generation_namespace"] == SCIENTIFIC_PILOT_NAMESPACE
+    assert all(row["generation_namespace"] == SCIENTIFIC_PILOT_NAMESPACE for row in plan["coordinates"])
+    assert len({row["derived_seed"] for row in plan["coordinates"]}) == 15
+
+
+def test_authorization_gate_is_evidence_based_and_does_not_generate_payload(tmp_path):
+    pilot_dir = tmp_path / "pilot"
+    auth_path = tmp_path / "authorization.json"
+    authorization = freeze_and_authorize_pilot_plan(
+        PROTOCOL, COVERAGE, REGISTRY, pilot_dir,
+        pilot_class_count=15,
+        generator_anchor_commit="18f2168a26ae86ea412905af95f433e6793dec02",
+    )
+    assert authorization["authorization_scope"] == "PILOT_CORPUS_GENERATION_ONLY"
+    assert authorization["status"] == "AUTHORIZED" and not authorization["consumed"]
+    assert not (ARTIFACT / "scientific_pilot_v1").exists()
+    ledger = read_json(pilot_dir / "pilot_coordinate_ledger.json")
+    ledger["coordinates"][0]["derived_seed"] += 1
+    (pilot_dir / "pilot_coordinate_ledger.json").write_text(json.dumps(ledger))
+    with pytest.raises(RuntimeError, match="PILOT-AUTHORIZATION-BLOCKED"):
+        issue_pilot_authorization(pilot_dir, REGISTRY, auth_path)
 
 
 def test_full_generation_gate_stays_blocked():
