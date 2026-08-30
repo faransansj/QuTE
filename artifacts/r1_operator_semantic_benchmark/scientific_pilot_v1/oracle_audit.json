@@ -1,0 +1,16 @@
+{
+  "max_errors": {
+    "maximum_probability_tvd": 6.661338147750939e-16,
+    "maximum_probe_l2": 5.595551058737114e-16,
+    "phase_aligned_relative_frobenius": 5.204337957008975e-16
+  },
+  "negative_count": 1000,
+  "negative_distance": {
+    "max": 1.2247448713915892,
+    "mean": 0.7855794970232816,
+    "min": 0.765366864730179
+  },
+  "positive_count": 1000,
+  "schema_version": "qute-r1-pilot-oracle-audit-v1",
+  "status": "PASS"
+}

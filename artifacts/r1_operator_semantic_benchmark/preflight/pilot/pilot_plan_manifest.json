@@ -4,8 +4,8 @@
   "coordinate_ledger_sha256": "0d2ee42294a9128962bb1a4ab0f7d8a8edea3a0676073ecf0a21a63303e9d34a",
   "corpus_role": "SCIENTIFIC_PILOT",
   "environment_fingerprint": "a9ff43748875ac8148162dae4d35982c1c41e7685c5a4c30b9b02a48aea17316",
-  "generator_anchor_commit": "18f2168a26ae86ea412905af95f433e6793dec02",
-  "generator_source_sha256": "931950c47905173067d9e9093df322df129b16c983d97933e88c76e3f10c68d9",
+  "generator_anchor_commit": "53e95b4bfa0250c3e45f2cbf0591b6c70f370144",
+  "generator_source_sha256": "176babaf3527b93c0b9415f4c928652926869f3aed9616568c665f49fe505fb8",
   "identity_preflight_sha256": "bf0323bea0cc1e715b97fd7f2e36281839291ec9fc7b13232f8304d2dc3b5f65",
   "namespace_registry_sha256": "2ced4fcd3a3651751e0e8d87b670a3e81dcf22c017d6cf13bdaae7f2290cd2ea",
   "negative_control_contract": [
@@ -20,9 +20,9 @@
     "positive_pairs": 1000
   },
   "pilot_namespace": "qute:r1:scientific-pilot:v1",
-  "pilot_plan_sha256": "a644257e3729916b88e6d148ac8f35c0316cfc4225bc0e11dcacae9eb84eb804",
+  "pilot_plan_sha256": "74f6ff8c7b931e44c6a45b3f1c051a18ef6ef556dc47a38acc57cc7495ab8e69",
   "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
-  "reproducibility_evidence_sha256": "da2e6501e0e170c165b214a41ed2b454bb5bae477fc042cc8116765ac47510e8",
+  "reproducibility_evidence_sha256": "155543e4a02f53f5d3613d3f3b66db5f83b81a4275291c509d2dc7929ac48417",
   "rewrite_coverage_sha256": "b70667995ba20f1c901017f4e0858ec4d72c5f319f23e7a88d8f2c061c04010e",
   "schema_version": "qute-r1-pilot-plan-manifest-v1",
   "smoke_overlap_audit_sha256": "35ce5f016a92cf8b071433e2b5b5da7c9a138a7b779261a918ca719bec7fe919",

@@ -1,0 +1,23 @@
+{
+  "authorization_id": "qute-r1-gate4-auth-37d30d00b8aa58f5",
+  "authorization_scope": "PILOT_VIABILITY_EVALUATION_ONLY",
+  "authorization_token": "37d30d00b8aa58f55160225782de055aba6e132d17b7a311e5db654db0cde3e4",
+  "baseline_contract_sha256": "3ffc75e4f207d1ca9c1fc245f0388101f4b4e86e2ca03be891284194c2ae121e",
+  "consumed": false,
+  "environment_fingerprint": "a9ff43748875ac8148162dae4d35982c1c41e7685c5a4c30b9b02a48aea17316",
+  "evaluation_plan_sha256": "13e06f813cdfa6529ff354f1854c8afe514b85d2e256311753bbe71e4bb59ea2",
+  "evaluation_protocol_sha256": "0aceb697a2392e28fea834cf5f2f3d7e0f22dcc8ec9cca7a3e49813b5edd77f2",
+  "fold_manifest_sha256": "66eaa480b04b0373bffa8bb265de43836420010c149b56eabaf7a49acb10df42",
+  "metric_contract_sha256": "181095d2a550ecdab39bb43b0205e6c6f5ed17e7fa841b94a8b047767f44c4b3",
+  "pilot_corpus_checksum_ledger_sha256": "1ea925debd10ad32ecf2b3564e91d857bcfde595664f06d64f439ed906d8b7c9",
+  "pilot_corpus_manifest_sha256": "8ac2538691e6015439d6ad5630c577cdf05e16d99173998bcba99189e331d970",
+  "pilot_generated_corpus_sha256": "02598f2b033e313be33c2719938bbdf007396b049ca68ec0d28478bba7a5fcb5",
+  "pilot_namespace": "qute:r1:scientific-pilot:v1",
+  "pilot_viability_evaluation_authorized": false,
+  "qpu_execution_authorized": false,
+  "revocation_reason": "SUPERSEDED_BY_EXECUTABLE_CONTRACT_AND_RUNNER_BINDING",
+  "schema_version": "qute-r1-pilot-viability-evaluation-authorization-v1",
+  "scientific_development_generation_authorized": false,
+  "sealed_generation_authorized": false,
+  "status": "REVOKED"
+}

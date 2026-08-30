@@ -1,0 +1,28 @@
+{
+  "execution_environment": {
+    "backend_device": "cpu",
+    "cudnn_benchmark": false,
+    "deterministic_algorithms": true,
+    "numpy": "2.5.2",
+    "operator_dtype": "complex64",
+    "python": "3.13.5",
+    "scikit_learn": "1.8.0",
+    "scipy": "1.18.1",
+    "torch": "2.10.0",
+    "training_dtype": "float32"
+  },
+  "execution_environment_fingerprint": "487856906f64cfd2fb22aa7b8ba1a8ba84547363eac7a38e4bf703a68e22d224",
+  "packages": {
+    "joblib": "1.5.3",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.18.1",
+    "threadpoolctl": "3.6.0",
+    "torch": "2.10.0"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.5",
+  "runner_requires_sklearn": true,
+  "schema_version": "qute-r1-gate4-dependency-lock-v1",
+  "uv_lock_sha256": "86b2d4f0e13f259662d173de459360452bc990d4d96fdef19f9290ce53d5ef31"
+}

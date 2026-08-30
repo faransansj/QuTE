@@ -1,14 +1,15 @@
 {
-  "authorization_id": "qute-r1-pilot-auth-cc22231b27eca9a2",
+  "authorization_id": "qute-r1-pilot-auth-1270081059597424",
   "authorization_scope": "PILOT_CORPUS_GENERATION_ONLY",
-  "authorization_token": "cc22231b27eca9a2353a758d5fac554a471d0e76725d5e56857cc4bdf23be6db",
+  "authorization_token": "127008105959742493869e6a11a7ca7cfdb8935f23d65e150d0aab45a8643823",
   "authorized_pilot_allocation": {
-    "equivalence_classes": 15,
-    "negative_controls": 15,
-    "positive_pairs": 15
+    "equivalence_classes": 1000,
+    "negative_controls": 1000,
+    "positive_pairs": 1000
   },
-  "consumed": false,
-  "coordinate_ledger_sha256": "b719fa2545239d4ee8163019006f317695a6df331888e02bbcf6970d9467e3cb",
+  "consumed": true,
+  "consumption_timestamp_utc": "2026-08-28T06:49:46.779668+00:00",
+  "coordinate_ledger_sha256": "0d2ee42294a9128962bb1a4ab0f7d8a8edea3a0676073ecf0a21a63303e9d34a",
   "environment_fingerprint": "a9ff43748875ac8148162dae4d35982c1c41e7685c5a4c30b9b02a48aea17316",
   "evidence_gate_checks": {
     "bound_file_hashes": true,
@@ -32,17 +33,19 @@
     "sealed_untouched": true,
     "seed_uniqueness": true
   },
-  "generator_anchor_commit": "18f2168a26ae86ea412905af95f433e6793dec02",
-  "generator_source_sha256": "931950c47905173067d9e9093df322df129b16c983d97933e88c76e3f10c68d9",
+  "final_pilot_audit_verdict": "R1-PILOT-CORPUS-GENERATED-AND-AUDITED",
+  "generated_corpus_sha256": "02598f2b033e313be33c2719938bbdf007396b049ca68ec0d28478bba7a5fcb5",
+  "generator_anchor_commit": "53e95b4bfa0250c3e45f2cbf0591b6c70f370144",
+  "generator_source_sha256": "176babaf3527b93c0b9415f4c928652926869f3aed9616568c665f49fe505fb8",
   "model_evaluation_authorized": false,
   "model_training_authorized": false,
   "pilot_generation_authorized": true,
   "pilot_namespace": "qute:r1:scientific-pilot:v1",
-  "pilot_plan_sha256": "0490a26b639c74e82808e237f949d720c9666722c29b0e6ddda5d828d21b3e8a",
+  "pilot_plan_sha256": "74f6ff8c7b931e44c6a45b3f1c051a18ef6ef556dc47a38acc57cc7495ab8e69",
   "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
   "qpu_execution_authorized": false,
   "schema_version": "qute-r1-pilot-generation-authorization-v1",
   "scientific_development_generation_authorized": false,
   "sealed_generation_authorized": false,
-  "status": "AUTHORIZED"
+  "status": "CONSUMED"
 }

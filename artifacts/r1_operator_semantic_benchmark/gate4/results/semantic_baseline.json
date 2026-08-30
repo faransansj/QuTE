@@ -1,0 +1,13 @@
+{
+  "checkpoint_policy": "FINAL_ONLY",
+  "effective_exposures": 10.24,
+  "folds": 5,
+  "schema_version": "qute-r1-gate4-semantic-baseline-v1",
+  "score_rows": 9000,
+  "seeds": [
+    2026,
+    2027,
+    2028
+  ],
+  "status": "COMPLETED"
+}

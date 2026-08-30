@@ -1,0 +1,19 @@
+{
+  "claim_boundary": {
+    "allowed_scope": "representation consistency for equivalent circuits and basic discrimination against clearly non-equivalent matched controls",
+    "hard_negative_policy": "SEPARATE_PROTOCOL_VERSION_REQUIRED",
+    "prohibited_claim": "R1 v1 does not certify fine-grained near-operator discrimination."
+  },
+  "pilot_payload_generated": false,
+  "required_checks": [
+    "O1 syntax baseline",
+    "semantic learning signal",
+    "absolute accuracy and consistency",
+    "collapse resistance",
+    "variance and power",
+    "rewrite-family viability"
+  ],
+  "schema_version": "qute-r1-pilot-viability-report-v1",
+  "status": "NOT_RUN",
+  "verdict": "R1-PILOT-AUTHORIZATION-REQUIRED"
+}

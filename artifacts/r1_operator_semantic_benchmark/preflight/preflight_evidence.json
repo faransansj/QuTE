@@ -1,0 +1,72 @@
+{
+  "artifact_hashes": {
+    "capacity_report.json": "787dd1589ffa6fcb4dd97c12eed2d9f9abee4ff222efbedb0db5b4d5ca6ff68b",
+    "ledgers/pilot_coordinate_ledger.json": "e5477627f30428f7365f9fa7ed086216bc986d4220dab6c666ad439178f54eb0",
+    "pilot_viability_report.json": "a3472a60926562a82ebb89fb68a9a517345bd7ebf0e07e9951291f8621444612",
+    "reproducibility_report.json": "555f8228db19601ff18598b9fb3e9579326c9f91ecc2d433a1201fbc376ad82b"
+  },
+  "canonical_contract": {
+    "blockers": [],
+    "checks": {
+      "depth_buckets": true,
+      "development_count_contract": true,
+      "negative_control_scope": true,
+      "parameter_regions_disjoint": true,
+      "rewrite_allocation": true,
+      "train_count_contract": true
+    },
+    "contract": {
+      "development_depths": [
+        2,
+        4,
+        6
+      ],
+      "negative_scope": "FAR_MATCHED_CONTROL",
+      "parameter_regions": {
+        "extrapolation_ood": [
+          [
+            5.235987755982989,
+            6.283185307179586
+          ]
+        ],
+        "interpolation_ood": [
+          [
+            2.0943951023931953,
+            3.141592653589793
+          ]
+        ],
+        "train": [
+          [
+            0.0,
+            2.0943951023931953
+          ],
+          [
+            3.141592653589793,
+            5.235987755982989
+          ]
+        ]
+      },
+      "pilot_equivalence_classes": 1000,
+      "rewrite_cell_count": 15,
+      "scientific_development_positive_classes": 11520
+    },
+    "coverage_matrix_sha256": "b70667995ba20f1c901017f4e0858ec4d72c5f319f23e7a88d8f2c061c04010e",
+    "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+    "schema_version": "qute-r1-canonical-contract-preflight-v1",
+    "status": "PASS",
+    "verdict": "R1-CANONICAL-PROTOCOL-RECONCILED"
+  },
+  "checks": {
+    "canonical_protocol_reconciled": true,
+    "cell_capacity_pass": true,
+    "cross_process_reproducibility_pass": true,
+    "pilot_payload_not_generated": true,
+    "sealed_payload_not_generated": true
+  },
+  "highest_completed_gate": 2,
+  "next_gate": "PILOT_CORPUS_REQUIRES_SEPARATE_AUTHORIZATION",
+  "schema_version": "qute-r1-pilot-readiness-preflight-v1",
+  "scientific_development_generation_authorized": false,
+  "sealed_generation_authorized": false,
+  "status": "BLOCKED"
+}

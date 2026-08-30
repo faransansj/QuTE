@@ -1,0 +1,29 @@
+{
+  "definition": {
+    "batch_size": 1024,
+    "checkpoint": "FINAL_ONLY",
+    "early_stopping": false,
+    "effective_exposures": 10.24,
+    "evaluation_probe_family": "computational basis",
+    "evaluation_probes_per_circuit": 16,
+    "lr": 0.0003,
+    "model": "P4.6-B3 / P4.7-C0 exact-unitarity Cayley OperatorModel, 1m scale",
+    "optimizer": "AdamW",
+    "pair_label_training": false,
+    "privileged_exact_unitary_supervision": false,
+    "probe_sets_disjoint": true,
+    "scheduler": "cosine",
+    "seeds": [
+      2026,
+      2027,
+      2028
+    ],
+    "supervision": "ACTION_ONLY",
+    "training_probe_family": "deterministic product",
+    "training_probes_per_circuit": 17
+  },
+  "model_results_observed": false,
+  "runner_source_sha256": "c0ec76ad76c587a536347bde618c48535cc3d57cdad0173df8057a664df15ddc",
+  "schema_version": "qute-r1-gate4-baseline-contract-v2",
+  "status": "FROZEN"
+}

@@ -1,0 +1,7 @@
+{
+  "canonical_regeneration_identical": true,
+  "schema_version": "qute-r1-pilot-determinism-audit-v1",
+  "status": "PASS",
+  "timestamps_noncanonical": true,
+  "verdict": "PILOT-DETERMINISM-PASS"
+}

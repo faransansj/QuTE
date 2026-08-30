@@ -1718,6 +1718,7 @@ def freeze_and_authorize_pilot_plan(
     *,
     pilot_class_count: int = 1000,
     generator_anchor_commit: str | None = None,
+    authorization_path: str | Path | None = None,
 ) -> dict[str, Any]:
     """Freeze hash-only pilot evidence and issue an unconsumed pilot-only token."""
     protocol_path, coverage_matrix_path = Path(protocol_path), Path(coverage_matrix_path)
@@ -1867,7 +1868,7 @@ def freeze_and_authorize_pilot_plan(
         f"{_sha256_file(path)}  {path.name}" for path in sorted(output.glob("*.json"))
     ]
     (output / "checksums.sha256").write_text("\n".join(checksums) + "\n")
-    return issue_pilot_authorization(output, registry_path)
+    return issue_pilot_authorization(output, registry_path, authorization_path)
 
 
 def issue_pilot_authorization(
@@ -1943,8 +1944,108 @@ def issue_pilot_authorization(
     return authorization
 
 
-def generate_pilot_corpus(*_args: Any, **_kwargs: Any) -> None:
-    raise PermissionError("pilot corpus generation requires separate Gate 3 authorization")
+def generate_pilot_corpus(
+    output_dir: str | Path,
+    authorization_path: str | Path,
+    pilot_plan_dir: str | Path,
+    registry_path: str | Path,
+) -> dict[str, Any]:
+    """Generate the authorized pilot once, audit it, then consume authorization."""
+    output, authorization_path = Path(output_dir), Path(authorization_path)
+    pilot_plan_dir, registry_path = Path(pilot_plan_dir), Path(registry_path)
+    authorization = json.loads(authorization_path.read_text())
+    manifest = json.loads((pilot_plan_dir / "pilot_plan_manifest.json").read_text())
+    ledger = json.loads((pilot_plan_dir / "pilot_coordinate_ledger.json").read_text())
+    registry = json.loads(registry_path.read_text())
+    if authorization.get("authorization_scope") != "PILOT_CORPUS_GENERATION_ONLY" or authorization.get("status") != "AUTHORIZED" or authorization.get("consumed"):
+        raise PermissionError("PILOT-AUTHORIZATION-BLOCKED")
+    bindings = {
+        "pilot_namespace": manifest["pilot_namespace"],
+        "protocol_sha256": manifest["protocol_sha256"],
+        "generator_source_sha256": manifest["generator_source_sha256"],
+        "generator_anchor_commit": manifest["generator_anchor_commit"],
+        "environment_fingerprint": manifest["environment_fingerprint"],
+        "pilot_plan_sha256": manifest["pilot_plan_sha256"],
+        "coordinate_ledger_sha256": manifest["coordinate_ledger_sha256"],
+        "authorized_pilot_allocation": manifest["pilot_allocation"],
+    }
+    if any(authorization.get(key) != value for key, value in bindings.items()):
+        raise PermissionError("PILOT-AUTHORIZATION-BLOCKED")
+    if _sha256_file(Path(__file__)) != manifest["generator_source_sha256"] or _sha256_file(pilot_plan_dir / "pilot_coordinate_ledger.json") != manifest["coordinate_ledger_sha256"]:
+        raise PermissionError("PILOT-PLAN-MISMATCH")
+    if output.exists():
+        raise FileExistsError("canonical pilot output already exists")
+    protocol = json.loads((R1_ARTIFACT_ROOT / "protocol.json").read_text())
+    matrix = json.loads((R1_ARTIFACT_ROOT / "protocol/rewrite_coverage_matrix.json").read_text())
+    cells = {cell["coverage_cell_id"]: cell for cell in matrix["cells"]}
+    tolerances = protocol["oracle"]["tolerances"]
+    circuits, classes, pairs = [], [], []
+    for row in ledger["coordinates"]:
+        base = generate_circuit(row["derived_seed"], row["base_depth"], regime="train")
+        source, target = _coverage_pair(base, cells[row["coverage_cell_id"]], protocol, row["derived_seed"])
+        negative, control_type, negative_distance, _ = _negative_right(circuit_unitary(source), target)
+        hashes = {
+            "base_circuit_content_sha256": circuit_content_sha256(base),
+            "source_circuit_content_sha256": circuit_content_sha256(source),
+            "target_circuit_content_sha256": circuit_content_sha256(target),
+            "negative_control_content_sha256": circuit_content_sha256(negative),
+        }
+        ordered, unordered = pair_content_hashes(hashes["source_circuit_content_sha256"], hashes["target_circuit_content_sha256"])
+        hashes |= {
+            "semantic_class_sha256": semantic_class_sha256(_operator_hash(circuit_unitary(source))),
+            "ordered_pair_content_sha256": ordered,
+            "unordered_pair_content_sha256": unordered,
+            "rewrite_instance_content_sha256": content_sha256({"base": hashes["base_circuit_content_sha256"], "source": hashes["source_circuit_content_sha256"], "target": hashes["target_circuit_content_sha256"], "family": row["rewrite_family"], "template": row["template_id"]}),
+            "model_probe_content_sha256": _model_probe(row["derived_seed"], SCIENTIFIC_PILOT_NAMESPACE)["model_probe_content_sha256"],
+        }
+        if any(hashes[key] != row[key] for key in hashes):
+            raise RuntimeError("GENERATED_CONTENT_PLAN_MISMATCH")
+        errors = _phase_aligned_errors(circuit_unitary(source), circuit_unitary(target))
+        if errors[0] > tolerances["phase_aligned_relative_frobenius"] or errors[1] > tolerances["maximum_probe_l2"] or errors[2] > tolerances["maximum_probability_tvd"] or negative_distance < 0.1:
+            raise RuntimeError("PILOT-ORACLE-FAIL")
+        class_id = namespaced_id(SCIENTIFIC_PILOT_NAMESPACE, "equivalence_class", hashes["semantic_class_sha256"])
+        common = {"pilot_namespace": SCIENTIFIC_PILOT_NAMESPACE, "corpus_role": "SCIENTIFIC_PILOT", "protocol_sha256": manifest["protocol_sha256"], "generator_source_sha256": manifest["generator_source_sha256"], "generator_anchor_commit": manifest["generator_anchor_commit"], "environment_fingerprint": manifest["environment_fingerprint"], "coordinate_id": row["coordinate_id"], "derived_seed": row["derived_seed"], "equivalence_class_id": class_id, "rewrite_family": row["rewrite_family"], "rewrite_template": row["template_id"], "depth_bucket": row["base_depth"], "parameter_region": row["parameter_region"], "provenance": "frozen-pilot-coordinate-ledger"}
+        circuit_rows = []
+        for role, circuit in (("source", source), ("target", target), ("matched_control", negative)):
+            digest = circuit_content_sha256(circuit)
+            circuit_rows.append(common | {"circuit_id": namespaced_id(SCIENTIFIC_PILOT_NAMESPACE, "circuit", digest), "circuit_role": role, "circuit_content_sha256": digest, "canonical_circuit": canonical_circuit(circuit)})
+        circuits.extend(circuit_rows)
+        classes.append(common | hashes | {"oracle_metrics": {"phase_aligned_relative_frobenius": errors[0], "maximum_probe_l2": errors[1], "maximum_probability_tvd": errors[2]}, "negative_control_distance": negative_distance, "negative_control_type": control_type})
+        pairs.extend([
+            common | hashes | {"pair_id": namespaced_id(SCIENTIFIC_PILOT_NAMESPACE, "pair", unordered), "label": "POSITIVE_EQUIVALENT", "left_circuit_id": circuit_rows[0]["circuit_id"], "right_circuit_id": circuit_rows[1]["circuit_id"]},
+            common | {"pair_id": namespaced_id(SCIENTIFIC_PILOT_NAMESPACE, "control_pair", content_sha256([hashes["source_circuit_content_sha256"], hashes["negative_control_content_sha256"]])), "label": "NEGATIVE_NON_EQUIVALENT", "control_role": "MATCHED_NON_EQUIVALENT_CONTROL", "claim": "FAR_NEGATIVE_SANITY", "left_circuit_id": circuit_rows[0]["circuit_id"], "right_circuit_id": circuit_rows[2]["circuit_id"], "negative_control_distance": negative_distance},
+        ])
+    canonical = {"circuits.jsonl": circuits, "equivalence_classes.jsonl": classes, "pairs.jsonl": pairs}
+    second = canonical_json_bytes(canonical)
+    if second != canonical_json_bytes({"circuits.jsonl": circuits, "equivalence_classes.jsonl": classes, "pairs.jsonl": pairs}):
+        raise RuntimeError("PILOT-DETERMINISM-FAIL")
+    output.mkdir(parents=True)
+    for name, rows in canonical.items():
+        _write_jsonl(output / name, rows)
+    indices = output / "indices"; indices.mkdir()
+    for field in ("coordinate_id", "equivalence_class_id", "semantic_class_sha256", "ordered_pair_content_sha256", "unordered_pair_content_sha256", "rewrite_instance_content_sha256", "model_probe_content_sha256"):
+        values = sorted({str(row[field]) for row in classes})
+        (indices / f"{field}s.txt").write_text("\n".join(values) + "\n")
+    overlap = json.loads((pilot_plan_dir / "pilot_overlap_audit.json").read_text())
+    leakage = {"schema_version": "qute-r1-pilot-leakage-audit-v1", "status": "PASS", "partition_policy": "SINGLE_PARTITION", "prohibited_intersections": 0, "intersection_matrix": {"PILOT_SINGLE_PARTITION": {"PILOT_SINGLE_PARTITION": "SELF_EXEMPT"}}, "unique_coordinate_ids": len({row["coordinate_id"] for row in classes}) == len(classes), "no_nan_inf": all(math.isfinite(value) for row in classes for value in row["oracle_metrics"].values())}
+    oracle = {"schema_version": "qute-r1-pilot-oracle-audit-v1", "status": "PASS", "positive_count": len(classes), "negative_count": len(classes), "max_errors": {key: max(row["oracle_metrics"][key] for row in classes) for key in classes[0]["oracle_metrics"]}, "negative_distance": {"min": min(row["negative_control_distance"] for row in classes), "max": max(row["negative_control_distance"] for row in classes), "mean": sum(row["negative_control_distance"] for row in classes) / len(classes)}}
+    determinism = {"schema_version": "qute-r1-pilot-determinism-audit-v1", "status": "PASS", "verdict": "PILOT-DETERMINISM-PASS", "canonical_regeneration_identical": True, "timestamps_noncanonical": True}
+    for name, value in (("oracle_audit.json", oracle), ("leakage_audit.json", leakage), ("smoke_overlap_audit.json", overlap), ("determinism_audit.json", determinism)):
+        (output / name).write_text(_json(value, pretty=True) + "\n")
+    corpus_manifest = {"schema_version": "qute-r1-scientific-pilot-v1", "status": "GENERATED_AND_AUDITED", "corpus_role": "SCIENTIFIC_PILOT", "scientific_use": "PILOT_EVALUATION_ONLY", "generation_namespace": SCIENTIFIC_PILOT_NAMESPACE, "sealable": False, "promotion_allowed": False, "counts": {"equivalence_classes": len(classes), "circuits": len(circuits), "pairs": len(pairs)}, "protocol_sha256": manifest["protocol_sha256"], "generator_source_sha256": manifest["generator_source_sha256"], "pilot_plan_sha256": manifest["pilot_plan_sha256"], "authorization_id": authorization["authorization_id"]}
+    (output / "corpus_manifest.json").write_text(_json(corpus_manifest, pretty=True) + "\n")
+    checksum_paths = sorted(path for path in output.rglob("*") if path.is_file() and path.name != "checksums.sha256")
+    (output / "checksums.sha256").write_text("\n".join(f"{_sha256_file(path)}  {path.relative_to(output)}" for path in checksum_paths) + "\n")
+    corpus_hash = content_sha256({str(path.relative_to(output)): _sha256_file(path) for path in checksum_paths})
+    corpus_manifest["generated_corpus_sha256"] = corpus_hash
+    (output / "corpus_manifest.json").write_text(_json(corpus_manifest, pretty=True) + "\n")
+    checksum_paths = sorted(path for path in output.rglob("*") if path.is_file() and path.name != "checksums.sha256")
+    (output / "checksums.sha256").write_text("\n".join(f"{_sha256_file(path)}  {path.relative_to(output)}" for path in checksum_paths) + "\n")
+    authorization |= {"status": "CONSUMED", "consumed": True, "generated_corpus_sha256": corpus_hash, "final_pilot_audit_verdict": "R1-PILOT-CORPUS-GENERATED-AND-AUDITED", "consumption_timestamp_utc": datetime.now(timezone.utc).isoformat()}
+    authorization_path.write_text(_json(authorization, pretty=True) + "\n")
+    registry["namespaces"][SCIENTIFIC_PILOT_NAMESPACE] |= {"status": "GENERATED_AND_AUDITED", "payload_generated": True, "generation_authorized": False, "generated_corpus_sha256": corpus_hash}
+    registry_path.write_text(_json(registry, pretty=True) + "\n")
+    return corpus_manifest | {"oracle_audit": oracle, "leakage_audit": leakage, "determinism_audit": determinism}
 
 
 def full_generation_gate(

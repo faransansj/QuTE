@@ -1,0 +1,19 @@
+{
+  "authorization_id": "qute-r1-pilot-auth-1270081059597424",
+  "corpus_role": "SCIENTIFIC_PILOT",
+  "counts": {
+    "circuits": 3000,
+    "equivalence_classes": 1000,
+    "pairs": 2000
+  },
+  "generated_corpus_sha256": "02598f2b033e313be33c2719938bbdf007396b049ca68ec0d28478bba7a5fcb5",
+  "generation_namespace": "qute:r1:scientific-pilot:v1",
+  "generator_source_sha256": "176babaf3527b93c0b9415f4c928652926869f3aed9616568c665f49fe505fb8",
+  "pilot_plan_sha256": "74f6ff8c7b931e44c6a45b3f1c051a18ef6ef556dc47a38acc57cc7495ab8e69",
+  "promotion_allowed": false,
+  "protocol_sha256": "ab7f5338a2bb5964248a3f26962793059e8e9aceaa22b39214f8aa5706020021",
+  "schema_version": "qute-r1-scientific-pilot-v1",
+  "scientific_use": "PILOT_EVALUATION_ONLY",
+  "sealable": false,
+  "status": "GENERATED_AND_AUDITED"
+}

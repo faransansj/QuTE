@@ -1,0 +1,26 @@
+{
+  "feature_dimension": 305,
+  "models": {
+    "O1-LR": {
+      "auroc": 0.511087,
+      "balanced_accuracy": 0.5115000000000001,
+      "class_bootstrap_95pct": {
+        "lower": 0.5043289875,
+        "median": 0.51114725,
+        "upper": 0.5182131625
+      }
+    },
+    "O1-RF": {
+      "auroc": 0.5428540000000001,
+      "balanced_accuracy": 0.5275000000000001,
+      "class_bootstrap_95pct": {
+        "lower": 0.5323474625,
+        "median": 0.54280275,
+        "upper": 0.554104175
+      }
+    }
+  },
+  "schema_version": "qute-r1-gate4-o1-v1",
+  "status": "PASS",
+  "verdict": "O1-SYNTAX-SHORTCUT-PASS"
+}

@@ -1,0 +1,51 @@
+{
+  "model_results_observed": false,
+  "sample_size": {
+    "alpha": 0.05,
+    "monte_carlo": 10000,
+    "mpme_anchor": 0.03,
+    "pilot_effect_used_for_future_n": false,
+    "planned_development_n": 2304,
+    "power": 0.8,
+    "precision_half_width": 0.015,
+    "rho": [
+      0,
+      0.5,
+      0.9
+    ],
+    "sensitivity": [
+      0.02,
+      0.05
+    ]
+  },
+  "schema_version": "qute-r1-gate4-metric-contract-v2",
+  "semantic": {
+    "metrics": [
+      "absolute_action_fidelity",
+      "positive_operator_consistency",
+      "negative_operator_consistency",
+      "margin",
+      "pair_AUROC",
+      "pair_ordering_accuracy"
+    ],
+    "threshold_policy": "NO_CONTROL_THRESHOLD_TUNING"
+  },
+  "status": "FROZEN",
+  "threshold": {
+    "future_development": "OOF frozen Youden-J",
+    "gate4": "THRESHOLD_FREE",
+    "sealed": "NEVER_RETUNE"
+  },
+  "uncertainty": {
+    "cluster": "equivalence_class_id",
+    "fold_se_inference": false,
+    "report": [
+      "per-seed CI",
+      "cross-seed mean",
+      "cross-seed SD"
+    ],
+    "resamples": 10000,
+    "seed": 47011,
+    "stratum": "coverage_cell_id"
+  }
+}

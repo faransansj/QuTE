@@ -1,0 +1,266 @@
+{
+  "automatic_reallocation": false,
+  "blockers": [],
+  "cells": [
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "inverse-h",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "inverse-x",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "inverse-cnot",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "inverse-rx",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "inverse-ry",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "inverse-rz",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "commute-disjoint",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "commute-rz-rz",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "fusion-rx",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 67,
+      "collision_count": 0,
+      "coverage_cell_id": "fusion-ry",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 67,
+      "quota_met": true,
+      "unique_semantic_yield": 67
+    },
+    {
+      "attempts": 66,
+      "collision_count": 0,
+      "coverage_cell_id": "fusion-rz",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 66,
+      "quota_met": true,
+      "unique_semantic_yield": 66
+    },
+    {
+      "attempts": 66,
+      "collision_count": 0,
+      "coverage_cell_id": "identity-hxxh",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 66,
+      "quota_met": true,
+      "unique_semantic_yield": 66
+    },
+    {
+      "attempts": 66,
+      "collision_count": 0,
+      "coverage_cell_id": "identity-cnot-hh-cnot",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 66,
+      "quota_met": true,
+      "unique_semantic_yield": 66
+    },
+    {
+      "attempts": 66,
+      "collision_count": 0,
+      "coverage_cell_id": "cross-reverse-cnot",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 66,
+      "quota_met": true,
+      "unique_semantic_yield": 66
+    },
+    {
+      "attempts": 66,
+      "collision_count": 0,
+      "coverage_cell_id": "nonlocal-swap",
+      "depths_observed": [
+        2,
+        4,
+        6
+      ],
+      "oracle_tolerance_pass": true,
+      "parameter_regions_observed": [
+        "train"
+      ],
+      "quota": 66,
+      "quota_met": true,
+      "unique_semantic_yield": 66
+    }
+  ],
+  "payload_written": false,
+  "pilot_class_count": 1000,
+  "schema_version": "qute-r1-capacity-report-v1",
+  "status": "PASS",
+  "verdict": "R1-CELL-CAPACITY-PASS"
+}

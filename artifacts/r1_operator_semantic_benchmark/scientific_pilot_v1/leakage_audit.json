@@ -1,0 +1,13 @@
+{
+  "intersection_matrix": {
+    "PILOT_SINGLE_PARTITION": {
+      "PILOT_SINGLE_PARTITION": "SELF_EXEMPT"
+    }
+  },
+  "no_nan_inf": true,
+  "partition_policy": "SINGLE_PARTITION",
+  "prohibited_intersections": 0,
+  "schema_version": "qute-r1-pilot-leakage-audit-v1",
+  "status": "PASS",
+  "unique_coordinate_ids": true
+}

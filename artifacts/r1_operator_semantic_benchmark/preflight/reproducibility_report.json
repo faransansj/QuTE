@@ -1,0 +1,22 @@
+{
+  "content_hashes_identical": true,
+  "coordinate_ledger_byte_identical": true,
+  "cross_machine_check": "NOT_RUN_OPTIONAL",
+  "environment_contract": {
+    "byteorder": "little",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.5"
+  },
+  "environment_contract_match": true,
+  "ledger_sha256": "8d09b3dbad645974a06affdf96ced0bb1aa6f6d54b6d188ff9de29f82ef8e6c3",
+  "oracle_metrics_tolerance_pass": true,
+  "process_count": 2,
+  "pythonhashseeds": [
+    1,
+    987654
+  ],
+  "schema_version": "qute-r1-reproducibility-report-v1",
+  "status": "PASS",
+  "verdict": "R1-CROSS-PROCESS-REPRODUCIBLE"
+}

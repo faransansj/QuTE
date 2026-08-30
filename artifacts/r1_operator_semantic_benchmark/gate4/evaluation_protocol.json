@@ -1,0 +1,124 @@
+{
+  "execution_order": [
+    "O1_SYNTAX_SHORTCUT",
+    "MINIMUM_SEMANTIC_BASELINE",
+    "SEMANTIC_SCORING",
+    "CLASS_LEVEL_UNCERTAINTY",
+    "SAMPLE_SIZE_PLANNING"
+  ],
+  "folds": {
+    "count": 5,
+    "group": "equivalence_class_id",
+    "manifest": "fold_manifest.json",
+    "pair_coupling": "positive_and_matched_control_same_fold"
+  },
+  "model_results_observed": false,
+  "pass_verdict": "R1-PILOT-VIABLE",
+  "schema_version": "qute-r1-gate4-executable-contract-v2",
+  "stage_a": {
+    "bootstrap": {
+      "replicates": 10000,
+      "seed": 47011,
+      "stratification": "class label implicit paired class",
+      "unit": "equivalence_class_id"
+    },
+    "feature_contract": "signed SHA-256 hashing into 152 bins per ordered circuit over depth/two-qubit scalars and syntax uni/bi/trigrams; concatenate left,right,absolute depth difference",
+    "feature_dimension": 305,
+    "models": {
+      "O1-LR": {
+        "C": 1.0,
+        "max_iter": 1000,
+        "penalty": "L2",
+        "scaler": "StandardScaler",
+        "seed": 47011,
+        "solver": "lbfgs"
+      },
+      "O1-RF": {
+        "parameters": "scikit-learn defaults except n_estimators/random_state/n_jobs=1",
+        "seed": 47011,
+        "trees": 500
+      }
+    },
+    "pass_rule": "both models upper 95% class-bootstrap AUROC < 0.70 and balanced_accuracy < 0.65",
+    "primary": "AUROC",
+    "secondary": "balanced_accuracy",
+    "tuning": "NONE"
+  },
+  "stage_b": {
+    "batch_size": 1024,
+    "checkpoint": "FINAL_ONLY",
+    "early_stopping": false,
+    "effective_exposures": 10.24,
+    "evaluation_probe_family": "computational basis",
+    "evaluation_probes_per_circuit": 16,
+    "lr": 0.0003,
+    "model": "P4.6-B3 / P4.7-C0 exact-unitarity Cayley OperatorModel, 1m scale",
+    "optimizer": "AdamW",
+    "pair_label_training": false,
+    "privileged_exact_unitary_supervision": false,
+    "probe_sets_disjoint": true,
+    "scheduler": "cosine",
+    "seeds": [
+      2026,
+      2027,
+      2028
+    ],
+    "supervision": "ACTION_ONLY",
+    "training_probe_family": "deterministic product",
+    "training_probes_per_circuit": 17
+  },
+  "stage_c": {
+    "metrics": [
+      "absolute_action_fidelity",
+      "positive_operator_consistency",
+      "negative_operator_consistency",
+      "margin",
+      "pair_AUROC",
+      "pair_ordering_accuracy"
+    ],
+    "threshold_policy": "NO_CONTROL_THRESHOLD_TUNING"
+  },
+  "stage_d": {
+    "cluster": "equivalence_class_id",
+    "fold_se_inference": false,
+    "report": [
+      "per-seed CI",
+      "cross-seed mean",
+      "cross-seed SD"
+    ],
+    "resamples": 10000,
+    "seed": 47011,
+    "stratum": "coverage_cell_id"
+  },
+  "stage_e": {
+    "alpha": 0.05,
+    "monte_carlo": 10000,
+    "mpme_anchor": 0.03,
+    "pilot_effect_used_for_future_n": false,
+    "planned_development_n": 2304,
+    "power": 0.8,
+    "precision_half_width": 0.015,
+    "rho": [
+      0,
+      0.5,
+      0.9
+    ],
+    "sensitivity": [
+      0.02,
+      0.05
+    ]
+  },
+  "stage_f": {
+    "future_development": "OOF frozen Youden-J",
+    "gate4": "THRESHOLD_FREE",
+    "sealed": "NEVER_RETUNE"
+  },
+  "status": "FROZEN_EXECUTABLE",
+  "stop_verdicts": [
+    "SYNTAX-SHORTCUT-BLOCKED",
+    "LEARNABILITY-BLOCKED",
+    "REPRESENTATION-COLLAPSE",
+    "VARIANCE-UNDERPOWERED",
+    "PILOT-REDESIGN-REQUIRED"
+  ]
+}

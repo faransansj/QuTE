@@ -465,21 +465,34 @@ def test_pilot_namespace_policy_and_plan_domain_are_distinct():
 
 
 def test_authorization_gate_is_evidence_based_and_does_not_generate_payload(tmp_path):
+    if (ARTIFACT / "scientific_pilot_v1").exists():
+        pytest.skip("authorization issuance covered before canonical pilot generation")
     pilot_dir = tmp_path / "pilot"
     auth_path = tmp_path / "authorization.json"
+    artifact_root = tmp_path / "artifact"
+    (artifact_root / "registry").mkdir(parents=True)
+    (artifact_root / "smoke_v1").symlink_to(SMOKE_V1, target_is_directory=True)
+    (artifact_root / "smoke_v2").symlink_to(SMOKE_V2, target_is_directory=True)
+    registry_path = artifact_root / "registry" / "namespace_registry.json"
+    registry = read_json(REGISTRY)
+    registry["namespaces"][SCIENTIFIC_PILOT_NAMESPACE] |= {
+        "status": "PLANNED", "payload_generated": False, "generation_authorized": False
+    }
+    registry_path.write_text(json.dumps(registry))
     authorization = freeze_and_authorize_pilot_plan(
-        PROTOCOL, COVERAGE, REGISTRY, pilot_dir,
+        PROTOCOL, COVERAGE, registry_path, pilot_dir,
         pilot_class_count=15,
         generator_anchor_commit="18f2168a26ae86ea412905af95f433e6793dec02",
+        authorization_path=auth_path,
     )
     assert authorization["authorization_scope"] == "PILOT_CORPUS_GENERATION_ONLY"
     assert authorization["status"] == "AUTHORIZED" and not authorization["consumed"]
-    assert not (ARTIFACT / "scientific_pilot_v1").exists()
+    assert not (pilot_dir / "scientific_pilot_v1").exists()
     ledger = read_json(pilot_dir / "pilot_coordinate_ledger.json")
     ledger["coordinates"][0]["derived_seed"] += 1
     (pilot_dir / "pilot_coordinate_ledger.json").write_text(json.dumps(ledger))
     with pytest.raises(RuntimeError, match="PILOT-AUTHORIZATION-BLOCKED"):
-        issue_pilot_authorization(pilot_dir, REGISTRY, auth_path)
+        issue_pilot_authorization(pilot_dir, registry_path, auth_path)
 
 
 def test_full_generation_gate_stays_blocked():

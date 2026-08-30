@@ -10,6 +10,21 @@ QuTE compiles restricted, verified quantum workloads into physics-constrained ne
 
 Start with the [Project Anchor](PROJECT_ANCHOR.md) and [full North Star](docs/QU_TE_NORTH_STAR.md). Current sealed status is **P4.8 partially supported**: recurrent evidence is qualified, composition consistency is not supported, candidate roles remained frozen, and no formal significance is claimed. Immediate coordinated programs are **R1 Operator-Semantic Benchmark** and **M1 Workload Emulator MVP**. Every new phase must pass the [Research Proposal Gate](docs/templates/RESEARCH_PROPOSAL_GATE.md).
 
+## R1 operator-semantic benchmark
+
+R1 v1 evaluates representation consistency across syntactically different but equivalent four-qubit circuits and basic discrimination against clearly non-equivalent matched controls. **R1 v1 does not certify fine-grained near-operator discrimination.** A hard-negative benchmark requires a separate protocol version.
+
+The execution order is capacity → cross-process reproducibility → pilot → evaluation/power freeze → full planner → scientific-development corpus. Pilot, scientific-development, and sealed payload generation require separate authorization.
+
+Four canonical preflight entry points live under `artifacts/r1_operator_semantic_benchmark/preflight/`:
+
+- `capacity_report.json`
+- `reproducibility_report.json`
+- `pilot_viability_report.json`
+- `preflight_evidence.json`
+
+Detailed coordinate ledgers remain subordinate to those reports.
+
 ## CC-NQE P1–P4 controlled feasibility experiment
 
 This repository currently contains a CPU-scale, 4-qubit experiment only. It does **not** claim arbitrary quantum simulation or asymptotic advantage.

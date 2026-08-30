@@ -1,0 +1,35 @@
+{
+  "schema_version": "qute-r1-gate4-semantic-scoring-v1",
+  "seeds": {
+    "2026": {
+      "absolute_action_fidelity": 0.07206901323911229,
+      "fixed_0_5_balanced_accuracy": 0.5565,
+      "margin_mean": 0.06743998308633918,
+      "pair_auroc": 0.580215,
+      "pair_ordering_accuracy": 0.709,
+      "prediction_class_count": 2,
+      "score_variance": 0.060836006709104266
+    },
+    "2027": {
+      "absolute_action_fidelity": 0.07308821368385264,
+      "fixed_0_5_balanced_accuracy": 0.5575,
+      "margin_mean": 0.08236367059455373,
+      "pair_auroc": 0.5906870000000001,
+      "pair_ordering_accuracy": 0.709,
+      "prediction_class_count": 2,
+      "score_variance": 0.06800296545928702
+    },
+    "2028": {
+      "absolute_action_fidelity": 0.07945305893758221,
+      "fixed_0_5_balanced_accuracy": 0.5475,
+      "margin_mean": 0.07354251996534797,
+      "pair_auroc": 0.580175,
+      "pair_ordering_accuracy": 0.719,
+      "prediction_class_count": 2,
+      "score_variance": 0.07450781862687887
+    }
+  },
+  "status": "FAIL",
+  "threshold_policy": "FIXED_0.5_REPORTING_ONLY_NO_TUNING",
+  "verdict": "LEARNABILITY-BLOCKED"
+}
