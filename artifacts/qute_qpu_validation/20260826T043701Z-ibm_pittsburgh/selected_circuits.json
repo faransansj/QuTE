@@ -1,0 +1,966 @@
+{
+  "circuits": [
+    {
+      "array_index": 832,
+      "circuit_id": "c_03ccdc6bb0e2b1ac",
+      "depth": 2,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 4.45790067230335
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            1
+          ],
+          "theta": 4.405965192364995
+        }
+      ],
+      "sample_id": "sample_000832",
+      "selection_rank": 0,
+      "split_name": "iid",
+      "state_family": "product",
+      "state_id": "s_train_0_0",
+      "validation_split": "IID"
+    },
+    {
+      "array_index": 840,
+      "circuit_id": "c_05c17ebfc8f17b04",
+      "depth": 4,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 1.5932124963232759
+        },
+        {
+          "name": "X",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            1
+          ],
+          "theta": 4.447126688276309
+        },
+        {
+          "name": "H",
+          "qubits": [
+            0
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_000840",
+      "selection_rank": 1,
+      "split_name": "iid",
+      "state_family": "product",
+      "state_id": "s_train_0_0",
+      "validation_split": "IID"
+    },
+    {
+      "array_index": 856,
+      "circuit_id": "c_4604fba2e41ad01a",
+      "depth": 4,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            3
+          ],
+          "theta": 0.49447065481690133
+        },
+        {
+          "name": "X",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            0
+          ],
+          "theta": 4.891164667241753
+        },
+        {
+          "name": "X",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_000856",
+      "selection_rank": 2,
+      "split_name": "iid",
+      "state_family": "product",
+      "state_id": "s_train_0_0",
+      "validation_split": "IID"
+    },
+    {
+      "array_index": 872,
+      "circuit_id": "c_8b36e039183ec383",
+      "depth": 6,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 4.302978137421135
+        },
+        {
+          "name": "X",
+          "qubits": [
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            1
+          ],
+          "theta": 4.445336512701735
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 4.603373140115597
+        },
+        {
+          "name": "H",
+          "qubits": [
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            3
+          ],
+          "theta": 5.2308031636623245
+        }
+      ],
+      "sample_id": "sample_000872",
+      "selection_rank": 3,
+      "split_name": "iid",
+      "state_family": "product",
+      "state_id": "s_train_0_0",
+      "validation_split": "IID"
+    },
+    {
+      "array_index": 848,
+      "circuit_id": "c_924b4e5c9bdff207",
+      "depth": 4,
+      "gate_sequence_structured": [
+        {
+          "name": "RX",
+          "qubits": [
+            2
+          ],
+          "theta": 1.9689159362113875
+        },
+        {
+          "name": "H",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            0
+          ],
+          "theta": 1.0923011075877689
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            0
+          ],
+          "theta": 1.2932363340192137
+        }
+      ],
+      "sample_id": "sample_000848",
+      "selection_rank": 4,
+      "split_name": "iid",
+      "state_family": "product",
+      "state_id": "s_train_0_0",
+      "validation_split": "IID"
+    },
+    {
+      "array_index": 952,
+      "circuit_id": "c_0d0bd9e35078e1f4",
+      "depth": 2,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 5.900760636246904
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            0
+          ],
+          "theta": 5.349331984721138
+        }
+      ],
+      "sample_id": "sample_000952",
+      "selection_rank": 0,
+      "split_name": "parameter_extrapolation",
+      "state_family": "product",
+      "state_id": "s_pext_0_0",
+      "validation_split": "Parameter-OOD"
+    },
+    {
+      "array_index": 928,
+      "circuit_id": "c_1bbf5d10716ef877",
+      "depth": 6,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 2.9855265942035984
+        },
+        {
+          "name": "X",
+          "qubits": [
+            0
+          ],
+          "theta": null
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            3
+          ],
+          "theta": 2.3938530158901576
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            0
+          ],
+          "theta": 2.872147379358182
+        },
+        {
+          "name": "H",
+          "qubits": [
+            0
+          ],
+          "theta": null
+        },
+        {
+          "name": "H",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_000928",
+      "selection_rank": 1,
+      "split_name": "parameter_interpolation",
+      "state_family": "product",
+      "state_id": "s_pint_0_0",
+      "validation_split": "Parameter-OOD"
+    },
+    {
+      "array_index": 880,
+      "circuit_id": "c_34accc0b2cd10201",
+      "depth": 2,
+      "gate_sequence_structured": [
+        {
+          "name": "RY",
+          "qubits": [
+            2
+          ],
+          "theta": 2.88598920206505
+        },
+        {
+          "name": "H",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_000880",
+      "selection_rank": 2,
+      "split_name": "parameter_interpolation",
+      "state_family": "product",
+      "state_id": "s_pint_0_0",
+      "validation_split": "Parameter-OOD"
+    },
+    {
+      "array_index": 960,
+      "circuit_id": "c_369632cd4f0efcc1",
+      "depth": 2,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 5.344093607318694
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            1,
+            2
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_000960",
+      "selection_rank": 3,
+      "split_name": "parameter_extrapolation",
+      "state_family": "product",
+      "state_id": "s_pext_0_0",
+      "validation_split": "Parameter-OOD"
+    },
+    {
+      "array_index": 1000,
+      "circuit_id": "c_39606d829afba1d1",
+      "depth": 6,
+      "gate_sequence_structured": [
+        {
+          "name": "H",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            1
+          ],
+          "theta": 5.778277730683485
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            1
+          ],
+          "theta": 5.8222418166607035
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 5.790358155144234
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            3
+          ],
+          "theta": 5.817380172976117
+        }
+      ],
+      "sample_id": "sample_001000",
+      "selection_rank": 4,
+      "split_name": "parameter_extrapolation",
+      "state_family": "product",
+      "state_id": "s_pext_0_0",
+      "validation_split": "Parameter-OOD"
+    },
+    {
+      "array_index": 1016,
+      "circuit_id": "c_010de44df490757f",
+      "depth": 2,
+      "gate_sequence_structured": [
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            3
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_001016",
+      "selection_rank": 0,
+      "split_name": "composition_ood",
+      "state_family": "product",
+      "state_id": "s_comp_0_0",
+      "validation_split": "Composition-OOD"
+    },
+    {
+      "array_index": 1056,
+      "circuit_id": "c_173c2c3fd7f6a87b",
+      "depth": 6,
+      "gate_sequence_structured": [
+        {
+          "name": "RX",
+          "qubits": [
+            1
+          ],
+          "theta": 3.1807033528611544
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            3
+          ],
+          "theta": 3.307726965530016
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 0.9213805311242074
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            0
+          ],
+          "theta": 0.4879700598367159
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            3
+          ],
+          "theta": 1.0020879109121836
+        }
+      ],
+      "sample_id": "sample_001056",
+      "selection_rank": 1,
+      "split_name": "composition_ood",
+      "state_family": "product",
+      "state_id": "s_comp_0_0",
+      "validation_split": "Composition-OOD"
+    },
+    {
+      "array_index": 1064,
+      "circuit_id": "c_3b5446c313bbc1cc",
+      "depth": 6,
+      "gate_sequence_structured": [
+        {
+          "name": "H",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            0
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            0
+          ],
+          "theta": 4.903238699168506
+        }
+      ],
+      "sample_id": "sample_001064",
+      "selection_rank": 2,
+      "split_name": "composition_ood",
+      "state_family": "product",
+      "state_id": "s_comp_0_0",
+      "validation_split": "Composition-OOD"
+    },
+    {
+      "array_index": 1032,
+      "circuit_id": "c_718a85b4a3f347a1",
+      "depth": 4,
+      "gate_sequence_structured": [
+        {
+          "name": "RY",
+          "qubits": [
+            3
+          ],
+          "theta": 3.2020334753372435
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            1
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_001032",
+      "selection_rank": 3,
+      "split_name": "composition_ood",
+      "state_family": "product",
+      "state_id": "s_comp_0_0",
+      "validation_split": "Composition-OOD"
+    },
+    {
+      "array_index": 1024,
+      "circuit_id": "c_789e971e6da04312",
+      "depth": 2,
+      "gate_sequence_structured": [
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            3
+          ],
+          "theta": 1.0161297945057963
+        }
+      ],
+      "sample_id": "sample_001024",
+      "selection_rank": 4,
+      "split_name": "composition_ood",
+      "state_family": "product",
+      "state_id": "s_comp_0_0",
+      "validation_split": "Composition-OOD"
+    },
+    {
+      "array_index": 1128,
+      "circuit_id": "c_1e1b45e7a91b42d7",
+      "depth": 8,
+      "gate_sequence_structured": [
+        {
+          "name": "RX",
+          "qubits": [
+            1
+          ],
+          "theta": 1.6961309390831016
+        },
+        {
+          "name": "H",
+          "qubits": [
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            0
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            0,
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            1,
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            3
+          ],
+          "theta": 3.7340702611249927
+        },
+        {
+          "name": "H",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            2
+          ],
+          "theta": 3.5218039195508193
+        }
+      ],
+      "sample_id": "sample_001128",
+      "selection_rank": 0,
+      "split_name": "depth_ood",
+      "state_family": "product",
+      "state_id": "s_depth_0_0",
+      "validation_split": "Depth-OOD"
+    },
+    {
+      "array_index": 1080,
+      "circuit_id": "c_3b7cb347fa743dca",
+      "depth": 8,
+      "gate_sequence_structured": [
+        {
+          "name": "RX",
+          "qubits": [
+            1
+          ],
+          "theta": 0.5157686394906249
+        },
+        {
+          "name": "H",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "H",
+          "qubits": [
+            0
+          ],
+          "theta": null
+        },
+        {
+          "name": "H",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "H",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        },
+        {
+          "name": "H",
+          "qubits": [
+            2
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_001080",
+      "selection_rank": 1,
+      "split_name": "depth_ood",
+      "state_family": "product",
+      "state_id": "s_depth_0_0",
+      "validation_split": "Depth-OOD"
+    },
+    {
+      "array_index": 1072,
+      "circuit_id": "c_49388b803f2e0831",
+      "depth": 8,
+      "gate_sequence_structured": [
+        {
+          "name": "RX",
+          "qubits": [
+            3
+          ],
+          "theta": 3.6892180633675604
+        },
+        {
+          "name": "X",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            0
+          ],
+          "theta": 3.9635376455863813
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            1
+          ],
+          "theta": 0.09760195717833361
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            3,
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            2,
+            0
+          ],
+          "theta": null
+        },
+        {
+          "name": "RX",
+          "qubits": [
+            0
+          ],
+          "theta": 1.4501936049023267
+        }
+      ],
+      "sample_id": "sample_001072",
+      "selection_rank": 2,
+      "split_name": "depth_ood",
+      "state_family": "product",
+      "state_id": "s_depth_0_0",
+      "validation_split": "Depth-OOD"
+    },
+    {
+      "array_index": 1096,
+      "circuit_id": "c_5a278701f0bf5cc8",
+      "depth": 8,
+      "gate_sequence_structured": [
+        {
+          "name": "RX",
+          "qubits": [
+            1
+          ],
+          "theta": 0.09567552196413216
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            0
+          ],
+          "theta": 5.125755404175123
+        },
+        {
+          "name": "H",
+          "qubits": [
+            2
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            2
+          ],
+          "theta": 4.8866741658718515
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            1
+          ],
+          "theta": 1.0872880199437007
+        },
+        {
+          "name": "CNOT",
+          "qubits": [
+            3,
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "X",
+          "qubits": [
+            0
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            0
+          ],
+          "theta": 3.53939617557115
+        }
+      ],
+      "sample_id": "sample_001096",
+      "selection_rank": 3,
+      "split_name": "depth_ood",
+      "state_family": "product",
+      "state_id": "s_depth_0_0",
+      "validation_split": "Depth-OOD"
+    },
+    {
+      "array_index": 1112,
+      "circuit_id": "c_6eda6ebd23ee213f",
+      "depth": 8,
+      "gate_sequence_structured": [
+        {
+          "name": "RZ",
+          "qubits": [
+            3
+          ],
+          "theta": 0.7089675787301669
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            2
+          ],
+          "theta": 4.273707972473085
+        },
+        {
+          "name": "X",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "RZ",
+          "qubits": [
+            2
+          ],
+          "theta": 1.6565465061383644
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            2
+          ],
+          "theta": 0.7086406816846007
+        },
+        {
+          "name": "X",
+          "qubits": [
+            1
+          ],
+          "theta": null
+        },
+        {
+          "name": "RY",
+          "qubits": [
+            3
+          ],
+          "theta": 0.9774637479362172
+        },
+        {
+          "name": "X",
+          "qubits": [
+            3
+          ],
+          "theta": null
+        }
+      ],
+      "sample_id": "sample_001112",
+      "selection_rank": 4,
+      "split_name": "depth_ood",
+      "state_family": "product",
+      "state_id": "s_depth_0_0",
+      "validation_split": "Depth-OOD"
+    }
+  ],
+  "selection_rule": "per requested split: product-state candidates only; circuit_id ascending; lowest sample_id per unique circuit; first N"
+}

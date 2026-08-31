@@ -1,0 +1,80 @@
+{
+  "by_split": {
+    "Composition-OOD": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 1.4611792678587154e-16,
+        "median": 1.6653345369377368e-16
+      },
+      "tvd_model_qpu": null,
+      "tvd_model_sim": {
+        "mean": 0.9342713976676629,
+        "median": 0.9318052292131713
+      },
+      "tvd_sim_qpu": null
+    },
+    "Depth-OOD": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 3.6377151291233643e-16,
+        "median": 2.7755575615628914e-16
+      },
+      "tvd_model_qpu": null,
+      "tvd_model_sim": {
+        "mean": 0.6723216598451401,
+        "median": 0.6712605843881393
+      },
+      "tvd_sim_qpu": null
+    },
+    "IID": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 3.023623018627575e-16,
+        "median": 2.7755575615628914e-16
+      },
+      "tvd_model_qpu": null,
+      "tvd_model_sim": {
+        "mean": 0.5057265339098619,
+        "median": 0.44341923025166746
+      },
+      "tvd_sim_qpu": null
+    },
+    "Parameter-OOD": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 2.4383706859198995e-16,
+        "median": 2.616179842207522e-16
+      },
+      "tvd_model_qpu": null,
+      "tvd_model_sim": {
+        "mean": 0.7815784320530572,
+        "median": 0.8463359866985195
+      },
+      "tvd_sim_qpu": null
+    }
+  },
+  "claim_boundary": "Descriptive smoke evidence only; the ideal-trained model did not learn QPU noise.",
+  "complexity_correlations": {
+    "transpiled_2q_gate_count_vs_tvd_sim_qpu": null,
+    "transpiled_depth_vs_tvd_sim_qpu": null
+  },
+  "interpretation": {
+    "combined_gap": "CC-NQE \u2194 QPU",
+    "hardware_error": "canonical ideal simulator \u2194 QPU",
+    "model_error": "CC-NQE \u2194 canonical ideal simulator"
+  },
+  "overall": {
+    "count": 20,
+    "tvd_canonical_transpiled": {
+      "mean": 2.6402220253823885e-16,
+      "median": 2.445146949497934e-16
+    },
+    "tvd_model_qpu": null,
+    "tvd_model_sim": {
+      "mean": 0.7234745058689305,
+      "median": 0.831113103636965
+    },
+    "tvd_sim_qpu": null
+  },
+  "schema_version": "qute-qpu-validation-v1"
+}

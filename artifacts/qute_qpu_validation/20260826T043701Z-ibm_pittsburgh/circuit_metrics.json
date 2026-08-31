@@ -1,0 +1,527 @@
+{
+  "bit_order_validation": {
+    "basis_probe": "benchmark X(q0) -> 1000",
+    "convention": "benchmark q0..q3 = displayed bitstring MSB..LSB; benchmark q maps to Qiskit qubit 3-q",
+    "observed": {
+      "0000": 0.0,
+      "0001": 0.0,
+      "0010": 0.0,
+      "0011": 0.0,
+      "0100": 0.0,
+      "0101": 0.0,
+      "0110": 0.0,
+      "0111": 0.0,
+      "1000": 1.0,
+      "1001": 0.0,
+      "1010": 0.0,
+      "1011": 0.0,
+      "1100": 0.0,
+      "1101": 0.0,
+      "1110": 0.0,
+      "1111": 0.0
+    },
+    "status": "PASS"
+  },
+  "canonical_reconstruction_max_tvd": 2.220446049250313e-16,
+  "circuits": [
+    {
+      "benchmark_depth": 2,
+      "circuit_id": "c_03ccdc6bb0e2b1ac",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 2,
+      "original_total_gate_count": 6,
+      "physical_layout": [
+        54,
+        72,
+        70,
+        123
+      ],
+      "sample_id": "sample_000832",
+      "split": "IID",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 3,
+      "transpiled_gate_counts": {
+        "rz": 7,
+        "sx": 3,
+        "x": 1
+      },
+      "transpiled_total_gate_count": 11
+    },
+    {
+      "benchmark_depth": 4,
+      "circuit_id": "c_05c17ebfc8f17b04",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 3,
+      "original_total_gate_count": 8,
+      "physical_layout": [
+        70,
+        123,
+        54,
+        72
+      ],
+      "sample_id": "sample_000840",
+      "split": "IID",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 3,
+      "transpiled_gate_counts": {
+        "rz": 6,
+        "sx": 5
+      },
+      "transpiled_total_gate_count": 11
+    },
+    {
+      "benchmark_depth": 4,
+      "circuit_id": "c_4604fba2e41ad01a",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 3,
+      "original_total_gate_count": 8,
+      "physical_layout": [
+        54,
+        123,
+        72,
+        70
+      ],
+      "sample_id": "sample_000856",
+      "split": "IID",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 3,
+      "transpiled_gate_counts": {
+        "rz": 6,
+        "sx": 3
+      },
+      "transpiled_total_gate_count": 9
+    },
+    {
+      "benchmark_depth": 6,
+      "circuit_id": "c_8b36e039183ec383",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 5,
+      "original_total_gate_count": 10,
+      "physical_layout": [
+        72,
+        54,
+        70,
+        123
+      ],
+      "sample_id": "sample_000872",
+      "split": "IID",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 5,
+      "transpiled_gate_counts": {
+        "rz": 9,
+        "sx": 6
+      },
+      "transpiled_total_gate_count": 15
+    },
+    {
+      "benchmark_depth": 4,
+      "circuit_id": "c_924b4e5c9bdff207",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 3,
+      "original_total_gate_count": 8,
+      "physical_layout": [
+        123,
+        72,
+        70,
+        54
+      ],
+      "sample_id": "sample_000848",
+      "split": "IID",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 5,
+      "transpiled_gate_counts": {
+        "rz": 9,
+        "sx": 5
+      },
+      "transpiled_total_gate_count": 14
+    },
+    {
+      "benchmark_depth": 2,
+      "circuit_id": "c_0d0bd9e35078e1f4",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 2,
+      "original_total_gate_count": 6,
+      "physical_layout": [
+        72,
+        70,
+        123,
+        54
+      ],
+      "sample_id": "sample_000952",
+      "split": "Parameter-OOD",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 5,
+      "transpiled_gate_counts": {
+        "rz": 6,
+        "sx": 3,
+        "x": 1
+      },
+      "transpiled_total_gate_count": 10
+    },
+    {
+      "benchmark_depth": 6,
+      "circuit_id": "c_1bbf5d10716ef877",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 4,
+      "original_total_gate_count": 10,
+      "physical_layout": [
+        72,
+        70,
+        123,
+        54
+      ],
+      "sample_id": "sample_000928",
+      "split": "Parameter-OOD",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 5,
+      "transpiled_gate_counts": {
+        "rz": 7,
+        "sx": 5
+      },
+      "transpiled_total_gate_count": 12
+    },
+    {
+      "benchmark_depth": 2,
+      "circuit_id": "c_34accc0b2cd10201",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 2,
+      "original_total_gate_count": 6,
+      "physical_layout": [
+        70,
+        54,
+        72,
+        123
+      ],
+      "sample_id": "sample_000880",
+      "split": "Parameter-OOD",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 4,
+      "transpiled_gate_counts": {
+        "rz": 8,
+        "sx": 5
+      },
+      "transpiled_total_gate_count": 13
+    },
+    {
+      "benchmark_depth": 2,
+      "circuit_id": "c_369632cd4f0efcc1",
+      "native_2q_gate_counts": {
+        "cz": 1
+      },
+      "original_2q_gate_count": 1,
+      "original_depth": 3,
+      "original_total_gate_count": 6,
+      "physical_layout": [
+        72,
+        54,
+        55,
+        70
+      ],
+      "sample_id": "sample_000960",
+      "split": "Parameter-OOD",
+      "transpiled_2q_gate_count": 1,
+      "transpiled_depth": 6,
+      "transpiled_gate_counts": {
+        "cz": 1,
+        "rz": 3,
+        "sx": 3,
+        "x": 1
+      },
+      "transpiled_total_gate_count": 8
+    },
+    {
+      "benchmark_depth": 6,
+      "circuit_id": "c_39606d829afba1d1",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 4,
+      "original_total_gate_count": 10,
+      "physical_layout": [
+        72,
+        70,
+        54,
+        123
+      ],
+      "sample_id": "sample_001000",
+      "split": "Parameter-OOD",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 5,
+      "transpiled_gate_counts": {
+        "rz": 4,
+        "sx": 2,
+        "x": 2
+      },
+      "transpiled_total_gate_count": 8
+    },
+    {
+      "benchmark_depth": 2,
+      "circuit_id": "c_010de44df490757f",
+      "native_2q_gate_counts": {
+        "cz": 2
+      },
+      "original_2q_gate_count": 2,
+      "original_depth": 3,
+      "original_total_gate_count": 6,
+      "physical_layout": [
+        59,
+        72,
+        54,
+        55
+      ],
+      "sample_id": "sample_001016",
+      "split": "Composition-OOD",
+      "transpiled_2q_gate_count": 2,
+      "transpiled_depth": 8,
+      "transpiled_gate_counts": {
+        "cz": 2,
+        "rz": 8,
+        "sx": 4,
+        "x": 2
+      },
+      "transpiled_total_gate_count": 16
+    },
+    {
+      "benchmark_depth": 6,
+      "circuit_id": "c_173c2c3fd7f6a87b",
+      "native_2q_gate_counts": {
+        "cz": 1
+      },
+      "original_2q_gate_count": 1,
+      "original_depth": 4,
+      "original_total_gate_count": 10,
+      "physical_layout": [
+        72,
+        70,
+        54,
+        55
+      ],
+      "sample_id": "sample_001056",
+      "split": "Composition-OOD",
+      "transpiled_2q_gate_count": 1,
+      "transpiled_depth": 6,
+      "transpiled_gate_counts": {
+        "cz": 1,
+        "rz": 8,
+        "sx": 4,
+        "x": 2
+      },
+      "transpiled_total_gate_count": 15
+    },
+    {
+      "benchmark_depth": 6,
+      "circuit_id": "c_3b5446c313bbc1cc",
+      "native_2q_gate_counts": {
+        "cz": 3
+      },
+      "original_2q_gate_count": 3,
+      "original_depth": 6,
+      "original_total_gate_count": 10,
+      "physical_layout": [
+        72,
+        59,
+        54,
+        55
+      ],
+      "sample_id": "sample_001064",
+      "split": "Composition-OOD",
+      "transpiled_2q_gate_count": 3,
+      "transpiled_depth": 12,
+      "transpiled_gate_counts": {
+        "cz": 3,
+        "rz": 9,
+        "sx": 5,
+        "x": 3
+      },
+      "transpiled_total_gate_count": 20
+    },
+    {
+      "benchmark_depth": 4,
+      "circuit_id": "c_718a85b4a3f347a1",
+      "native_2q_gate_counts": {
+        "cz": 2
+      },
+      "original_2q_gate_count": 2,
+      "original_depth": 4,
+      "original_total_gate_count": 8,
+      "physical_layout": [
+        54,
+        72,
+        59,
+        55
+      ],
+      "sample_id": "sample_001032",
+      "split": "Composition-OOD",
+      "transpiled_2q_gate_count": 2,
+      "transpiled_depth": 9,
+      "transpiled_gate_counts": {
+        "cz": 2,
+        "rz": 7,
+        "sx": 5,
+        "x": 2
+      },
+      "transpiled_total_gate_count": 16
+    },
+    {
+      "benchmark_depth": 2,
+      "circuit_id": "c_789e971e6da04312",
+      "native_2q_gate_counts": {
+        "cz": 1
+      },
+      "original_2q_gate_count": 1,
+      "original_depth": 2,
+      "original_total_gate_count": 6,
+      "physical_layout": [
+        72,
+        70,
+        55,
+        54
+      ],
+      "sample_id": "sample_001024",
+      "split": "Composition-OOD",
+      "transpiled_2q_gate_count": 1,
+      "transpiled_depth": 6,
+      "transpiled_gate_counts": {
+        "cz": 1,
+        "rz": 7,
+        "sx": 4,
+        "x": 2
+      },
+      "transpiled_total_gate_count": 14
+    },
+    {
+      "benchmark_depth": 8,
+      "circuit_id": "c_1e1b45e7a91b42d7",
+      "native_2q_gate_counts": {
+        "cz": 2
+      },
+      "original_2q_gate_count": 2,
+      "original_depth": 5,
+      "original_total_gate_count": 12,
+      "physical_layout": [
+        72,
+        55,
+        59,
+        54
+      ],
+      "sample_id": "sample_001128",
+      "split": "Depth-OOD",
+      "transpiled_2q_gate_count": 2,
+      "transpiled_depth": 9,
+      "transpiled_gate_counts": {
+        "cz": 2,
+        "rz": 10,
+        "sx": 6,
+        "x": 2
+      },
+      "transpiled_total_gate_count": 20
+    },
+    {
+      "benchmark_depth": 8,
+      "circuit_id": "c_3b7cb347fa743dca",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 5,
+      "original_total_gate_count": 12,
+      "physical_layout": [
+        54,
+        70,
+        72,
+        123
+      ],
+      "sample_id": "sample_001080",
+      "split": "Depth-OOD",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 3,
+      "transpiled_gate_counts": {
+        "rz": 4,
+        "sx": 2
+      },
+      "transpiled_total_gate_count": 6
+    },
+    {
+      "benchmark_depth": 8,
+      "circuit_id": "c_49388b803f2e0831",
+      "native_2q_gate_counts": {
+        "cz": 2
+      },
+      "original_2q_gate_count": 2,
+      "original_depth": 5,
+      "original_total_gate_count": 12,
+      "physical_layout": [
+        59,
+        55,
+        72,
+        54
+      ],
+      "sample_id": "sample_001072",
+      "split": "Depth-OOD",
+      "transpiled_2q_gate_count": 2,
+      "transpiled_depth": 13,
+      "transpiled_gate_counts": {
+        "cz": 2,
+        "rz": 9,
+        "sx": 6,
+        "x": 2
+      },
+      "transpiled_total_gate_count": 19
+    },
+    {
+      "benchmark_depth": 8,
+      "circuit_id": "c_5a278701f0bf5cc8",
+      "native_2q_gate_counts": {
+        "cz": 1
+      },
+      "original_2q_gate_count": 1,
+      "original_depth": 4,
+      "original_total_gate_count": 12,
+      "physical_layout": [
+        55,
+        70,
+        54,
+        72
+      ],
+      "sample_id": "sample_001096",
+      "split": "Depth-OOD",
+      "transpiled_2q_gate_count": 1,
+      "transpiled_depth": 8,
+      "transpiled_gate_counts": {
+        "cz": 1,
+        "rz": 6,
+        "sx": 6,
+        "x": 1
+      },
+      "transpiled_total_gate_count": 14
+    },
+    {
+      "benchmark_depth": 8,
+      "circuit_id": "c_6eda6ebd23ee213f",
+      "native_2q_gate_counts": {},
+      "original_2q_gate_count": 0,
+      "original_depth": 4,
+      "original_total_gate_count": 12,
+      "physical_layout": [
+        54,
+        72,
+        70,
+        123
+      ],
+      "sample_id": "sample_001112",
+      "split": "Depth-OOD",
+      "transpiled_2q_gate_count": 0,
+      "transpiled_depth": 5,
+      "transpiled_gate_counts": {
+        "rz": 7,
+        "sx": 5
+      },
+      "transpiled_total_gate_count": 12
+    }
+  ]
+}

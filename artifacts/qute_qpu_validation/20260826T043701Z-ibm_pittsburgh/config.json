@@ -1,0 +1,23 @@
+{
+  "backend": "ibm_pittsburgh",
+  "bit_order": "benchmark q0..q3 = displayed bitstring MSB..LSB; benchmark q maps to Qiskit qubit 3-q",
+  "checkpoint": "artifacts/cc_nqe_p1_p4/checkpoints/transformer_seed11.pt",
+  "checkpoint_sha256": "a36a19cf44fc88170e76fbd48921a4448d3bce79dcf04230114b38218b14e9e1",
+  "created_at": "2026-08-26T04:37:01.098487+00:00",
+  "dataset": "artifacts/cc_nqe_p1_p4/dataset/samples.jsonl",
+  "dataset_payload": "artifacts/cc_nqe_p1_p4/dataset/samples.npz",
+  "dataset_payload_sha256": "cd93893fcddf17d870888f2ee27e13d6d7d288621db0f7b00cec578cab134c50",
+  "dataset_sha256": "1b408ca78009ff032a710f10fb28e75a02252999c19bb83ce83263a85a8f7530",
+  "dry_run": true,
+  "model": "transformer",
+  "model_seed": 11,
+  "num_circuits": 20,
+  "num_per_split": 5,
+  "optimization_level": 2,
+  "schema_version": "qute-qpu-validation-v1",
+  "seed_transpiler": 20260811,
+  "selection_rule": "per requested split: product-state candidates only; circuit_id ascending; lowest sample_id per unique circuit; first N",
+  "selection_sha256": "f742dd3f041bd7e02484356c7b86dda5fb624ad806fdef358bc06308a78ce2ce",
+  "shots": 4096,
+  "status": "QPU_SUBMISSION_READY"
+}

@@ -1,0 +1,29 @@
+{
+  "backend": "ibm_pittsburgh",
+  "circuits": [
+    "sample_000832",
+    "sample_000840",
+    "sample_000856",
+    "sample_000872",
+    "sample_000848",
+    "sample_000952",
+    "sample_000928",
+    "sample_000880",
+    "sample_000960",
+    "sample_001000",
+    "sample_001016",
+    "sample_001056",
+    "sample_001064",
+    "sample_001032",
+    "sample_001024",
+    "sample_001128",
+    "sample_001080",
+    "sample_001072",
+    "sample_001096",
+    "sample_001112"
+  ],
+  "job_id": "da76r2e0ukec7382tgcg",
+  "shots": 4096,
+  "status": "COMPLETED",
+  "updated_at": "2026-08-26T11:02:13.212528+00:00"
+}

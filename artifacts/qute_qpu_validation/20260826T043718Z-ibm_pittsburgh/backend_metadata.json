@@ -1,0 +1,34 @@
+{
+  "backend_name": "ibm_pittsburgh",
+  "backend_version": "1.0.16",
+  "basis_gates": [
+    "cz",
+    "delay",
+    "id",
+    "if_else",
+    "measure",
+    "measure_2",
+    "reset",
+    "rz",
+    "sx",
+    "x"
+  ],
+  "num_qubits": 156,
+  "operational": true,
+  "pending_jobs": 23,
+  "simulator": false,
+  "status_message": "active",
+  "target_summary": {
+    "cz": 352,
+    "delay": 156,
+    "id": 156,
+    "if_else": 1,
+    "measure": 156,
+    "measure_2": 156,
+    "reset": 156,
+    "rz": 156,
+    "sx": 156,
+    "x": 156
+  },
+  "timestamp": "2026-08-26T11:02:11.142125+00:00"
+}

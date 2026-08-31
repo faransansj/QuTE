@@ -1,0 +1,110 @@
+{
+  "by_split": {
+    "Composition-OOD": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 1.4611792678587154e-16,
+        "median": 1.6653345369377368e-16
+      },
+      "tvd_model_qpu": {
+        "mean": 0.9080239240137165,
+        "median": 0.8971372604631711
+      },
+      "tvd_model_sim": {
+        "mean": 0.9342713976676629,
+        "median": 0.9318052292131713
+      },
+      "tvd_sim_qpu": {
+        "mean": 0.031479209609962845,
+        "median": 0.03198242187500014
+      }
+    },
+    "Depth-OOD": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 4.3463496690598904e-16,
+        "median": 3.885780586188048e-16
+      },
+      "tvd_model_qpu": {
+        "mean": 0.6613880580944775,
+        "median": 0.6511612667383172
+      },
+      "tvd_model_sim": {
+        "mean": 0.6723216598451401,
+        "median": 0.6712605843881393
+      },
+      "tvd_sim_qpu": {
+        "mean": 0.02357647855435905,
+        "median": 0.02294921875
+      }
+    },
+    "IID": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 3.025791422972546e-16,
+        "median": 2.498001805406602e-16
+      },
+      "tvd_model_qpu": {
+        "mean": 0.5102821007582372,
+        "median": 0.4509875896266674
+      },
+      "tvd_model_sim": {
+        "mean": 0.5057265339098619,
+        "median": 0.44341923025166746
+      },
+      "tvd_sim_qpu": {
+        "mean": 0.019332995459117715,
+        "median": 0.018798828125000028
+      }
+    },
+    "Parameter-OOD": {
+      "count": 5,
+      "tvd_canonical_transpiled": {
+        "mean": 2.4383706859198995e-16,
+        "median": 2.616179842207522e-16
+      },
+      "tvd_model_qpu": {
+        "mean": 0.7759412102810146,
+        "median": 0.8387332303448137
+      },
+      "tvd_model_sim": {
+        "mean": 0.7815784320530572,
+        "median": 0.8463359866985195
+      },
+      "tvd_sim_qpu": {
+        "mean": 0.013428274383300748,
+        "median": 0.013427734375
+      }
+    }
+  },
+  "claim_boundary": "Descriptive smoke evidence only; the ideal-trained model did not learn QPU noise.",
+  "complexity_correlations": {
+    "transpiled_2q_gate_count_vs_tvd_sim_qpu": 0.6947772838744066,
+    "transpiled_depth_vs_tvd_sim_qpu": 0.4839099138069382
+  },
+  "interpretation": {
+    "combined_gap": "CC-NQE \u2194 QPU",
+    "hardware_error": "canonical ideal simulator \u2194 QPU",
+    "model_error": "CC-NQE \u2194 canonical ideal simulator"
+  },
+  "overall": {
+    "count": 20,
+    "tvd_canonical_transpiled": {
+      "mean": 2.8179227614527627e-16,
+      "median": 2.386057931097474e-16
+    },
+    "tvd_model_qpu": {
+      "mean": 0.7139088232868614,
+      "median": 0.8279375143909762
+    },
+    "tvd_model_sim": {
+      "mean": 0.7234745058689305,
+      "median": 0.831113103636965
+    },
+    "tvd_sim_qpu": {
+      "mean": 0.02195423950168509,
+      "median": 0.020474171648188655
+    }
+  },
+  "schema_version": "qute-qpu-validation-v1"
+}
