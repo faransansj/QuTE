@@ -1,0 +1,20 @@
+{
+  "MKL_NUM_THREADS": "1",
+  "OMP_NUM_THREADS": "1",
+  "available_ram_bytes_at_start": 6061670400,
+  "cpu": "arm",
+  "device": "cpu",
+  "logical_cores": 10,
+  "machine": "arm64",
+  "numpy": "2.5.2",
+  "physical_cores": 10,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "psutil": "7.2.2",
+  "python": "3.13.5",
+  "qiskit": "2.5.2",
+  "qiskit_aer": "0.17.2",
+  "scipy": "1.18.1",
+  "torch": "2.10.0",
+  "torch_threads": 1,
+  "total_ram_bytes": 17179869184
+}

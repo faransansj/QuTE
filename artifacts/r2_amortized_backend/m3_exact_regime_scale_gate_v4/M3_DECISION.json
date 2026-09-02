@@ -1,0 +1,27 @@
+{
+  "checkpoint": "m3_exact_regime.pt",
+  "checkpoint_sha256": "6229d08f06b356334051c783bc125712728bf20c64fd6be0008418926e2c8811",
+  "checks": {
+    "energy_error_per_edge": true,
+    "energy_width_trend": true,
+    "exact_calls_zero": true,
+    "full_10000_circuit_corpus": true,
+    "latency": true,
+    "latency_width_trend": true,
+    "marginal_mae": true,
+    "memory": true,
+    "optimizer_steps_zero": true,
+    "robust_median_energy_error_per_edge": true,
+    "robust_median_marginal_mae": true,
+    "robust_median_zz_mae": true,
+    "robust_p90_energy_error_per_edge": true,
+    "robust_p90_marginal_mae": true,
+    "robust_p90_zz_mae": false,
+    "tvd_18q": true,
+    "validation_boundary_24q": true,
+    "zz_mae": true
+  },
+  "decision": "M3_NEEDS_ITERATION",
+  "qpu_authorized": false,
+  "stage": "full"
+}

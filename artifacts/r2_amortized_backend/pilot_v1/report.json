@@ -1,0 +1,710 @@
+{
+  "corpus": {
+    "generation_seeds": {
+      "teacher_sampling_base": 30000,
+      "train": 20260831,
+      "validation": 20260832
+    },
+    "graph_hash_intersection": [],
+    "stored_probability_tables": 0,
+    "teacher_shots_per_circuit": 1024,
+    "train_circuit_hashes": [
+      "e1898018907d5e0003983b41bdd80d73ca55332d3646feef18b6e44f6f71d541",
+      "ab25812d18bc07655baad8d501a58503d4c3bac3bf06ccb0c64a0ee7d9147e0a",
+      "7fb9f969f83577202540d2a9320ef0fafbc222b88b9d25c8c6bd7e870db10594",
+      "1c35f36b8f934cc01395202a98a915793298eff34f2c8fe727e4d545d87016bd",
+      "09287ce27233d43edf9d6b440878f18950a6697e6576db5ac48ddf566e88b598",
+      "48803e5efa40bfdc3ef0fa976dcf0db8b1617771c2e6317557aba7c75caeccff",
+      "7c3d65416592e50b3daa1279d203c5fb0c78d967f06f7333b7e612d564091e8c",
+      "c2408fcd211063add2716ce1eb94e712ab7cb1dfb34389d6c8184730cfacc8ce",
+      "a212e5c5b9e4d9b9230288162aa4efd1a2a2a78ab61002fe41943f670cac0cbd",
+      "af4dd34685dd66d3a4a652ff876f1ab0d4e4d5cc136a96157a7d85fc1350da4b",
+      "c9835a0a74992fb78e23c88685aa2231012f6f270d8ab2345793452a18e7fa80",
+      "25175d7e1f89f8fe43f1ab74be37ba22f6a985f331afeaf35f5577d9935e4f56",
+      "389c13ac67e63a1347b66b4650213d172db731e1c392290cfc5159c308ba6f51",
+      "194a2499b571f89943838784d91ea16935e706056dd9155ec922633b36a1fb9f",
+      "7e294dbfbf18ca9aa103e12e527fec8f7d93da4d33643c3653adbd9602eb7527",
+      "76900894c7e028d6b2d4d68d9376fe2ba67efbbd1e4cbff7467ff6404c2cb4ec",
+      "b8a77751293490c30677a3eca472403edee96c69391460abbac96b8cfa4b57c8",
+      "5cf029177650d455641d68af1b6304a682ff9df7e3e08237c3f87a9af5ae0078",
+      "cc1fc32c2c5b8af2932cc90d8688b68585c403e077d8cbc9815d1c1f2ad0d488",
+      "84d01f8b809e79641a76db5b350729faff73bba6d3b4f34a5be23afeac2ef705",
+      "c32e178d4ed9cce8f4d71f1ae257bd756ebc5d94946fabb0f3e3c58f86f25a5f",
+      "2bbf01820bce994fd29f244ae0f12bcaca20b2e1fa21d46c218a2f58eb698892",
+      "aead483e0dbb9a7ce501178025dfb79f2017f0d25bae9073fd05b3f3fe20cb18",
+      "1337ec9f7ca84812dbe815807d699d77b4cec6e8a18c30d30533d1ab2770f840",
+      "20d95817549b913b313f0e6a6e14106b9a449c37865c7c01077580ae267be351",
+      "0db434cb575d3598c5db2108698987554a390a0dc1c0173a1f52d9ca8411417b",
+      "4496afb0bfde434d0013d4539b9c999b0256d0e1373df203b0942eee3ffa3c40",
+      "b16b1b833b0af2d6c8dffa1836cc378609c883f2030f9e4e2f45868c17f11eb9",
+      "ed8e93cb6c8716adf0b20419e50e799201f20d7a4539ad2c4695ff09284b15b5",
+      "c95dd08972972aa85d1272d60f5eca9ba0e2d5490c919aec79a544b2bcecb779",
+      "ea866d491770620fa70ccf282cd23d8f82c3b22b5c9e3dfb4e240c0495ea8e1d",
+      "5b6fad48f5e020997d55f7b1ed834461316cef30d2fc022cd75d3b36075c6ffd",
+      "8b08f641a3d7c358b73640738033ed307f0459854b09a849a2f3ca575d96e4f6",
+      "ef0103b420ab962ed62408ae97a963e50b508534f3b7d807a506f429efd4d2d5",
+      "30d7a7f75ab256cdbca768c9955564822e543c9ac7fa1f6e4ae3287d435d9bd6",
+      "84e68fc64e16df76ab7c974ea0f8fb88a47ce73ba6362ce08c878a2db3875d63",
+      "0a4d09b0d62771a406397554203bdd6c8a104c74bd1c74d0c5d729d0924241b5",
+      "37a99c228dccbe3017fb285dd95c61aec8705a15ee97b487f96b06948747fe1e",
+      "70810aedf2f270a2f448393652d17dc4315afaefbf713412c15f6cddc328a115",
+      "4e0e9ab458f6019144b3805874153d3cc21915fee68fea4bc7d3c8f8e7f9edc0",
+      "48d4fcd0d0c94f5dd52c05561a81dbf2f664db366d9328ffac5e42acc82ff2df",
+      "5eaf6eb2c42966a5d9944bf2a2646a269c0e8794cfa605b38143a2b7e5e97de3",
+      "a1c76fe1a2fc8653cf7b8809403ced38b7bcd181e183056d5a700e947cb02832",
+      "f08d434fcf0d6ac143eb3dc1201096c0705021733b48e9f6bb9a1c28a948c69a",
+      "9bccce894b7780a2c1ef240cdb0c60e4cd93a68d0d464818d2b3812607f9285a",
+      "9de656f0871d79ee010275f4ef59e7ecf335d5c41cc88e573ec711767955db9f",
+      "fb3874a03535498c19278888c5ba55628a3563b1779a72d7499a2fba03824c3e",
+      "1df77c79deb74233326b90257464c6856c5c8400ee533a7baf11dcfdddc7e3eb",
+      "0af290ac55ea7456f0a46a748bbab8376dfa5b719951e5c7d0bad630cc82db16",
+      "b99b979faaf770ccedb2f6a248552077d1f2db7d580d261be2ccb6e442a7195a",
+      "6815c9dff312542195ba2054d336b18511ce3f683c337ab2406e27fa99cf7c7b",
+      "df3647c15f2fbe49eb7098465b6bb3ac06f5f88d3ed1407e47535caf8f8da188",
+      "5cfc8d5559d2834eb7b8846d04b324d4a0c34a52d6776a4dee3629ab4f0f26bb",
+      "2d6afa7c93e35d85abde222fb5141bb498ad554d344a41c2a98c09594aa9bb16",
+      "22875bea242258b959b8e0f1a53b9f64678a35101abf67664529f5b7b0db2ff0",
+      "9a6adf417b3fdbfca77bbb1072eaa9c7265e278446661442b1af570662f4a677",
+      "aa0d9e2f7424f65d8313ed19e6a0691ab488246b959ee4d910c57a4fd5f0d496",
+      "6aaf94809e47492a4d2956d777fd81c1c3f96beeeb651bf2441555107f1052f2",
+      "17ecf3efee349cde6fc859a260b441bffda23fc23d4e365c8b4416a696e7aa91",
+      "9b955dd95943c429ea5e2402d9b66fb4af5b66c25ece6e3c1ec9fe1d374ab413",
+      "9625eefcc2d37b51ddcdbeb81ff5864a092209cd948ab90261b3a0333064ba8b",
+      "9bf955c2ba4147c639a0411d400886bb4703ba44fc560eac3d58d6d38af14c57",
+      "43557ba6716e6b1a247eda9c0105838b3093c5bb0de3b3f8de613a3ead7b9784",
+      "0a054bd93e768733f30ecff7ec0206047ee5a9cfb403cf73d3f8991335c3e496",
+      "dabcb54b56fd027efde552cd0b3fd3a8931a5814ed3c143671e24fd71bf662f7",
+      "585a9855f927f5d0e7f165409e2ba00ced9d93376672eb3eab9ff1a43fb6cd69",
+      "1f1545e908d824503e6b3ff32770a9dd92da42ae42473e92c6dfcced23a46c0b",
+      "b51bc75a467df36b5e732d39bc77ec5b72e569f599b0440daf8d147d315918fc",
+      "7091f3d0c75e67c7b180fd96cbbb1934bb7f410174ddd65a2b3e6fc40b447a2e",
+      "d233369ced74c59957afbdcf7b4835bc55e796a8e5eabef16efe1d8809be9c42",
+      "9000a55c6e253948998102653d9dc7939e236f8318a4db98f8cd8ae7400afb27",
+      "a2c3d0b1d321176cbd64c7acec266b57f01d02db9828ae43fbdf288a396d26f5"
+    ],
+    "train_circuits": 72,
+    "train_graph_hashes": [
+      "37b5fc0d620ed9bf564d0f11eef07a8a59bd66b52bcbcb09486f8ddd93aec77a",
+      "809974dfbb9dc593aa3a986275078c7a7182f73474c475eb6267addd4dc1adc2",
+      "a047447f1511d8546de301cdaab12c8d3a853835a319bdc4d49e7613c57e8ffe",
+      "c1f970d4c8f9cba8119044fedb06cf7f53f33ba84d128b1e46bff634ad765983",
+      "ccd2712c261707a0991a832854a5e1a9062ecd3a0d9fd0c54bd7bee38bfc4bbc",
+      "f757ee4f5bca86a7004fd6bafa39ba3e0e649540147f055a4bb98bfe813e8139"
+    ],
+    "validation_circuit_hashes": [
+      "7ecdac28a3af599dc73bd54f03e2db76f3c4d997fafb0f226ef20ccd6fd62fbb",
+      "557de69fa2d1c9b4b43a1a2795dd09085c696bae6ae19b81332bd75f573f5433",
+      "d335e045bcc1d19ed778acf94f7f081e7bc358d644ab45358b5e13babc99d2bd",
+      "3c507aae17d0b97bba9760e7eb4e27f98cfca395397aebb9be32936c0a671286",
+      "5abe7722640c46a2f4504bc4f2bac1b46dd5bba9ecb312ed5db755221615fb30",
+      "93e2f62418f52ae4c8c8b5ec8c0d1f9d4bf956149ef2c9fa1c9bc495b6cab7d7",
+      "502fa94db20bcd300433f84209f0de8fea5334d421600e003e5885ff160145fd",
+      "f2e8fcfed5a6d6519b84e0756e521298995fcddbfb6c10801f0cd7f9f421eca3",
+      "af7956ffe62fb109de76bc6236ec24ccbe8d47bb6f4fa76e2f376b669e8c61fd",
+      "7dce2708d3f0f6593edd5e8e6a40fe245d800f16792bc6ac0148c64a823ab539",
+      "2ad12772ba03dbb7ded0f1bea0c455c705952d27975782272d1519ce0c416f63",
+      "628129fb7fb9de627901913c1410e4dd46e8baf72acf5aa1838b6dbf50b35cbd"
+    ],
+    "validation_circuits": 12,
+    "validation_graph_hashes": [
+      "2ae954188ac6d1a2b0eaa8db375a24dd7fdadbc0fc27d69687ec79894925d0e3",
+      "86c9d6b558b04689f3eae3edaa5d52abd48a6d094c10de189ef827f5e837eb10",
+      "f4e0c065272f6c42cc7c12d6cf4c98c5d92eb461acfceed01b4e0feb52d1a175"
+    ]
+  },
+  "cost": {
+    "checkpoint_bytes": 55961,
+    "circuit_generation_seconds": 0.006030000000464497,
+    "offline_total_seconds": 2.0178879170016444,
+    "teacher_exact_and_sampling_seconds": 0.01835770800244063,
+    "teacher_exact_calls": 72,
+    "training_final_loss": 0.6622576713562012,
+    "training_initial_loss": 0.6943349242210388,
+    "training_seconds": 1.9935002089987393,
+    "transpilation_seconds": 0.0
+  },
+  "environment": {
+    "device": "cpu",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "psutil": "7.2.2",
+    "python": "3.13.5",
+    "qiskit": "2.5.2",
+    "torch": "2.10.0",
+    "torch_threads": 1
+  },
+  "example": {
+    "circuit": {
+      "beta": 0.4301287337640437,
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "gamma": 0.7713697508784068,
+      "n_qubits": 6,
+      "p": 1
+    },
+    "counts_top_12": {
+      "000101": 108,
+      "001001": 98,
+      "001010": 87,
+      "010001": 102,
+      "010010": 108,
+      "010100": 107,
+      "010101": 227,
+      "100100": 111,
+      "101000": 92,
+      "101001": 96,
+      "101010": 202,
+      "110101": 89
+    },
+    "counts_total": 4096,
+    "metadata": {
+      "calibration_status": "UNAVAILABLE_PILOT",
+      "circuit_hash": "7ecdac28a3af599dc73bd54f03e2db76f3c4d997fafb0f226ef20ccd6fd62fbb",
+      "estimated_error": null,
+      "exact_simulator_calls_on_neural_route": 0,
+      "execution_route": "qute",
+      "graph_hash": "f4e0c065272f6c42cc7c12d6cf4c98c5d92eb461acfceed01b4e0feb52d1a175",
+      "model_hash": "1ae9592e1c98e0fc38eb6d9d1ac61f7b85b2b4e729c26c901faa5528aa32d20a",
+      "num_qubits": 6,
+      "per_circuit_optimizer_steps": 0,
+      "qaoa_p": 1,
+      "schema_version": "qute-result-v1",
+      "seed_simulator": 2026,
+      "shots": 4096,
+      "support_score": 1.0,
+      "timing_ms": {
+        "encode": 0.00575,
+        "inference_and_sampling": 161.324,
+        "packaging": 0.033042,
+        "parse": 0.000958,
+        "support": 0.012334,
+        "total": 161.3785
+      }
+    }
+  },
+  "gate_checks": {
+    "counts_sum_to_shots": true,
+    "exact_simulator_calls_on_inference_zero": true,
+    "latency_reported": true,
+    "median_energy_error_per_edge_le_0_10": true,
+    "median_iid_tvd_le_0_35": true,
+    "peak_memory_reported": true,
+    "per_circuit_optimizer_steps_zero": true
+  },
+  "known_failures": [
+    "pilot is six qubits and p=1 only",
+    "uncertainty is not calibrated; support score is a hard envelope check",
+    "Aer and MPS are not installed in the pilot environment",
+    "memory high-water mark combines teacher, training, exact evaluation, and inference",
+    "Qiskit adapter trusts canonical qute_qaoa metadata rather than parsing arbitrary transpiled circuits",
+    "pilot circuits and thresholds are not confirmatory evidence"
+  ],
+  "model": {
+    "checkpoint_sha256": "1ae9592e1c98e0fc38eb6d9d1ac61f7b85b2b4e729c26c901faa5528aa32d20a",
+    "explicit_2n_inference_output": false,
+    "parameters": 13153,
+    "per_circuit_optimizer_steps": 0,
+    "per_circuit_training": false,
+    "type": "conditional_autoregressive_mlp"
+  },
+  "proof": {
+    "backend_metadata_exact_calls": 0,
+    "exact_calls_on_neural_example_route": 0,
+    "test_strategy": "tests monkeypatch exact_probabilities to raise while backend.run still succeeds"
+  },
+  "protocol_hashes": {
+    "BACKEND_CONTRACT.md": "f0794447233e67e838d07eb8cd53a4f8c4e13e1d22cbacd2d013c8586ece4a44",
+    "BENCHMARK_PROTOCOL.md": "05af6be84ceb7f4f21334b4dcd1fc0ddb87f3f8f2e868104d6237e88c786e6dd",
+    "R1_SCOPE.yaml": "7dd3bd6f39622ce3697c8959b58da923231cd2c3f47c6988fd74bcdfad825b59",
+    "RESEARCH_PIVOT.md": "827fd13f2640f1243d1cd7deac3fd3b1857c083ca771eb3c7dc4f2eba0ae64cb"
+  },
+  "research_success": false,
+  "research_success_reason": "SYSTEMS_AND_ECONOMIC_CONDITIONS_FAIL_IN_SIX_QUBIT_PILOT",
+  "schema_version": "qute-amortized-pilot-v1",
+  "scientific_role": "FEASIBILITY_ONLY_NOT_CONFIRMATORY",
+  "source_commit": "1cea49ddb8f6fa2a962f4820e73842441152fa25",
+  "source_hashes": {
+    "qute_r2_pilot.py": "d0cb2fc40e251c46edc5dd39c184b37883f15a89bf0d6159c9e6bf536e60ad97",
+    "run_qute_r2_pilot.py": "130583a2e2025295de21af876471b71f9d199fe2fd91039c3f58225d38cd3702",
+    "tests/test_qute_r2_pilot.py": "c2498b9fa372ded05d9195b662cfd4296adc838dee29f9c27d8c7baa2ce5574e"
+  },
+  "status": "PILOT_PASS",
+  "systems": {
+    "break_even_evaluations": null,
+    "break_even_status": "INFINITE_NEURAL_NOT_FASTER",
+    "exact_statevector_payload_bytes": 1024,
+    "latency": {
+      "exact_all_ms": [
+        0.896208,
+        0.903958,
+        0.88775,
+        0.937291,
+        0.910917,
+        0.886916,
+        0.891333
+      ],
+      "exact_samples_per_second": 4570367.593237285,
+      "exact_statevector_to_counts_median_ms": 0.896208,
+      "neural_all_ms": [
+        160.780292,
+        160.116417,
+        159.052041,
+        158.722916,
+        159.998209,
+        159.500166,
+        159.822416
+      ],
+      "neural_end_to_end_median_ms": 159.822416,
+      "neural_samples_per_second": 25628.44501111784,
+      "repetitions": 7,
+      "shots": 4096,
+      "warmups": 3
+    },
+    "memory_attribution": "combined pilot process; isolated backend peaks deferred",
+    "neural_to_exact_latency_ratio": 178.3318336814668,
+    "process_current_rss_bytes": 347324416,
+    "process_peak_rss_bytes_combined": 347324416,
+    "process_start_rss_bytes": 206815232
+  },
+  "validation": {
+    "aggregate": {
+      "independent_bits": {
+        "median_cut_energy_error": 1.0046529150837276,
+        "median_cut_energy_error_per_edge": 0.14352184501196108,
+        "median_hellinger_fidelity": 0.7763905402975007,
+        "median_jensen_shannon": 0.11073827096749735,
+        "median_optimal_probability_error": 0.10653035565113292,
+        "median_tvd": 0.37308901091067054
+      },
+      "observable_regressor_median_abs_error_per_edge": 0.04557639008448262,
+      "qute": {
+        "median_cut_energy_error": 0.3035721725820233,
+        "median_cut_energy_error_per_edge": 0.04336745322600333,
+        "median_hellinger_fidelity": 0.8792061364751536,
+        "median_jensen_shannon": 0.0596070443040392,
+        "median_optimal_probability_error": 0.027883801688579977,
+        "median_tvd": 0.27091808158092334
+      },
+      "uniform": {
+        "median_cut_energy_error": 1.0033354336364484,
+        "median_cut_energy_error_per_edge": 0.1433336333766355,
+        "median_hellinger_fidelity": 0.7769459466343984,
+        "median_jensen_shannon": 0.11045214001879178,
+        "median_optimal_probability_error": 0.10649626108248389,
+        "median_tvd": 0.3727952199532345
+      }
+    },
+    "qiskit_quantum_circuit_adapter": {
+      "counts_total": 17,
+      "exact_calls_on_route": 0,
+      "status": "PASS"
+    },
+    "qiskit_statevector_cross_check": {
+      "max_probability_abs_error": 1.6653345369377348e-16,
+      "qiskit_version": "2.5.2",
+      "status": "PASS"
+    },
+    "rows": [
+      {
+        "beta": 0.4301287337640437,
+        "circuit_hash": "7ecdac28a3af599dc73bd54f03e2db76f3c4d997fafb0f226ef20ccd6fd62fbb",
+        "gamma": 0.7713697508784068,
+        "graph_hash": "f4e0c065272f6c42cc7c12d6cf4c98c5d92eb461acfceed01b4e0feb52d1a175",
+        "independent_bits": {
+          "cut_energy_error": 1.249181072212929,
+          "cut_energy_error_per_edge": 0.1784544388875613,
+          "hellinger_fidelity": 0.6778623407810822,
+          "jensen_shannon": 0.1636558873530771,
+          "optimal_probability_error": 0.16420047940029373,
+          "tvd": 0.48220858344530015
+        },
+        "observable_regressor_abs_error_per_edge": 0.04692755890777013,
+        "qute": {
+          "cut_energy_error": 0.6241387061037429,
+          "cut_energy_error_per_edge": 0.08916267230053469,
+          "hellinger_fidelity": 0.8392192471802333,
+          "jensen_shannon": 0.07962742469000608,
+          "optimal_probability_error": 0.08609562237866886,
+          "tvd": 0.32942563315080176
+        },
+        "uniform": {
+          "cut_energy_error": 1.2479544728310525,
+          "cut_energy_error_per_edge": 0.1782792104044361,
+          "hellinger_fidelity": 0.6783355434382871,
+          "jensen_shannon": 0.1634098600449165,
+          "optimal_probability_error": 0.16416763557274566,
+          "tvd": 0.48198959389354523
+        }
+      },
+      {
+        "beta": 0.22820231899212493,
+        "circuit_hash": "557de69fa2d1c9b4b43a1a2795dd09085c696bae6ae19b81332bd75f573f5433",
+        "gamma": 0.43703813663082836,
+        "graph_hash": "f4e0c065272f6c42cc7c12d6cf4c98c5d92eb461acfceed01b4e0feb52d1a175",
+        "independent_bits": {
+          "cut_energy_error": 0.9745971992995557,
+          "cut_energy_error_per_edge": 0.13922817132850795,
+          "hellinger_fidelity": 0.8262262441540412,
+          "jensen_shannon": 0.08549678400119078,
+          "optimal_probability_error": 0.07369703071439443,
+          "tvd": 0.33119329657082275
+        },
+        "observable_regressor_abs_error_per_edge": 0.0442252212611951,
+        "qute": {
+          "cut_energy_error": 0.27356577057593334,
+          "cut_energy_error_per_edge": 0.03908082436799048,
+          "hellinger_fidelity": 0.9451928356488944,
+          "jensen_shannon": 0.026838916523315395,
+          "optimal_probability_error": 0.012702009871991757,
+          "tvd": 0.1778682739747192
+        },
+        "uniform": {
+          "cut_energy_error": 0.9733682886742905,
+          "cut_energy_error_per_edge": 0.1390526126677558,
+          "hellinger_fidelity": 0.8268401003822816,
+          "jensen_shannon": 0.08520771697260192,
+          "optimal_probability_error": 0.07366412502196691,
+          "tvd": 0.3308970991185318
+        }
+      },
+      {
+        "beta": 0.40895093920087183,
+        "circuit_hash": "d335e045bcc1d19ed778acf94f7f081e7bc358d644ab45358b5e13babc99d2bd",
+        "gamma": 0.8161401760741743,
+        "graph_hash": "f4e0c065272f6c42cc7c12d6cf4c98c5d92eb461acfceed01b4e0feb52d1a175",
+        "independent_bits": {
+          "cut_energy_error": 1.249053065853615,
+          "cut_energy_error_per_edge": 0.17843615226480214,
+          "hellinger_fidelity": 0.6605883831066142,
+          "jensen_shannon": 0.17090483508958115,
+          "optimal_probability_error": 0.16750584918679426,
+          "tvd": 0.4899980120871327
+        },
+        "observable_regressor_abs_error_per_edge": 0.04806505512561644,
+        "qute": {
+          "cut_energy_error": 0.6243492789404783,
+          "cut_energy_error_per_edge": 0.08919275413435404,
+          "hellinger_fidelity": 0.817556528081161,
+          "jensen_shannon": 0.08889053336952113,
+          "optimal_probability_error": 0.08953891889092289,
+          "tvd": 0.3335639334412076
+        },
+        "uniform": {
+          "cut_energy_error": 1.247826530302504,
+          "cut_energy_error_per_edge": 0.17826093290035772,
+          "hellinger_fidelity": 0.6610612105923901,
+          "jensen_shannon": 0.17065903393067505,
+          "optimal_probability_error": 0.16747300706780066,
+          "tvd": 0.48977903392893607
+        }
+      },
+      {
+        "beta": 0.4674317749932316,
+        "circuit_hash": "3c507aae17d0b97bba9760e7eb4e27f98cfca395397aebb9be32936c0a671286",
+        "gamma": 0.2596732809928112,
+        "graph_hash": "f4e0c065272f6c42cc7c12d6cf4c98c5d92eb461acfceed01b4e0feb52d1a175",
+        "independent_bits": {
+          "cut_energy_error": 0.7581608246107892,
+          "cut_energy_error_per_edge": 0.10830868923011273,
+          "hellinger_fidelity": 0.9095104830027991,
+          "jensen_shannon": 0.04543895322610668,
+          "optimal_probability_error": 0.05388623098044102,
+          "tvd": 0.2523519207784934
+        },
+        "observable_regressor_abs_error_per_edge": 0.0475707964205055,
+        "qute": {
+          "cut_energy_error": 0.09079391115479307,
+          "cut_energy_error_per_edge": 0.01297055873639901,
+          "hellinger_fidelity": 0.9749925419762434,
+          "jensen_shannon": 0.012531438387694244,
+          "optimal_probability_error": 0.029208183697057813,
+          "tvd": 0.14282508244695719
+        },
+        "uniform": {
+          "cut_energy_error": 0.7569324735842997,
+          "cut_energy_error_per_edge": 0.10813321051204282,
+          "hellinger_fidelity": 0.910104991535447,
+          "jensen_shannon": 0.04514830977584839,
+          "optimal_probability_error": 0.05385334026674471,
+          "tvd": 0.2512699159767877
+        }
+      },
+      {
+        "beta": 0.3008100001618396,
+        "circuit_hash": "5abe7722640c46a2f4504bc4f2bac1b46dd5bba9ecb312ed5db755221615fb30",
+        "gamma": 1.2595683135832862,
+        "graph_hash": "86c9d6b558b04689f3eae3edaa5d52abd48a6d094c10de189ef827f5e837eb10",
+        "independent_bits": {
+          "cut_energy_error": 0.670369109549164,
+          "cut_energy_error_per_edge": 0.09576701564988056,
+          "hellinger_fidelity": 0.8002509285278225,
+          "jensen_shannon": 0.0977153489995572,
+          "optimal_probability_error": 0.0888240073059403,
+          "tvd": 0.3385573542598129
+        },
+        "observable_regressor_abs_error_per_edge": 0.05006426242362646,
+        "qute": {
+          "cut_energy_error": 0.016731980735368523,
+          "cut_energy_error_per_edge": 0.0023902829621955035,
+          "hellinger_fidelity": 0.849469494064694,
+          "jensen_shannon": 0.07158703738063447,
+          "optimal_probability_error": 0.008423931787492123,
+          "tvd": 0.2667901242806484
+        },
+        "uniform": {
+          "cut_energy_error": 0.6690523279817828,
+          "cut_energy_error_per_edge": 0.09557890399739755,
+          "hellinger_fidelity": 0.8007981769479787,
+          "jensen_shannon": 0.0974322089515808,
+          "optimal_probability_error": 0.08878874963918329,
+          "tvd": 0.3382635315258916
+        }
+      },
+      {
+        "beta": 0.17376620690522368,
+        "circuit_hash": "93e2f62418f52ae4c8c8b5ec8c0d1f9d4bf956149ef2c9fa1c9bc495b6cab7d7",
+        "gamma": 0.6756952169481254,
+        "graph_hash": "86c9d6b558b04689f3eae3edaa5d52abd48a6d094c10de189ef827f5e837eb10",
+        "independent_bits": {
+          "cut_energy_error": 0.992201152042135,
+          "cut_energy_error_per_edge": 0.141743021720305,
+          "hellinger_fidelity": 0.8443217436597045,
+          "jensen_shannon": 0.07792871215149852,
+          "optimal_probability_error": 0.10385494866464594,
+          "tvd": 0.30891946063314735
+        },
+        "observable_regressor_abs_error_per_edge": 0.04355011536880836,
+        "qute": {
+          "cut_energy_error": 0.21111016426275953,
+          "cut_energy_error_per_edge": 0.03015859489467993,
+          "hellinger_fidelity": 0.9619540932561251,
+          "jensen_shannon": 0.018963612356266375,
+          "optimal_probability_error": 0.012781118198309793,
+          "tvd": 0.14455983370647876
+        },
+        "uniform": {
+          "cut_energy_error": 0.9908826858004716,
+          "cut_energy_error_per_edge": 0.14155466940006736,
+          "hellinger_fidelity": 0.8449752758366533,
+          "jensen_shannon": 0.07761507961988698,
+          "optimal_probability_error": 0.10381964590665455,
+          "tvd": 0.3081595836098835
+        }
+      },
+      {
+        "beta": 0.33213821255468057,
+        "circuit_hash": "502fa94db20bcd300433f84209f0de8fea5334d421600e003e5885ff160145fd",
+        "gamma": 0.6586497112403646,
+        "graph_hash": "86c9d6b558b04689f3eae3edaa5d52abd48a6d094c10de189ef827f5e837eb10",
+        "independent_bits": {
+          "cut_energy_error": 1.4984879791694934,
+          "cut_energy_error_per_edge": 0.21406971130992763,
+          "hellinger_fidelity": 0.652809518766891,
+          "jensen_shannon": 0.17566178712075445,
+          "optimal_probability_error": 0.2185547800223628,
+          "tvd": 0.4708089853615586
+        },
+        "observable_regressor_abs_error_per_edge": 0.015173359722631119,
+        "qute": {
+          "cut_energy_error": 0.7470602329642109,
+          "cut_energy_error_per_edge": 0.1067228904234587,
+          "hellinger_fidelity": 0.848472870161474,
+          "jensen_shannon": 0.0746349169209673,
+          "optimal_probability_error": 0.130503452141704,
+          "tvd": 0.2903881912896853
+        },
+        "uniform": {
+          "cut_energy_error": 1.4971719675837072,
+          "cut_energy_error_per_edge": 0.21388170965481532,
+          "hellinger_fidelity": 0.6533612774199443,
+          "jensen_shannon": 0.17538360932329272,
+          "optimal_probability_error": 0.2185195429646014,
+          "tvd": 0.4705035533579234
+        }
+      },
+      {
+        "beta": 0.2834696441432004,
+        "circuit_hash": "f2e8fcfed5a6d6519b84e0756e521298995fcddbfb6c10801f0cd7f9f421eca3",
+        "gamma": 1.0820266267691345,
+        "graph_hash": "86c9d6b558b04689f3eae3edaa5d52abd48a6d094c10de189ef827f5e837eb10",
+        "independent_bits": {
+          "cut_energy_error": 1.0171046781253201,
+          "cut_energy_error_per_edge": 0.14530066830361715,
+          "hellinger_fidelity": 0.7525301520671789,
+          "jensen_shannon": 0.1237611929354375,
+          "optimal_probability_error": 0.13558088772493562,
+          "tvd": 0.40762066756152815
+        },
+        "observable_regressor_abs_error_per_edge": 0.04177171091602678,
+        "qute": {
+          "cut_energy_error": 0.3036403478994938,
+          "cut_energy_error_per_edge": 0.043377192557070544,
+          "hellinger_fidelity": 0.8654807920985912,
+          "jensen_shannon": 0.06582468108048782,
+          "optimal_probability_error": 0.05225613693803238,
+          "tvd": 0.27649464040679717
+        },
+        "uniform": {
+          "cut_energy_error": 1.0157881814724252,
+          "cut_energy_error_per_edge": 0.14511259735320362,
+          "hellinger_fidelity": 0.753093716320818,
+          "jensen_shannon": 0.12347207108600274,
+          "optimal_probability_error": 0.1355456376840759,
+          "tvd": 0.4073269083805774
+        }
+      },
+      {
+        "beta": 0.1298943897847484,
+        "circuit_hash": "af7956ffe62fb109de76bc6236ec24ccbe8d47bb6f4fa76e2f376b669e8c61fd",
+        "gamma": 0.9842061631139704,
+        "graph_hash": "2ae954188ac6d1a2b0eaa8db375a24dd7fdadbc0fc27d69687ec79894925d0e3",
+        "independent_bits": {
+          "cut_energy_error": 0.6167077750176331,
+          "cut_energy_error_per_edge": 0.08810111071680472,
+          "hellinger_fidelity": 0.9262350866486944,
+          "jensen_shannon": 0.03697446619208612,
+          "optimal_probability_error": 0.059561809948684784,
+          "tvd": 0.222989774886878
+        },
+        "observable_regressor_abs_error_per_edge": 0.054315887582598296,
+        "qute": {
+          "cut_energy_error": 0.09188400810247987,
+          "cut_energy_error_per_edge": 0.01312628687178284,
+          "hellinger_fidelity": 0.9674448667543376,
+          "jensen_shannon": 0.016319875040080915,
+          "optimal_probability_error": 0.026559419680102142,
+          "tvd": 0.15315921074755728
+        },
+        "uniform": {
+          "cut_energy_error": 0.6154774003776904,
+          "cut_energy_error_per_edge": 0.08792534291109863,
+          "hellinger_fidelity": 0.9268249399486096,
+          "jensen_shannon": 0.03668158144868296,
+          "optimal_probability_error": 0.05952886506912791,
+          "tvd": 0.22270421398853357
+        }
+      },
+      {
+        "beta": 0.42021575419142093,
+        "circuit_hash": "7dce2708d3f0f6593edd5e8e6a40fe245d800f16792bc6ac0148c64a823ab539",
+        "gamma": 0.5495669346398202,
+        "graph_hash": "2ae954188ac6d1a2b0eaa8db375a24dd7fdadbc0fc27d69687ec79894925d0e3",
+        "independent_bits": {
+          "cut_energy_error": 1.268790719787841,
+          "cut_energy_error_per_edge": 0.1812558171125487,
+          "hellinger_fidelity": 0.7152417742270998,
+          "jensen_shannon": 0.1447818267642298,
+          "optimal_probability_error": 0.13262290896279214,
+          "tvd": 0.46110700552955464
+        },
+        "observable_regressor_abs_error_per_edge": 0.03683291071555989,
+        "qute": {
+          "cut_energy_error": 0.5755322279106281,
+          "cut_energy_error_per_edge": 0.08221888970151829,
+          "hellinger_fidelity": 0.8929314808517159,
+          "jensen_shannon": 0.05338940752759058,
+          "optimal_probability_error": 0.047200845487556486,
+          "tvd": 0.2844815714377256
+        },
+        "uniform": {
+          "cut_energy_error": 1.267563695377918,
+          "cut_energy_error_per_edge": 0.18108052791113113,
+          "hellinger_fidelity": 0.7157574340745169,
+          "jensen_shannon": 0.14451878882324629,
+          "optimal_probability_error": 0.13259005375854388,
+          "tvd": 0.4608331814416963
+        }
+      },
+      {
+        "beta": 0.23645508340969648,
+        "circuit_hash": "2ad12772ba03dbb7ded0f1bea0c455c705952d27975782272d1519ce0c416f63",
+        "gamma": 0.6470050260583906,
+        "graph_hash": "2ae954188ac6d1a2b0eaa8db375a24dd7fdadbc0fc27d69687ec79894925d0e3",
+        "independent_bits": {
+          "cut_energy_error": 1.1640267314342139,
+          "cut_energy_error_per_edge": 0.16628953306203056,
+          "hellinger_fidelity": 0.7455383540763084,
+          "jensen_shannon": 0.1274572782977328,
+          "optimal_probability_error": 0.10920576263761991,
+          "tvd": 0.4185955800565702
+        },
+        "observable_regressor_abs_error_per_edge": 0.0419943053161212,
+        "qute": {
+          "cut_energy_error": 0.4429884327052349,
+          "cut_energy_error_per_edge": 0.06328406181503356,
+          "hellinger_fidelity": 0.9106013874912006,
+          "jensen_shannon": 0.04396254995412747,
+          "optimal_probability_error": 0.020942328498127938,
+          "tvd": 0.23073399544051282
+        },
+        "uniform": {
+          "cut_energy_error": 1.162798542338571,
+          "cut_energy_error_per_edge": 0.1661140774769387,
+          "hellinger_fidelity": 0.7461164937920746,
+          "jensen_shannon": 0.12717954615341265,
+          "optimal_probability_error": 0.10917287625831323,
+          "tvd": 0.4179160066325298
+        }
+      },
+      {
+        "beta": 0.6606366006373745,
+        "circuit_hash": "628129fb7fb9de627901913c1410e4dd46e8baf72acf5aa1838b6dbf50b35cbd",
+        "gamma": 0.7174291196575959,
+        "graph_hash": "2ae954188ac6d1a2b0eaa8db375a24dd7fdadbc0fc27d69687ec79894925d0e3",
+        "independent_bits": {
+          "cut_energy_error": 0.3223165038599136,
+          "cut_energy_error_per_edge": 0.04604521483713052,
+          "hellinger_fidelity": 0.8304582542897417,
+          "jensen_shannon": 0.08329852607737062,
+          "optimal_probability_error": 0.07118100175076926,
+          "tvd": 0.30828152866574526
+        },
+        "observable_regressor_abs_error_per_edge": 0.07627757019431211,
+        "qute": {
+          "cut_energy_error": 0.3035039972645528,
+          "cut_energy_error_per_edge": 0.04335771389493611,
+          "hellinger_fidelity": 0.862442172136524,
+          "jensen_shannon": 0.06736237015537729,
+          "optimal_probability_error": 0.007163466832416754,
+          "tvd": 0.2750460388811983
+        },
+        "uniform": {
+          "cut_energy_error": 0.32108655273380826,
+          "cut_energy_error_per_edge": 0.04586950753340118,
+          "hellinger_fidelity": 0.8308205505678269,
+          "jensen_shannon": 0.08310517041178375,
+          "optimal_probability_error": 0.07114806820736008,
+          "tvd": 0.30863289696361895
+        }
+      }
+    ]
+  }
+}

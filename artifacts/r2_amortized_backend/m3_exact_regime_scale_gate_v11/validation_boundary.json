@@ -1,0 +1,7 @@
+{
+  "exact_statevector_validated_through_qubits": 24,
+  "m2_mps_cycle_measured_through_qubits": 32,
+  "m2_mps_random_p1_measured_through_qubits": 28,
+  "m2_mps_random_p2_p3_timeout_qubits": 20,
+  "m2_statevector_resource_guard_qubits": 26
+}

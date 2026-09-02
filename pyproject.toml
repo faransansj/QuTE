@@ -5,6 +5,15 @@ description = "Controlled 4-qubit context-conditioned neural emulator feasibilit
 requires-python = ">=3.12"
 dependencies = ["numpy>=2.0", "torch==2.10.0", "triton-xpu==3.6.0", "psutil>=6", "threadpoolctl>=3.6"]
 
+[project.optional-dependencies]
+profiling = ["qiskit-aer>=0.17", "scipy>=1.14", "matplotlib>=3.9"]
+
+[project.scripts]
+qute-m2-profile = "qute_r2.profiling.run:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.uv.sources]
 torch = { index = "pytorch-xpu" }
 # uv 0.11.8 does not select the dual-manylinux-tagged wheel from the index.
@@ -19,5 +28,5 @@ explicit = true
 dev = ["pytest>=8"]
 
 [tool.pytest.ini_options]
-pythonpath = ["."]
+pythonpath = ["src", "."]
 testpaths = ["tests"]

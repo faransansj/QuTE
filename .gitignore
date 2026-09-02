@@ -2,6 +2,7 @@
 __pycache__/
 .pytest_cache/
 *.pyc
+*.egg-info/
 
 # P4.5 generated data and model weights; keep manifests and reports tracked.
 artifacts/cc_nqe_p4_5/checkpoints/
@@ -32,3 +33,9 @@ artifacts/cc_nqe_p4_7/confirmatory/status.json
 
 # P4.8 transaction-private per-example results are never public artifacts.
 artifacts/cc_nqe_p4_8/.transaction-*/
+
+# R2 generated teacher payloads, checkpoints, and expanded manifests stay local.
+artifacts/r2_amortized_backend/**/*.npz
+artifacts/r2_amortized_backend/**/*.pt
+artifacts/r2_amortized_backend/**/*_manifest*.json
+artifacts/r2_amortized_backend/**/.worker/

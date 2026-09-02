@@ -1,0 +1,286 @@
+{
+  "history": [
+    {
+      "epoch": 1,
+      "mean_loss": 0.6907791561550565,
+      "median_loss": 0.6916626691818237
+    },
+    {
+      "epoch": 2,
+      "mean_loss": 0.6883560374931053,
+      "median_loss": 0.6898983716964722
+    },
+    {
+      "epoch": 3,
+      "mean_loss": 0.6837516802328604,
+      "median_loss": 0.6830495595932007
+    },
+    {
+      "epoch": 4,
+      "mean_loss": 0.681554604459692,
+      "median_loss": 0.6826806664466858
+    },
+    {
+      "epoch": 5,
+      "mean_loss": 0.679439507148884,
+      "median_loss": 0.6804763078689575
+    },
+    {
+      "epoch": 6,
+      "mean_loss": 0.6787575019730462,
+      "median_loss": 0.680482029914856
+    },
+    {
+      "epoch": 7,
+      "mean_loss": 0.6751246783468459,
+      "median_loss": 0.6754232048988342
+    },
+    {
+      "epoch": 8,
+      "mean_loss": 0.6752715839280022,
+      "median_loss": 0.6813259720802307
+    },
+    {
+      "epoch": 9,
+      "mean_loss": 0.6716733398260893,
+      "median_loss": 0.6723237037658691
+    },
+    {
+      "epoch": 10,
+      "mean_loss": 0.6705492801136441,
+      "median_loss": 0.6784086227416992
+    },
+    {
+      "epoch": 11,
+      "mean_loss": 0.6755522776533056,
+      "median_loss": 0.6769510507583618
+    },
+    {
+      "epoch": 12,
+      "mean_loss": 0.672508180141449,
+      "median_loss": 0.6768355369567871
+    },
+    {
+      "epoch": 13,
+      "mean_loss": 0.6685353583759732,
+      "median_loss": 0.6680581569671631
+    },
+    {
+      "epoch": 14,
+      "mean_loss": 0.6672303168861954,
+      "median_loss": 0.6642441153526306
+    },
+    {
+      "epoch": 15,
+      "mean_loss": 0.6698692617592988,
+      "median_loss": 0.6711277365684509
+    },
+    {
+      "epoch": 16,
+      "mean_loss": 0.6682455826688696,
+      "median_loss": 0.6664677262306213
+    },
+    {
+      "epoch": 17,
+      "mean_loss": 0.6675827856417056,
+      "median_loss": 0.670147180557251
+    },
+    {
+      "epoch": 18,
+      "mean_loss": 0.6672216543444881,
+      "median_loss": 0.6662535071372986
+    },
+    {
+      "epoch": 19,
+      "mean_loss": 0.6667328278223673,
+      "median_loss": 0.669990062713623
+    },
+    {
+      "epoch": 20,
+      "mean_loss": 0.667724245124393,
+      "median_loss": 0.6692255139350891
+    },
+    {
+      "epoch": 1,
+      "mean_loss": 0.6915516210079193,
+      "median_loss": 0.6920806169509888,
+      "stage": "full"
+    },
+    {
+      "epoch": 2,
+      "mean_loss": 0.6875562779426575,
+      "median_loss": 0.688446044921875,
+      "stage": "full"
+    },
+    {
+      "epoch": 3,
+      "mean_loss": 0.6837789521217347,
+      "median_loss": 0.6848357915878296,
+      "stage": "full"
+    },
+    {
+      "epoch": 4,
+      "mean_loss": 0.681970427274704,
+      "median_loss": 0.6829732060432434,
+      "stage": "full"
+    },
+    {
+      "epoch": 5,
+      "mean_loss": 0.6804280357837676,
+      "median_loss": 0.6809980571269989,
+      "stage": "full"
+    },
+    {
+      "epoch": 6,
+      "mean_loss": 0.6794791246891022,
+      "median_loss": 0.6803313791751862,
+      "stage": "full"
+    },
+    {
+      "epoch": 7,
+      "mean_loss": 0.6784267217159271,
+      "median_loss": 0.6798186600208282,
+      "stage": "full"
+    },
+    {
+      "epoch": 8,
+      "mean_loss": 0.677448024225235,
+      "median_loss": 0.6789027452468872,
+      "stage": "full"
+    },
+    {
+      "epoch": 9,
+      "mean_loss": 0.6766246465682983,
+      "median_loss": 0.6781317293643951,
+      "stage": "full"
+    },
+    {
+      "epoch": 10,
+      "mean_loss": 0.6755259787082672,
+      "median_loss": 0.6765521466732025,
+      "stage": "full"
+    },
+    {
+      "epoch": 11,
+      "mean_loss": 0.674526773071289,
+      "median_loss": 0.6752015054225922,
+      "stage": "full"
+    },
+    {
+      "epoch": 12,
+      "mean_loss": 0.6733682197093963,
+      "median_loss": 0.67432501912117,
+      "stage": "full"
+    },
+    {
+      "epoch": 13,
+      "mean_loss": 0.6729042482376099,
+      "median_loss": 0.6740151941776276,
+      "stage": "full"
+    },
+    {
+      "epoch": 14,
+      "mean_loss": 0.6721464563369751,
+      "median_loss": 0.6735338568687439,
+      "stage": "full"
+    },
+    {
+      "epoch": 15,
+      "mean_loss": 0.6713305514335632,
+      "median_loss": 0.6723411381244659,
+      "stage": "full"
+    },
+    {
+      "epoch": 16,
+      "mean_loss": 0.6706257587432861,
+      "median_loss": 0.67214235663414,
+      "stage": "full"
+    },
+    {
+      "epoch": 17,
+      "mean_loss": 0.6700079788208008,
+      "median_loss": 0.6708855330944061,
+      "stage": "full"
+    },
+    {
+      "epoch": 18,
+      "mean_loss": 0.6700184930801392,
+      "median_loss": 0.6707804203033447,
+      "stage": "full"
+    },
+    {
+      "epoch": 19,
+      "mean_loss": 0.6692252731323243,
+      "median_loss": 0.6709138453006744,
+      "stage": "full"
+    },
+    {
+      "epoch": 20,
+      "mean_loss": 0.6690244970798492,
+      "median_loss": 0.6698527634143829,
+      "stage": "full"
+    },
+    {
+      "epoch": 21,
+      "mean_loss": 0.6690359946250916,
+      "median_loss": 0.6707904040813446,
+      "stage": "full"
+    },
+    {
+      "epoch": 22,
+      "mean_loss": 0.668732601928711,
+      "median_loss": 0.6698304712772369,
+      "stage": "full"
+    },
+    {
+      "epoch": 23,
+      "mean_loss": 0.667985628080368,
+      "median_loss": 0.669194757938385,
+      "stage": "full"
+    },
+    {
+      "epoch": 24,
+      "mean_loss": 0.6681145829200744,
+      "median_loss": 0.6695789396762848,
+      "stage": "full"
+    },
+    {
+      "epoch": 25,
+      "mean_loss": 0.667689176607132,
+      "median_loss": 0.6686111092567444,
+      "stage": "full"
+    },
+    {
+      "epoch": 26,
+      "mean_loss": 0.6678304654121399,
+      "median_loss": 0.6688927412033081,
+      "stage": "full"
+    },
+    {
+      "epoch": 27,
+      "mean_loss": 0.667575227022171,
+      "median_loss": 0.6689141988754272,
+      "stage": "full"
+    },
+    {
+      "epoch": 28,
+      "mean_loss": 0.667590869140625,
+      "median_loss": 0.6689334511756897,
+      "stage": "full"
+    },
+    {
+      "epoch": 29,
+      "mean_loss": 0.6674647938728333,
+      "median_loss": 0.6682852804660797,
+      "stage": "full"
+    },
+    {
+      "epoch": 30,
+      "mean_loss": 0.6671721237182617,
+      "median_loss": 0.668859988451004,
+      "stage": "full"
+    }
+  ],
+  "stage": "full",
+  "viability_screen_pass": true
+}

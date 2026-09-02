@@ -1,0 +1,25 @@
+{
+  "branch": "research/r2-amortized-neural-backend",
+  "commit": "1cea49ddb8f6fa2a962f4820e73842441152fa25",
+  "status_porcelain": [
+    " M pyproject.toml",
+    " M uv.lock",
+    "?? BACKEND_CONTRACT.md",
+    "?? BENCHMARK_PROTOCOL.md",
+    "?? LITERATURE_GAP_MATRIX.md",
+    "?? MIGRATION_MAP.md",
+    "?? R1_SCOPE.yaml",
+    "?? RESEARCH_PIVOT.md",
+    "?? artifacts/r2_amortized_backend/",
+    "?? configs/",
+    "?? docs/M1_AMORTIZED_BACKEND_RESEARCH_PROPOSAL_GATE.md",
+    "?? docs/M2_NEXT_STAGE_RECOMMENDATION.md",
+    "?? docs/M2_OPERATING_REGION_PROTOCOL.md",
+    "?? docs/M2_OPERATING_REGION_REPORT.md",
+    "?? qute_r2_pilot.py",
+    "?? run_qute_r2_pilot.py",
+    "?? src/",
+    "?? tests/test_m2_profiling.py",
+    "?? tests/test_qute_r2_pilot.py"
+  ]
+}

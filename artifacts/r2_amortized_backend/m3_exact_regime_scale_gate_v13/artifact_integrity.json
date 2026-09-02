@@ -1,0 +1,37 @@
+{
+  "checkpoint": {
+    "file": "m3_exact_regime.pt",
+    "sha256": "a120de0e0314d29b306989bcb376f194c5d21fdceea8d624ccabfda0d38e16e1"
+  },
+  "datasets": {
+    "confirmatory_robustness": {
+      "count": 192,
+      "payload": "robustness_teacher.npz",
+      "sha256": "9be67a0478c1ff003207e678ac540a1cedcdf00a5b273e15bbffb50c7ed56db2",
+      "shots": 65536,
+      "teacher_method": "statevector"
+    },
+    "full": {
+      "count": 10000,
+      "payload": "full_teacher_10000.npz",
+      "sha256": "db69b5a7ee31f39e980be54f36db6ea296b2be7720157d8aa78ab0a8687f000f",
+      "shots": 256,
+      "teacher_method": "statevector"
+    },
+    "targeted_development": {
+      "count": 2000,
+      "payload": "targeted_teacher.npz",
+      "sha256": "1d4073a10289d7a4008db0bb3f71d294d71ccdedbe468e9c6ae37b97ddf0f3c0",
+      "shots": 1024,
+      "teacher_method": "statevector"
+    },
+    "validation": {
+      "count": 144,
+      "payload": "validation_teacher.npz",
+      "sha256": "0dd8ce89ef1209ffaafe45d45b2391ff2ac23d9275863bc680a85958f6204f19",
+      "shots": 65536,
+      "teacher_method": "statevector"
+    }
+  },
+  "schema_version": "m3-v13-artifact-integrity-v1"
+}

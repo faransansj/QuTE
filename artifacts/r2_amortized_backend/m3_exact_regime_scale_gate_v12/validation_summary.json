@@ -1,0 +1,30 @@
+{
+  "by_width": {
+    "18": {
+      "median_energy_error_per_edge": 0.002476444933563471,
+      "median_marginal_mae": 0.003334469278343022,
+      "median_zz_mae": 0.007089120568707585
+    },
+    "20": {
+      "median_energy_error_per_edge": 0.002079264260828495,
+      "median_marginal_mae": 0.0031921386253088713,
+      "median_zz_mae": 0.006676737451925874
+    },
+    "22": {
+      "median_energy_error_per_edge": 0.0026060162344947457,
+      "median_marginal_mae": 0.0032750910613685846,
+      "median_zz_mae": 0.007636330323293805
+    },
+    "24": {
+      "median_energy_error_per_edge": 0.0021962058963254094,
+      "median_marginal_mae": 0.0032033920288085938,
+      "median_zz_mae": 0.0064684548415243626
+    }
+  },
+  "overall": {
+    "median_energy_error_per_edge": 0.002399472869001329,
+    "median_exact_tvd_18q": 0.02972188114843574,
+    "median_marginal_mae": 0.003252237569540739,
+    "median_zz_mae": 0.006823984673246741
+  }
+}

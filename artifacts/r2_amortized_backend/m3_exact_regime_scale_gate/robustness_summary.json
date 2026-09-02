@@ -1,0 +1,45 @@
+{
+  "by_width": {
+    "18": {
+      "median_energy_error_per_edge": 0.0608817208558321,
+      "median_marginal_mae": 0.0034628973808139563,
+      "median_zz_mae": 0.1217634417116642
+    },
+    "20": {
+      "median_energy_error_per_edge": 0.05870971456170082,
+      "median_marginal_mae": 0.003219222999177873,
+      "median_zz_mae": 0.11741942912340164
+    },
+    "22": {
+      "median_energy_error_per_edge": 0.05730438232421875,
+      "median_marginal_mae": 0.003646157099865377,
+      "median_zz_mae": 0.1146087646484375
+    },
+    "24": {
+      "median_energy_error_per_edge": 0.05415026284754276,
+      "median_marginal_mae": 0.0032847721595317125,
+      "median_zz_mae": 0.10830052569508553
+    }
+  },
+  "overall": {
+    "max_energy_error_per_edge": 0.1872151643037796,
+    "max_marginal_mae": 0.0065163504332304,
+    "max_zz_mae": 0.3744303286075592,
+    "median_energy_error_per_edge": 0.058495840057730675,
+    "median_exact_tvd_18q": null,
+    "median_marginal_mae": 0.003373386920429766,
+    "median_zz_mae": 0.11699168011546135,
+    "p90_energy_error_per_edge": 0.13438671827316287,
+    "p90_marginal_mae": 0.005155444517731667,
+    "p90_zz_mae": 0.26877343654632574
+  },
+  "robustness_checks": {
+    "energy_error_per_edge": false,
+    "marginal_mae": true,
+    "p90_energy_error_per_edge": false,
+    "p90_marginal_mae": true,
+    "p90_zz_mae": false,
+    "zz_mae": false
+  },
+  "status": "CONCERNS"
+}

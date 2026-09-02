@@ -1,0 +1,10 @@
+{
+  "candidate_count": 9,
+  "correctness": "PASS",
+  "decision": "PROCEED_TO_M3",
+  "mps_dominates_all_measured_cells": false,
+  "qute_speedup_claim": false,
+  "scientific_role": "EXPLORATORY_NOT_CONFIRMATORY",
+  "stress_family_activated": false,
+  "stress_family_reason": "MPS did not satisfy the preregistered n<=20,p=3 latency conditions"
+}

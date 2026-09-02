@@ -1,0 +1,2644 @@
+{
+  "rows": [
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 47.68891899999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 476.8891899999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 4768.891899999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 47688.91899999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 25.058626999999973,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 250.58626999999973,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 2505.8626999999974,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 25058.626999999975,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 316.30145999999996,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 3163.0145999999995,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 31630.145999999997,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 316301.45999999996,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 958.6715449999997,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 9586.715449999998,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 95867.15449999998,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 958671.5449999997,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 43.53804300000002,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 435.38043000000016,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 4353.804300000002,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 43538.04300000001,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 360.74500199999994,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 3607.4500199999998,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 36074.500199999995,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 360745.0019999999,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 4294.315377,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 42943.15377,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 429431.5377,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "cycle",
+      "max_teacher_plus_training_budget_seconds": 4294315.377,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 6,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 8,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 10,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 1024,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 12,
+      "p": 3,
+      "shots": 65536,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 14,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 16,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 2,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 18,
+      "p": 3,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 0,
+      "n_qubits": 20,
+      "p": 1,
+      "shots": 4096,
+      "status": "NO_BREAK_EVEN_AT_THIS_LATENCY"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 7.1385429999999985,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 71.38542999999999,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 713.8542999999999,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 7138.542999999998,
+      "n_qubits": 20,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 53.89554399999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 1024,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 538.9554399999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 1024,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 5389.554399999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 1024,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 53895.54399999997,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 1024,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 59.69529399999999,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 596.9529399999999,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 5969.529399999999,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 59695.293999999994,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 183.366667,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 65536,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 1833.66667,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 65536,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 18336.666699999998,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 65536,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 183366.667,
+      "n_qubits": 20,
+      "p": 3,
+      "shots": 65536,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 413.88345899999996,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 4138.8345899999995,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 41388.3459,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 413883.4589999999,
+      "n_qubits": 22,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 779.2456689999999,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 7792.456689999999,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 77924.56689999999,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 779245.6689999999,
+      "n_qubits": 22,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 800.4340440000001,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 8004.340440000001,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 80043.4044,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 800434.0440000001,
+      "n_qubits": 22,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 2146.2385839999997,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 21462.385839999995,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 214623.85839999997,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 2146238.584,
+      "n_qubits": 24,
+      "p": 1,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 2585.073043,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 25850.73043,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 258507.3043,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 2585073.043,
+      "n_qubits": 24,
+      "p": 2,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 5144.983503,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 10000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 51449.83503,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 100000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 514498.3503,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    },
+    {
+      "assumed_neural_latency_ms": 168.023748,
+      "evaluations": 1000000,
+      "graph_family": "random_3_regular",
+      "max_teacher_plus_training_budget_seconds": 5144983.503,
+      "n_qubits": 24,
+      "p": 3,
+      "shots": 4096,
+      "status": "ALLOWABLE_BUDGET"
+    }
+  ]
+}

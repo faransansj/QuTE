@@ -1,0 +1,191 @@
+schema_version: qute-amortized-backend-scope-v1
+scope_id: m1_r1_amortized_qaoa
+program: M1_WORKLOAD_EMULATOR_MVP
+status: PILOT_SCOPE_FROZEN_CONFIRMATORY_BLOCKED
+frozen_at_utc: "2026-08-31T00:00:00Z"
+branch: research/r2-amortized-neural-backend
+artifact_namespace: artifacts/r2_amortized_backend
+
+namespace_note:
+  existing_r1: R1_OPERATOR_SEMANTIC_BENCHMARK
+  rule: >-
+    This M1 study does not rename, replace, modify, or consume the frozen
+    R1 Operator-Semantic Benchmark or its artifacts.
+
+research_question: >-
+  Can one pretrained circuit-conditioned generative model execute unseen
+  circuits in a frozen structured workload family without per-circuit
+  optimization or explicit statevector simulation at inference, while
+  meeting an error budget and reducing amortized runtime and memory?
+
+workload:
+  primary: QAOA_MAXCUT
+  secondary_control: DEFERRED_UNTIL_QAOA_PILOT_PASS
+  initial_state: zero_state_then_hadamards_in_circuit
+  mode: ideal_noiseless
+  measurement: terminal_computational_basis_only
+  output:
+    - samples
+    - counts
+    - diagonal_observables
+    - qaoa_cut_energy
+    - optimal_solution_probability
+
+canonical_gate_set:
+  semantic: [h, rzz, rx, measure]
+  transpiled_candidate: [rz, sx, x, cx, measure]
+  pilot_representation: [graph_edges, gamma, beta, p]
+  final_basis_freeze: PHASE_1_BLOCKING
+
+support_envelope:
+  pilot:
+    qubits: [6]
+    qaoa_p: [1]
+    graph_family: CYCLE_PLUS_OPTIONAL_SINGLE_CHORD
+    connected: true
+    simple_undirected: true
+    parameter_distribution:
+      gamma: {distribution: uniform, min: 0.15, max: 1.35}
+      beta: {distribution: uniform, min: 0.10, max: 0.70}
+    shots: [256, 4096]
+  candidate_training:
+    qubits: [6, 8, 10, 12]
+    qaoa_p: [1, 2]
+    status: NOT_FROZEN_REQUIRES_PHASE_1_PROFILE
+  candidate_confirmatory:
+    qubits: [14, 16]
+    qaoa_p: [1, 2]
+    depth_ood_p: [3]
+    status: BLOCKED_UNTIL_PHASE_4_FREEZE
+
+graph_distribution:
+  pilot:
+    generator: deterministic_cycle_plus_optional_chord
+    relabeling: canonical_integer_labels_0_to_n_minus_1
+    train_templates: unseen_parameter_points_and_unseen_chords
+    validation_templates: graph_hash_disjoint_from_train
+  future_candidate:
+    families: [random_regular, erdos_renyi_connected]
+    degree_range: [2, 4]
+    exact_family_weights: PHASE_1_BLOCKING
+
+splits:
+  pilot_iid:
+    definition: unseen_graph_hash_and_parameter_point_inside_pilot_support
+    confirmatory_eligible: false
+  parameter_ood:
+    definition: held-out_gamma_beta_cells_outside_training_cells
+    membership: PHASE_3_NOT_GENERATED
+  depth_ood:
+    definition: p_3_when_training_support_is_p_1_to_2
+    membership: PHASE_3_NOT_GENERATED
+  scale_ood:
+    definition: width_above_frozen_training_maximum
+    membership: PHASE_3_NOT_GENERATED
+  topology_ood:
+    definition: held-out_graph_family_or_degree_band
+    membership: PHASE_3_NOT_GENERATED
+  leakage_rules:
+    - canonical_circuit_hash_disjoint_across_train_validation_test
+    - graph_hash_disjoint_when_split_requires_unseen_graphs
+    - template_identity_and_parameter_point_identity_recorded_separately
+    - no_pilot_record_in_confirmatory_verdict
+    - no_equivalent_circuit_across_disallowed_partitions
+
+seeds:
+  pilot_corpus: 20260831
+  pilot_model: 2026
+  pilot_sampling: 2026
+  confirmatory: PHASE_4_BLOCKING_NOT_CHOSEN
+
+teacher_data:
+  pilot_source: verified_local_exact_statevector_or_qiskit_aer_cross_check
+  training_storage: teacher_bitstrings_plus_selected_exact_statistics
+  explicit_probability_table_storage: evaluation_only_for_small_width
+  required_cost_fields:
+    - circuit_generation_seconds
+    - transpilation_seconds
+    - exact_simulation_seconds
+    - teacher_sampling_seconds
+    - stored_bytes
+    - training_seconds
+
+model_comparison:
+  - observable_regressor
+  - independent_bit_marginals
+  - conditional_autoregressive_sampler
+  - uniform_distribution
+  - empirical_marginals
+  candidate_qute: graph_conditioned_autoregressive_sampler
+  per_circuit_fine_tuning_steps: 0
+
+metrics:
+  distribution: [tvd, hellinger_fidelity, jensen_shannon, mass_coverage, top_k_overlap]
+  task:
+    - cut_energy_error_per_edge
+    - approximation_ratio_error
+    - optimal_solution_probability_error
+    - single_qubit_marginal_error
+    - pairwise_zz_error
+    - parameter_ranking_spearman
+  systems:
+    - parse_ms
+    - encode_ms
+    - inference_ms
+    - sampling_ms
+    - packaging_ms
+    - total_latency_ms
+    - circuits_per_second
+    - shots_per_second
+    - peak_host_ram_bytes
+    - peak_gpu_vram_bytes
+    - model_bytes
+  reliability:
+    - uncertainty_error_correlation
+    - ood_auroc
+    - ood_auprc
+    - risk_coverage
+    - threshold_violation_rate
+    - abstention_rate
+    - fallback_rate
+
+pilot_gate:
+  scientific_role: FEASIBILITY_ONLY_NOT_CONFIRMATORY
+  required:
+    counts_sum_to_shots: true
+    per_circuit_optimizer_steps: 0
+    exact_simulator_calls_on_inference_path: 0
+    median_iid_tvd_max: 0.35
+    median_cut_energy_error_per_edge_max: 0.10
+    report_end_to_end_latency: true
+    report_peak_memory: true
+    report_direct_baseline: true
+  systems_speedup_required: false
+  reason: small_width_pilot_may_not_outperform_exact_simulation
+
+confirmatory_freeze_required_before_generation:
+  - corpus_hashes_and_membership
+  - graph_and_parameter_distributions
+  - seeds
+  - metrics
+  - exact_success_thresholds
+  - statistical_tests
+  - baseline_versions
+  - hardware_and_precision
+  - warmup_cache_and_batch_policy
+  - model_selection_rule
+  - uncertainty_calibration_rule
+
+non_goals:
+  - full_statevector_output
+  - arbitrary_input_state
+  - arbitrary_universal_circuits
+  - arbitrary_basis_tomography
+  - mid_circuit_measurement
+  - reset
+  - dynamic_control_flow
+  - noisy_hardware_emulation
+  - quantum_error_mitigation
+  - qpu_replacement
+  - quantum_advantage
+  - unverified_accuracy_beyond_exact_or_independent_validation

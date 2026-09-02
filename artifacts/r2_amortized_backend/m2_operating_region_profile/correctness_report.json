@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "legacy_vs_qiskit_statevector": true,
+    "mps_energy": true,
+    "mps_marginals": true,
+    "mps_vs_statevector_tvd": true,
+    "neural_route_exact_calls_zero": true,
+    "per_circuit_optimizer_steps_zero": true,
+    "pilot_counts": true,
+    "pilot_energy_reproduced": true,
+    "pilot_tvd_reproduced": true
+  },
+  "mps_overlap": {
+    "energy_abs_error": 3.552713678800501e-15,
+    "marginal_max_abs_error": 8.326672684688674e-16,
+    "tvd": 6.522560269672803e-16
+  },
+  "pilot_reproduction": {
+    "frozen_median_energy_error_per_edge": 0.04336745322600333,
+    "frozen_median_tvd": 0.27091808158092334,
+    "median_energy_error_per_edge": 0.04336745322600333,
+    "median_tvd": 0.27091808158092334,
+    "neural_route_exact_calls": 0,
+    "validation_exact_calls": 12
+  },
+  "statevector_max_probability_abs_error": 6.938893903907228e-17,
+  "status": "PASS"
+}
