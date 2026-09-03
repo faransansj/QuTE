@@ -5,15 +5,48 @@
   "backend_name": "least_busy",
   "shots": 1024,
   "circuits": [
-    {"family": "cycle", "n_qubits": 6, "p": 1, "graph_seed": 101, "parameter_index": 1},
-    {"family": "cycle", "n_qubits": 8, "p": 2, "graph_seed": 101, "parameter_index": 3},
-    {"family": "random_3_regular", "n_qubits": 6, "p": 1, "graph_seed": 202, "parameter_index": 5},
-    {"family": "random_3_regular", "n_qubits": 8, "p": 2, "graph_seed": 204, "parameter_index": 7}
+    {
+      "logical_id": "bell_2q",
+      "n_qubits": 2,
+      "gates": [
+        {"name": "h", "qubits": [0]},
+        {"name": "cx", "qubits": [0, 1]},
+        {"name": "measure", "qubits": [0, 1]}
+      ]
+    },
+    {
+      "logical_id": "ghz_4q",
+      "n_qubits": 4,
+      "gates": [
+        {"name": "h", "qubits": [0]},
+        {"name": "cx", "qubits": [0, 1]},
+        {"name": "cx", "qubits": [1, 2]},
+        {"name": "cx", "qubits": [2, 3]},
+        {"name": "measure", "qubits": [0, 1, 2, 3]}
+      ]
+    },
+    {
+      "logical_id": "rotation_3q",
+      "n_qubits": 3,
+      "gates": [
+        {"name": "h", "qubits": [0]},
+        {"name": "rx", "qubits": [1], "params": [0.7853981633974483]},
+        {"name": "ry", "qubits": [2], "params": [0.5235987755982988]},
+        {"name": "cz", "qubits": [0, 2]},
+        {"name": "measure", "qubits": [0, 1, 2]}
+      ]
+    },
+    {
+      "logical_id": "qaoa_like_6q",
+      "n_qubits": 6,
+      "gates": [],
+      "qaoa_workload": {"family": "cycle", "n_qubits": 6, "p": 1, "graph_seed": 101, "parameter_index": 1}
+    }
   ],
   "gates": {
     "qpu_job_completed": true,
     "local_peak_rss_mib": 256,
     "local_median_latency_ms": 100,
-    "tvd_local_qpu_note_only": true
+    "numeric_agreement_descriptive_only": true
   }
 }
