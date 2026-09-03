@@ -62,7 +62,9 @@ class CircuitIR:
         )
 
     def canonical_json(self) -> str:
-        return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"))
+        # Metadata is provenance, not circuit structure.
+        data = {"n_qubits": self.n_qubits, "gates": [asdict(gate) for gate in self.gates]}
+        return json.dumps(data, sort_keys=True, separators=(",", ":"))
 
     def circuit_hash(self) -> str:
         return hashlib.sha256(self.canonical_json().encode()).hexdigest()

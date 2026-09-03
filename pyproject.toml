@@ -13,6 +13,9 @@ qpu = ["qiskit-ibm-runtime>=0.34"]
 qute-m2-profile = "qute_r2.profiling.run:main"
 qute-qpu-smoke = "qute_r2.qpu_smoke:main"
 
+[tool.uv]
+package = true
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

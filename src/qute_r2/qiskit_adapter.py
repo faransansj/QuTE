@@ -33,6 +33,13 @@ def to_qiskit(ir: CircuitIR, measure: bool = True):
 
 def from_qiskit(circuit) -> CircuitIR:
     gates: list[GateIR] = []
+    pending_measure: list[int] = []
+
+    def flush_measure() -> None:
+        if pending_measure:
+            gates.append(GateIR("measure", tuple(pending_measure)))
+            pending_measure.clear()
+
     for instruction in circuit.data:
         op = instruction.operation
         name = op.name.lower()
@@ -40,11 +47,12 @@ def from_qiskit(circuit) -> CircuitIR:
             continue
         qubits = tuple(circuit.find_bit(q).index for q in instruction.qubits)
         if name == "measure":
-            gates.append(GateIR("measure", qubits))
+            pending_measure.extend(qubits)
         elif name in {"h", "x", "cx", "cz"}:
-            gates.append(GateIR(name, qubits))
+            flush_measure(); gates.append(GateIR(name, qubits))
         elif name in {"rx", "ry", "rz", "rzz"}:
-            gates.append(GateIR(name, qubits, (float(op.params[0]),)))
+            flush_measure(); gates.append(GateIR(name, qubits, (float(op.params[0]),)))
         else:
             raise ValueError(f"unsupported qiskit gate: {name}")
+    flush_measure()
     return CircuitIR(circuit.num_qubits, tuple(gates), dict(circuit.metadata or {}))
