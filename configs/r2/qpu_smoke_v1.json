@@ -1,0 +1,19 @@
+{
+  "schema_version": "qpu-smoke-v1",
+  "artifact_root": "artifacts/r2_amortized_backend/qpu_smoke_v1",
+  "checkpoint": "artifacts/r2_amortized_backend/m3_exact_regime_scale_gate_v13/m3_exact_regime.pt",
+  "backend_name": "least_busy",
+  "shots": 1024,
+  "circuits": [
+    {"family": "cycle", "n_qubits": 6, "p": 1, "graph_seed": 101, "parameter_index": 1},
+    {"family": "cycle", "n_qubits": 8, "p": 2, "graph_seed": 101, "parameter_index": 3},
+    {"family": "random_3_regular", "n_qubits": 6, "p": 1, "graph_seed": 202, "parameter_index": 5},
+    {"family": "random_3_regular", "n_qubits": 8, "p": 2, "graph_seed": 204, "parameter_index": 7}
+  ],
+  "gates": {
+    "qpu_job_completed": true,
+    "local_peak_rss_mib": 256,
+    "local_median_latency_ms": 100,
+    "tvd_local_qpu_note_only": true
+  }
+}

@@ -7,9 +7,11 @@ dependencies = ["numpy>=2.0", "torch==2.10.0", "triton-xpu==3.6.0", "psutil>=6",
 
 [project.optional-dependencies]
 profiling = ["qiskit-aer>=0.17", "scipy>=1.14", "matplotlib>=3.9"]
+qpu = ["qiskit-ibm-runtime>=0.34"]
 
 [project.scripts]
 qute-m2-profile = "qute_r2.profiling.run:main"
+qute-qpu-smoke = "qute_r2.qpu_smoke:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
