@@ -21,12 +21,13 @@
               python312
               pkg-config
               stdenv.cc.cc.lib
+              zlib
             ];
 
             env = {
               UV_PROJECT_ENVIRONMENT = ".venv";
               PYTHONPATH = "src:.";
-              LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib ];
+              LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib pkgs.zlib ];
             };
 
             shellHook = ''
